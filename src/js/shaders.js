@@ -30,7 +30,9 @@ export const fragmentShader = `
       mix(Hash(i + vec2(0.0, 1.0)), Hash(i + vec2(1.0, 1.0)), f.x),
       f.y
     );
-  } float fbm(vec2 p) {
+  }
+  
+  float fbm(vec2 p) {
     float v = 0.0;
     v += noise(p * 1.0) * 0.5;
     v += noise(p * 2.0) * 0.25;
@@ -40,15 +42,22 @@ export const fragmentShader = `
 
   void main() {
     vec2 uv = vUv;
+
     float aspect = uResolution.x / uResolution.y;
     vec2 centeredUv = (uv - 0.5) * vec2(aspect, 1.0);
 
-    float dissolveEdge = uv.y - uProgress * 1.2;
+    // Limite la zone de dissolution
+    // uv.y > 0.8 reste transparent (haut de page visible)
+    float coverageLimit = 0.8; // ⬅️ Ajustez cette valeur (0.0 à 1.0)
+    float adjustedY = clamp(uv.y / coverageLimit, 0.0, 1.0);
+    
+    float dissolveEdge = adjustedY - uProgress * 1.2;
+
     float noiseValue = fbm(centeredUv * 15.0);
     float d = dissolveEdge + noiseValue * uSpread;
 
     float pixelsize = 1.0 / uResolution.y;
-    float alpha = 1.0 - smoothstep(pixelsize, -pixelsize, d);
+    float alpha = 1.0 - smoothstep(-pixelsize, pixelsize, d);
 
     gl_FragColor = vec4(uColor, alpha);
   }

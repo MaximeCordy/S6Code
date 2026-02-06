@@ -1,8 +1,10 @@
 /* Minimal styles required for Barba transitions and basic layout */
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial;
   background: #fff;
   color: #111;
 }
@@ -53,8 +55,12 @@ html, body {
   background: #2b7a5e;
   z-index: 1000;
 }
-.vertical-line.left { left: 10px; }
-.vertical-line.right { right: 10px; }
+.vertical-line.left {
+  left: 10px;
+}
+.vertical-line.right {
+  right: 10px;
+}
 
 /* Image blocks default look (GSAP will override animation state) */
 .image-block {
@@ -65,4 +71,6 @@ html, body {
 }
 
 /* Utility */
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}

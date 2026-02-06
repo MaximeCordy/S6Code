@@ -373,3 +373,26 @@ barba.hooks.after((data) => {
     });
   }
 });
+
+// Lors de la création du material
+const material = new THREE.ShaderMaterial({
+  vertexShader: vertexShader,
+  fragmentShader: fragmentShader,
+  uniforms: {
+    uProgress: { value: 0 },
+    uResolution: {
+      value: new THREE.Vector2(window.innerWidth, window.innerHeight),
+    },
+    uColor: { value: new THREE.Color(0x000000) }, // NOIR pour masquer l'image
+    uSpread: { value: 0.3 },
+  },
+  transparent: true,
+});
+
+// Animation au chargement de la page
+gsap.to(material.uniforms.uProgress, {
+  value: 1,
+  duration: 5.5,
+  ease: "power2.inOut",
+  delay: 0.5, // Petit délai pour voir l'image au début
+});

@@ -1,0 +1,115 @@
+:root {
+  --base-100: #ebf5df;
+  --base-200: #fec81d;
+  --base-300: #0f0f0f;
+}
+
+/* Réinitialisation des marges et paddings */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+h1,
+h2 {
+  font-family: "Poppins", sans-serif;
+  text-transform: uppercase;
+  font-weight: 500;
+  line-height: 0.9;
+}
+
+h1 {
+  font-size: clamp(4rem, 7.5vw, 10rem);
+}
+h2 {
+  font-size: clamp(2.5rem, 4.5vw, 5rem);
+}
+
+p {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.125rem;
+  font-weight: 400;
+}
+
+.hero {
+  position: relative;
+  width: 100%;
+  height: 175vh;
+  color: var(--base-200);
+  overflow: hidden;
+}
+
+.hero-img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.hero-header {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+}
+
+.hero-header p {
+  width: 75%;
+}
+
+.hero-canvas {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.hero-content {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 125svh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.hero-content h2 {
+  width: 75%;
+  color: var(--base-300);
+}
+
+.about {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--base-300);
+  color: var(--base-100);
+}
+
+.about p {
+  width: 40%;
+  text-align: center;
+}
+
+@media (max-width: 1000px) {
+  .hero-content h2,
+  .about p {
+    width: calc(100% - 4rem);
+  }
+}

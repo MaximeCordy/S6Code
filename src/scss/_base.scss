@@ -1,0 +1,252 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #e8e3d8;
+  overflow-x: hidden;
+}
+
+/* Traits verticaux */
+.vertical-line {
+  position: fixed;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background: #000;
+  z-index: 10;
+}
+
+.vertical-line.left {
+  left: 8%;
+}
+
+.vertical-line.right {
+  right: 8%;
+}
+
+/* Page - HAUTEUR AUGMENTÉE POUR TOUTES LES PAGES */
+.page {
+  min-height: 250vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-title {
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+/* Sections */
+.content-section {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  position: relative;
+}
+
+.section-label {
+  position: absolute;
+  left: -12%;
+  top: 0;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* SVG PLEINE LARGEUR */
+svg {
+  width: 100vw;
+  height: auto;
+  margin: 40px 0;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+/* Blocs images */
+.image-block {
+  width: 100%;
+  max-width: 600px;
+  height: 500px;
+  margin: 0 auto;
+  background: #d3d3d3;
+  opacity: 0;
+}
+
+/* Pages spécifiques - TOUTES avec min-height augmenté */
+.page-dante {
+  background: #f5f5f5;
+  gap: 80px;
+  min-height: 250vh;
+}
+
+.page-dante .image-block {
+  max-width: 700px;
+  height: 450px;
+}
+
+.page-conversation {
+  background: #fff;
+  min-height: 250vh;
+}
+
+.grid-layout {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  margin-bottom: 60px;
+}
+
+.grid-layout .image-block {
+  max-width: 100%;
+  height: 350px;
+}
+
+.full-width {
+  max-width: 100% !important;
+  height: 400px;
+}
+
+.page-maladie {
+  background: #e0e0e0;
+  gap: 100px;
+  min-height: 250vh;
+}
+
+.page-maladie .image-block.large {
+  max-width: 900px;
+  height: 600px;
+}
+
+/* Overlays */
+.transition-overlay {
+  position: fixed;
+  top: 0;
+  height: 100vh;
+  width: 50%;
+  background: #2a2a2a;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.overlay-left {
+  left: 0;
+  transform: translateX(-100%);
+}
+
+.overlay-right {
+  right: 0;
+  transform: translateX(100%);
+}
+
+.logo-placeholder {
+  width: 200px;
+  height: 200px;
+  background: #666;
+}
+
+.overlay-left .logo-placeholder {
+  clip-path: inset(0 50% 0 0);
+}
+
+.overlay-right .logo-placeholder {
+  margin-left: -100px;
+  clip-path: inset(0 0 0 50%);
+}
+
+h1 {
+  font-size: 3.5rem;
+  font-weight: 500;
+  letter-spacing: -0.05rem;
+  line-height: 1;
+}
+p {
+  font-size: 1.2rem;
+  font-weight: 500;
+  line-height: 1.25;
+  margin-bottom: 1em;
+}
+
+.line {
+  transform: translateY(100%);
+  will-change: transform;
+}
+
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+
+  &-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+  }
+
+  &-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  &-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  &-title {
+    font-size: clamp(3rem, 12vw, 8rem);
+    font-weight: 700;
+    color: #3d3d3d;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+  }
+
+  &-subtitle {
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    font-weight: 300;
+    color: #292929;
+    letter-spacing: 0.02em;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+  }
+}

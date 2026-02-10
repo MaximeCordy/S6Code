@@ -38,44 +38,29 @@ p {
   font-weight: 400;
 }
 
-.hero {
+.hero_conversation {
   position: relative;
   width: 100%;
   height: 175vh;
   color: var(--base-200);
   overflow: hidden;
 }
-.hero {
+.hero_conversation {
   background: #000000; /* ta couleur finale */
 }
-.hero-background {
+.hero_conversation_background {
   position: absolute;
   inset: 0;
   z-index: 1;
 }
 
-.hero-img {
+.hero_conversation img {
   position: absolute;
   width: 100%;
   height: 100%;
 }
-.hero-header {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
-  text-align: center;
-}
 
-.hero-header p {
-  width: 75%;
-}
-
-.hero-canvas {
+.hero_canvas {
   position: absolute;
   inset: 0;
   z-index: 2;
@@ -90,7 +75,7 @@ p {
   );
 }
 
-.hero-content {
+.hero_conversation_content {
   position: absolute;
   inset: 0;
   z-index: 3;
@@ -101,7 +86,7 @@ p {
   text-align: center;
 }
 
-.hero-content h2 {
+.hero_conversation_content h2 {
   width: 75%;
   color: var(--base-300);
 }

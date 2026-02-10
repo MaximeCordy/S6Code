@@ -54,6 +54,101 @@ function hexToRgb(hex) {
       }
     : { r: 0.89, g: 0.89, b: 0.89 };
 }
+// ================== SCROLL SECTION INDEX ==================
+// scroll-pin.js
+// Import : <script type="module" src="js/scroll-pin.js"></script>
+// Placer APRÈS les scripts GSAP + ScrollTrigger dans le HTML
+
+gsap.registerPlugin(ScrollTrigger);
+
+export function initScrollPin() {
+  // Kill les anciens ScrollTriggers (important avec Barba)
+  ScrollTrigger.getAll().forEach((st) => st.kill());
+
+  const pinnedSection = document.querySelector(".pinned-section");
+  if (!pinnedSection) return;
+
+  // ── Pin du wrapper ──
+  ScrollTrigger.create({
+    trigger: ".pinned-section",
+    start: "top top",
+    end: "bottom bottom",
+    pin: ".pinned-wrapper",
+    pinSpacing: false,
+  });
+
+  // ── Images qui montent avec parallaxe ──
+  const cards = document.querySelectorAll(".img-card");
+
+  cards.forEach((card, i) => {
+    const speed = parseFloat(card.dataset.speed) || 1;
+    const startY = window.innerHeight * (0.8 + i * 0.15);
+    const endY = -window.innerHeight * (0.3 + i * 0.1);
+
+    gsap.fromTo(
+      card,
+      {
+        y: startY,
+        opacity: 0,
+        scale: 0.92,
+        rotation: i % 2 === 0 ? -3 : 3,
+      },
+      {
+        y: endY,
+        opacity: 1,
+        scale: 1,
+        rotation: 0,
+        ease: "none",
+        scrollTrigger: {
+          trigger: ".pinned-section",
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 0.8 * speed,
+        },
+      }
+    );
+  });
+
+  // ── Fade in du texte ──
+  gsap.fromTo(
+    ".text-layer",
+    { opacity: 0, y: 40 },
+    {
+      opacity: 1,
+      y: 0,
+      duration: 1,
+      scrollTrigger: {
+        trigger: ".pinned-section",
+        start: "top 80%",
+        end: "top 20%",
+        scrub: true,
+      },
+    }
+  );
+
+  // ── Barre de progression ──
+  const progressBar = document.getElementById("progressBar");
+  if (progressBar) {
+    ScrollTrigger.create({
+      trigger: ".pinned-section",
+      start: "top top",
+      end: "bottom bottom",
+      onUpdate: (self) => {
+        progressBar.style.width = Math.round(self.progress * 100) + "%";
+      },
+    });
+  }
+
+  // Refresh après chargement des images
+  ScrollTrigger.refresh();
+}
+
+// ── Auto-init (fonctionne aussi sans Barba) ──
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initScrollPin);
+} else {
+  initScrollPin();
+}
 
 // ================== ANIMATIONS ==================
 function animateImageBlocks(scope = document) {

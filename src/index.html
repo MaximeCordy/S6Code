@@ -31,67 +31,109 @@
     <div data-barba="wrapper">
       <div data-barba="container" data-barba-namespace="index">
         <div class="page">
-          <!-- Section 1 -->
-          <section class="content-section">
-            <div class="section-label">Adolescence</div>
-            <div class="image-block"></div>
-
-            <svg viewBox="0 0 800 400">
-              <path
-                id="path"
-                d="M0,200 Q400,200 800,200"
-                stroke="#313131"
-                stroke-width="1"
-                fill="none"
-              />
-              <path
-                id="hit"
-                d="M0,200 Q400,200 800,200"
-                stroke="transparent"
-                stroke-width="30"
-                fill="none"
-              />
-            </svg>
+          <!-- HERO -->
+          <section class="hero_index">
+            <h1 data-animate-text>L'Art du<br />Mouvement</h1>
+            <p data-animate-text>Scroll pour découvrir</p>
+            <div class="scroll-hint">
+              <span>Scroll</span>
+              <div class="line"></div>
+            </div>
           </section>
+          <section class="intro_index">
+            <div class="layout_img_index">
+              <img src="image/Self_Portrait-1953.avif" alt="William" />
+              <div class="container">
+                <div class="layout_intro_index">
+                  <div class="info">
+                    <p id="titrage" data-animate-text>Prenom - Nom</p>
+                    <h2 data-animate-text>William Utermohlen</h2>
+                  </div>
 
-          <!-- Section 2 -->
-          <!-- ✅ Supprimé : <copy> (React component) -->
-          <section class="text-section">
-            <!-- ✅ Ajouté : data-animate-text pour l'animation -->
-            <p data-animate-text>William Uthermohlen</p>
-            <div class="h1">
-              <h1 data-animate-text>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore
-                magnam quo, a ipsum dolorem debitis labore voluptatibus delectus
-                explicabo! Nisi nobis esse ut molestias cupiditate eveniet
-                soluta maxime repudiandae animi.
-              </h1>
+                  <div class="info">
+                    <p id="titrage" data-animate-text>PROFESSION</p>
+                    <h2 data-animate-text>Artiste - Peintre</h2>
+                  </div>
+                </div>
+
+                <div class="layout_intro_index">
+                  <div class="info">
+                    <p id="titrage" data-animate-text>Chronologie</p>
+                    <h2 data-animate-text>1933 - 2007</h2>
+                  </div>
+
+                  <div class="info">
+                    <p id="titrage" data-animate-text>SPECIALISATION</p>
+                    <h2 data-animate-text>PEINTURE FIGURATIVE</h2>
+                  </div>
+                </div>
+
+                <div class="layout_intro_index">
+                  <div class="info">
+                    <p id="titrage" data-animate-text>Origine</p>
+                    <h2 data-animate-text>Etats-Unis</h2>
+                  </div>
+
+                  <div class="info">
+                    <p id="titrage" data-animate-text>Influences</p>
+                    <h2 data-animate-text>expressionnisme</h2>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <!-- PINNED SECTION -->
+          <section class="pinned-section">
+            <div class="pinned-wrapper">
+              <!-- Text fixed -->
+              <div class="text-layer">
+                <div class="label" data-animate-text>Philadelphia 1933</div>
+                <h2 data-animate-text>
+                  William Utermohlen naît le 5 décembre 1933 à South
+                  Philadelphia, dans une famille d’immigrants allemands.
+                </h2>
+                <h2 data-animate-text>
+                  Enfant unique, il grandit dans un environnement protecteur et
+                  culturellement marqué par la mémoire européenne.
+                </h2>
+              </div>
+
+              <!-- Images qui montent -->
+              <div class="image-track">
+                <div class="img-card" data-speed="0.6">
+                  <img src="image/Self_Portrait-1955.avif" alt="william" />
+                </div>
+                <div class="img-card" data-speed="0.5">
+                  <img src="image/Self_Portrait-1957.avif" alt="william" />
+                </div>
+                <div class="img-card" data-speed="0.3">
+                  <img src="image/Self_Portrait_Half-1955.avif" alt="william" />
+                </div>
+                <div class="img-card" data-speed="0.4">
+                  <img src="image/Portrait_1955.avif" alt="william" />
+                </div>
+              </div>
+
+              <!-- Progress -->
+              <div class="progress-bar" id="progressBar"></div>
             </div>
           </section>
 
-          <!-- Section 3 -->
-          <section class="content-section">
-            <div class="image-block"></div>
+          <section class="after-section">
+            <h2>Le scroll reprend</h2>
+            <p>
+              Cette section défile normalement. Vous pouvez y ajouter tout le
+              contenu que vous souhaitez après l'animation.
+            </p>
           </section>
 
-          <!-- Section 4 -->
-          <section class="content-section">
-            <div class="image-block"></div>
-            <div class="image-block"></div>
-          </section>
-
-          <!-- Section 5 -->
-          <section class="content-section">
-            <div class="image-block"></div>
-          </section>
+          <a href="dante.html" style="display: none"></a>
+          <a href="conversation.html" style="display: none"></a>
+          <a href="maladie.html" style="display: none"></a>
+          <script type="module" src="js/text-animation-addon.js"></script>
+          <script type="module" src="js/main.js"></script>
         </div>
       </div>
     </div>
-
-    <a href="dante.html" style="display: none"></a>
-    <a href="conversation.html" style="display: none"></a>
-    <a href="maladie.html" style="display: none"></a>
-    <script type="module" src="js/text-animation-addon.js"></script>
-    <script type="module" src="js/main.js"></script>
   </body>
 </html>

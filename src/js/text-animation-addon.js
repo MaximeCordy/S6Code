@@ -91,7 +91,7 @@ function animateTextByWords(selector = "[data-animate-text]", options = {}) {
           trigger: element,
           start: scrollTriggerStart,
           once: true,
-          // markers: true, // Décommenter pour debug
+          markers: true,
         },
       });
     } else {

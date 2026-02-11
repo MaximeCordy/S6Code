@@ -170,14 +170,14 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 2rem;
   pointer-events: none;
 }
 
 .img-card {
   position: absolute;
+  z-index: 100;
   overflow: hidden;
-  will-change: transform, opacity;
+  will-change: transform;
 }
 
 .img-card img {
@@ -186,42 +186,38 @@ body {
   height: 100%;
   object-fit: cover;
 }
-
 .img-card:nth-child(1) {
   width: clamp(160px, 18vw, 260px);
   height: clamp(220px, 26vw, 360px);
-  left: 3%;
+  left: 10%;
+  top: 20%;
 }
 
 .img-card:nth-child(2) {
   width: clamp(180px, 20vw, 300px);
   height: clamp(240px, 28vw, 380px);
-  left: 22%;
+  left: 33%;
+  top: 0%;
 }
 
 .img-card:nth-child(3) {
   width: clamp(140px, 16vw, 240px);
   height: clamp(200px, 24vw, 340px);
-  right: 22%;
+  right: 34%;
+  top: 40%;
 }
 
 .img-card:nth-child(4) {
   width: clamp(170px, 19vw, 280px);
-  height: clamp(230px, 27vw, 370px);
-  right: 3%;
+  height: clamp(230px, 35vw, 870px);
+  right: 10%;
+  top: 10%;
 }
 
-/* ── PROGRESS BAR ── */
-.progress-bar {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 3px;
-  background: var(--bg);
-  z-index: 20;
-  width: 0%;
+/// ── SVG ──*/
+.index_ligne_svg {
+  margin-top: -30%;
 }
-
 /* ── AFTER SECTION ── */
 .after-section {
   min-height: 100vh;

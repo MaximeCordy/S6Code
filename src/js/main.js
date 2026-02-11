@@ -81,7 +81,8 @@ export function initScrollPin() {
   const cards = document.querySelectorAll(".img-card");
 
   cards.forEach((card, i) => {
-    const speed = parseFloat(card.dataset.speed) || 1;
+    const speed = parseFloat(card.dataset.speed) || 2;
+    const endRotation = parseFloat(card.dataset.rotation) || 0;
     const startY = window.innerHeight * (0.8 + i * 0.15);
     const endY = -window.innerHeight * (0.3 + i * 0.1);
 
@@ -89,15 +90,15 @@ export function initScrollPin() {
       card,
       {
         y: startY,
-        opacity: 0,
+        opacity: 1,
         scale: 0.92,
-        rotation: i % 2 === 0 ? -3 : 3,
+        rotation: i % 2 === 0 ? -5 : 3, // rotation de départ
       },
       {
         y: endY,
         opacity: 1,
         scale: 1,
-        rotation: 0,
+        rotation: endRotation, // rotation finale depuis le HTML
         ease: "none",
         scrollTrigger: {
           trigger: ".pinned-section",
@@ -150,47 +151,38 @@ if (document.readyState === "loading") {
   initScrollPin();
 }
 
-// ================== ANIMATIONS ==================
-function animateImageBlocks(scope = document) {
-  const blocks = scope.querySelectorAll(".image-block");
-  if (!blocks.length) return;
-
-  gsap.to(blocks, {
-    opacity: 1,
-    y: 0,
-    duration: 0.8,
-    stagger: 0.2,
-    ease: "power2.out",
-  });
-}
-
-function initSVGAnimation(scope = document) {
+// ================== ANIMATIONS ligne ==================
+function initSVGLine(scope, axis = "y", strength = 0.5) {
   const svg = scope.querySelector("svg");
-  const path = scope.querySelector("#path");
-  const hit = scope.querySelector("#hit");
+  const path = scope.querySelector(".line-path");
+  const hit = scope.querySelector(".line-hit");
 
   if (!svg || !path || !hit) return;
 
   let connected = false;
-  const startY = 200;
+  const start = axis === "y" ? 200 : 50;
+  const mid = axis === "y" ? 400 : 400;
+  const end = axis === "y" ? 800 : 800;
+  const viewMid = axis === "y" ? 400 : 100;
 
-  let p0 = { x: 0, y: startY };
-  let p1 = { x: 400, y: startY };
-  let p2 = { x: 800, y: startY };
+  let p0 = axis === "y" ? { x: 0, y: start } : { x: start, y: 0 };
+  let p1 = axis === "y" ? { x: mid, y: start } : { x: start, y: mid };
+  let p2 = axis === "y" ? { x: end, y: start } : { x: start, y: end };
 
   function curveString() {
     return `M${p0.x},${p0.y} Q${p1.x},${p1.y} ${p2.x},${p2.y}`;
   }
 
   function render() {
-    path.setAttribute("d", curveString());
+    const d = curveString();
+    path.setAttribute("d", d);
+    hit.setAttribute("d", d);
   }
 
   gsap.ticker.add(render);
 
   svg.addEventListener("pointermove", (e) => {
     const rect = svg.getBoundingClientRect();
-    const y = (e.clientY - rect.top) * (400 / rect.height);
     const overPath = e.target === hit;
 
     if (!connected && overPath) {
@@ -199,21 +191,31 @@ function initSVGAnimation(scope = document) {
     }
 
     if (connected) {
-      p1.y = (y * 2 - (p0.y + p2.y) / 2) * 0.15 + startY * 0.85;
+      if (axis === "y") {
+        const y = (e.clientY - rect.top) * (400 / rect.height);
+        p1.y = (y * 2 - (p0.y + p2.y) / 2) * 0.15 + start * 0.85;
+      } else {
+        const x = (e.clientX - rect.left) * (viewMid / rect.width);
+        p1.x = (x * 2 - (p0.x + p2.x) / 2) * 0.15 + start * 0.85;
+      }
     }
   });
 
   svg.addEventListener("pointerleave", () => {
     connected = false;
-    gsap.to(p1, {
-      duration: 0.9,
-      y: startY,
-      ease: "elastic.out(1,0.3)",
-    });
+    axis === "y"
+      ? gsap.to(p1, { duration: 0.9, y: start, ease: "elastic.out(1,0.3)" })
+      : gsap.to(p1, { duration: 0.9, x: start, ease: "elastic.out(1,0.3)" });
   });
 
   render();
 }
+
+// Appels
+document.querySelectorAll(".ligne-h").forEach((el) => initSVGLine(el, "y"));
+document
+  .querySelectorAll(".vertical-line-svg")
+  .forEach((el) => initSVGLine(el, "x"));
 
 // ================== THREE.JS SHADER ==================
 function initShaderAnimation(scope = document) {

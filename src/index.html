@@ -32,14 +32,75 @@
       <div data-barba="container" data-barba-namespace="index">
         <div class="page">
           <!-- HERO -->
+          <header>
+            <a href="index.html">index</a>
+            <a href="dante.html">dante</a>
+            <a href="conversation.html">conversation</a>
+            <a href="maladie.html">maladie</a>
+          </header>
           <section class="hero_index">
-            <h1 data-animate-text>L'Art du<br />Mouvement</h1>
-            <p data-animate-text>Scroll pour découvrir</p>
+            <h1 data-animate-text>La Galerie des souvenirs</h1>
+            <p data-animate-text>William Utermohlen</p>
             <div class="scroll-hint">
               <span>Scroll</span>
               <div class="line"></div>
             </div>
           </section>
+          <div class="vertical-line-svg left">
+            <svg viewBox="0 0 100 800" preserveAspectRatio="none">
+              <path
+                class="line-path"
+                d="M50,0 Q50,400 50,800"
+                stroke="#313131"
+                stroke-width="2"
+                fill="none"
+              />
+              <path
+                class="line-hit"
+                d="M50,0 Q50,400 50,800"
+                stroke="transparent"
+                stroke-width="40"
+                fill="none"
+              />
+            </svg>
+          </div>
+
+          <div class="vertical-line-svg right">
+            <svg viewBox="0 0 100 800" preserveAspectRatio="none">
+              <path
+                class="line-path"
+                d="M50,0 Q50,400 50,800"
+                stroke="#313131"
+                stroke-width="2"
+                fill="none"
+              />
+              <path
+                class="line-hit"
+                d="M50,0 Q50,400 50,800"
+                stroke="transparent"
+                stroke-width="40"
+                fill="none"
+              />
+            </svg>
+          </div>
+          <div class="ligne-h">
+            <svg viewBox="0 0 800 400">
+              <path
+                class="line-path"
+                d="M0,200 Q400,200 800,200"
+                stroke="#313131"
+                stroke-width="1"
+                fill="none"
+              />
+              <path
+                class="line-hit"
+                d="M0,200 Q400,200 800,200"
+                stroke="transparent"
+                stroke-width="30"
+                fill="none"
+              />
+            </svg>
+          </div>
           <section class="intro_index">
             <div class="layout_img_index">
               <img src="image/Self_Portrait-1953.avif" alt="William" />
@@ -100,30 +161,66 @@
 
               <!-- Images qui montent -->
               <div class="image-track">
-                <div class="img-card" data-speed="0.6">
+                <div
+                  class="img-card"
+                  id="img1"
+                  data-speed="0.6"
+                  data-rotation="-7"
+                >
                   <img src="image/Self_Portrait-1955.avif" alt="william" />
                 </div>
-                <div class="img-card" data-speed="0.5">
+                <div
+                  class="img-card"
+                  id="img2"
+                  data-speed="0.5"
+                  data-rotation="5"
+                >
                   <img src="image/Self_Portrait-1957.avif" alt="william" />
                 </div>
-                <div class="img-card" data-speed="0.3">
+                <div
+                  class="img-card"
+                  id="img3"
+                  data-speed="0.3"
+                  data-rotation="-4"
+                >
                   <img src="image/Self_Portrait_Half-1955.avif" alt="william" />
                 </div>
-                <div class="img-card" data-speed="0.4">
+                <div
+                  class="img-card"
+                  id="img4"
+                  data-speed="0.4"
+                  data-rotation="9"
+                >
                   <img src="image/Portrait_1955.avif" alt="william" />
                 </div>
               </div>
-
-              <!-- Progress -->
-              <div class="progress-bar" id="progressBar"></div>
             </div>
           </section>
+          <div class="index_ligne_svg">
+            <svg viewBox="0 0 800 400">
+              <path
+                id="path"
+                d="M0,200 Q400,200 800,200"
+                stroke="#313131"
+                stroke-width="1"
+                fill="none"
+              />
+              <path
+                id="hit"
+                d="M0,200 Q400,200 800,200"
+                stroke="transparent"
+                stroke-width="30"
+                fill="none"
+              />
+            </svg>
+          </div>
 
           <section class="after-section">
-            <h2>Le scroll reprend</h2>
+            <h2>Au début des années 1950, William voyage en Europe.</h2>
             <p>
-              Cette section défile normalement. Vous pouvez y ajouter tout le
-              contenu que vous souhaitez après l'animation.
+              C’est là-bas qu’il découvre l’art de la Renaissance italienne et
+              le baroque français. Ces influences vont nourrir durablement son
+              attachement à la figure humaine.
             </p>
           </section>
 

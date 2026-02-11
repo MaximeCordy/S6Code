@@ -1,4 +1,3 @@
-import { initInfoPanel } from "./info.js"; // ← ajouter
 const DATA = {
   section1: {
     titre: "William Utermohlen",
@@ -14,7 +13,6 @@ const DATA = {
       },
     ],
   },
-
   section2: {
     titre: "Adolessence",
     oeuvres: [
@@ -56,7 +54,6 @@ const DATA = {
       },
     ],
   },
-
   section3: {
     titre: "Londre et l'Europe",
     oeuvres: [
@@ -100,6 +97,15 @@ export function initInfoPanel() {
       : "i";
   });
 
+  // ── Clic sur le backdrop = fermer ──
+  const backdrop = document.querySelector(".panel-backdrop");
+  if (backdrop) {
+    backdrop.addEventListener("click", () => {
+      document.body.classList.remove("panel-open");
+      toggle.textContent = "i";
+    });
+  }
+
   // ── Surligne la carte ──
   function highlightCard(index) {
     ipBody.querySelectorAll(".ip-card").forEach((c, i) => {
@@ -107,7 +113,16 @@ export function initInfoPanel() {
     });
   }
 
-  // ── Hover : outline + surlignage carte ──
+  // ── Helper : image dans la section active ──
+  function getImgInActiveSection(index) {
+    const activeSection = document.querySelector(
+      `section[data-section="${currentSection}"]`
+    );
+    if (!activeSection) return null;
+    return activeSection.querySelector(`img[data-artwork="${index}"]`);
+  }
+
+  // ── Hover sur image = outline + surlignage carte ──
   document.addEventListener("mouseover", (e) => {
     const img = e.target.closest("img[data-artwork]");
     if (!img) return;
@@ -120,6 +135,42 @@ export function initInfoPanel() {
     if (!img) return;
     img.style.outline = "";
     highlightCard(-1);
+  });
+
+  // ── Hover sur carte = effet sur l'image liée dans la section active ──
+  ipBody.addEventListener("mouseover", (e) => {
+    const card = e.target.closest(".ip-card");
+    if (!card) return;
+    const index = parseInt(card.dataset.card);
+    const img = getImgInActiveSection(index);
+    if (img) {
+      img.style.outline = "3px solid #111";
+      img.style.transform = "scale(1.08)";
+    }
+    highlightCard(index);
+  });
+
+  ipBody.addEventListener("mouseout", (e) => {
+    const card = e.target.closest(".ip-card");
+    if (!card) return;
+    const index = parseInt(card.dataset.card);
+    const img = getImgInActiveSection(index);
+    if (img) {
+      img.style.outline = "";
+      img.style.transform = "";
+    }
+    highlightCard(-1);
+  });
+
+  // ── Clic sur image = ouvre le panneau ──
+  document.addEventListener("click", (e) => {
+    const img = e.target.closest("img[data-artwork]");
+    if (!img) return;
+    document.body.classList.add("panel-open");
+    toggle.textContent = "✕";
+    setTimeout(() => {
+      highlightCard(parseInt(img.dataset.artwork));
+    }, 100);
   });
 
   // ── Mise à jour du contenu ──
@@ -182,4 +233,5 @@ export function initInfoPanel() {
   const init = getActiveSection();
   if (init) updatePanel(init.dataset.section);
 }
-initInfoPanel(); // ← ajouter, juste avant vos autres init
+
+initInfoPanel();

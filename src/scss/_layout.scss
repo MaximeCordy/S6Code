@@ -25,7 +25,7 @@ body {
   gap: -1px;
 }
 .intro_index {
-  margin-top: 10%;
+  margin-top: -20%;
   margin-left: -10%;
 }
 .layout_intro_index {
@@ -218,7 +218,7 @@ body {
 .index_ligne_svg {
   margin-top: -30%;
 }
-/* ── AFTER SECTION ── */
+// ================== AFTER-SECTION ==================
 .after-section {
   min-height: 100vh;
   display: flex;
@@ -234,6 +234,7 @@ body {
   font-size: clamp(2rem, 4vw, 3.5rem);
   font-weight: 700;
   margin-bottom: 1.5rem;
+  max-width: 70%;
 }
 
 .after-section p {
@@ -243,4 +244,87 @@ body {
   font-weight: 300;
   max-width: 500px;
   line-height: 1.7;
+}
+
+.after-section .mother img {
+  width: 904px;
+  height: 871px;
+  aspect-ratio: 82/79;
+}
+.after-section .father img {
+  width: 407px;
+  height: 506px;
+  aspect-ratio: 37/46;
+
+  margin-top: -70%;
+  margin-left: 70%;
+}
+// ================== ANNIMATION SCROLL HORIZONTAL ==================
+.slider-mask {
+  overflow: hidden;
+  height: 100vh;
+}
+
+.slider-container {
+  display: inline-flex;
+  height: 100%;
+  gap: 10px;
+  border: 5px solid red;
+  width: 150%;
+  position: relative;
+  display: flex;
+}
+
+.slider-item {
+  position: absolute;
+  z-index: 3;
+  opacity: 1;
+}
+.slider-item#item-1 {
+  left: 500px;
+  width: 150px;
+  height: 150px;
+  background: red;
+  top: 30%;
+  left: 6%;
+}
+.slider-item#item-2 {
+  left: 500px;
+  width: 300px;
+  height: 300px;
+  background: red;
+  top: 55%;
+  left: 14%;
+}
+.slider-item#item-3 {
+  left: 500px;
+  width: 200px;
+  height: 200px;
+  background: red;
+  top: 35%;
+  left: 24%;
+}
+.slider-item#item-4 {
+  left: 500px;
+  width: 350px;
+  height: 200px;
+  background: red;
+  top: 65%;
+  left: 40%;
+}
+.slider-item#item-5 {
+  left: 500px;
+  width: 150px;
+  height: 150px;
+  background: red;
+  top: 70%;
+  left: 56%;
+}
+.slider-item#item-6 {
+  left: 500px;
+  width: 350px;
+  height: 350px;
+  background: red;
+  top: 50%;
+  left: 70%;
 }

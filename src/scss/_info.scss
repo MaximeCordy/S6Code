@@ -1,0 +1,157 @@
+/* ════════════════════════════════
+   PANNEAU INFO
+   ════════════════════════════════ */
+:root {
+  --panel-w: 300px;
+}
+
+// hover géré en JS (mouseenter/mouseleave) → fonctionne avec les transforms GSAP
+
+/* ── S'assure que les images reçoivent les événements souris ── */
+img[data-artwork] {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+/* ── Bouton toggle ── */
+#info-toggle {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 99999;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #111;
+  color: #fff;
+  border: none;
+  font-size: 1rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  visibility: visible;
+  opacity: 1;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  transition: right 0.4s ease, transform 0.2s;
+}
+
+#info-toggle:hover {
+  transform: scale(1.1);
+}
+
+body.panel-open #info-toggle {
+  right: calc(var(--panel-w) + 1rem);
+}
+
+/* ── Panneau latéral ── */
+#info-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: var(--panel-w);
+  height: 100vh;
+  background: #111;
+  color: #eee;
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  z-index: 99998;
+  transform: translateX(100%);
+  transition: transform 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  font-family: sans-serif;
+}
+
+body.panel-open #info-panel {
+  transform: translateX(0);
+}
+
+/* ── Contenu du panneau ── */
+.ip-head {
+  padding: 1.4rem 1.4rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #aaa;
+}
+
+.ip-head .ip-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #eee;
+  letter-spacing: 0;
+  text-transform: none;
+  margin-top: 0.3rem;
+}
+
+.ip-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.8rem 1.4rem;
+}
+
+.ip-body::-webkit-scrollbar {
+  width: 3px;
+}
+.ip-body::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.ip-card {
+  padding: 0.9rem;
+  border-radius: 6px;
+  margin-bottom: 0.4rem;
+  border: 1px solid transparent;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.ip-card.active {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.ip-card-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #e8e8e8;
+  margin-bottom: 0.15rem;
+}
+
+.ip-card-artist {
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #888;
+  margin-bottom: 0.5rem;
+}
+
+.ip-row {
+  display: flex;
+  gap: 0.6rem;
+  margin-bottom: 0.2rem;
+}
+
+.ip-key {
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #666;
+  min-width: 70px;
+}
+
+.ip-val {
+  font-size: 0.78rem;
+  color: #bbb;
+}
+
+.ip-head,
+.ip-body {
+  transition: opacity 0.25s, transform 0.25s;
+}
+
+.fading {
+  opacity: 0;
+  transform: translateY(6px);
+}

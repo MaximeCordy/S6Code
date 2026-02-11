@@ -169,11 +169,18 @@ function initSVGLine(scope, axis = "y", strength = 0.5) {
   let p1 = axis === "y" ? { x: mid, y: start } : { x: start, y: mid };
   let p2 = axis === "y" ? { x: end, y: start } : { x: start, y: end };
 
+  // Valeur cible vers laquelle p1 va lerper
+  let target = start;
+
   function curveString() {
     return `M${p0.x},${p0.y} Q${p1.x},${p1.y} ${p2.x},${p2.y}`;
   }
 
   function render() {
+    // Lerp sur l'axe vertical → même fluidité que l'horizontal
+    if (axis === "y") {
+      p1.y += (target - p1.y) * strength;
+    }
     const d = curveString();
     path.setAttribute("d", d);
     hit.setAttribute("d", d);
@@ -192,8 +199,9 @@ function initSVGLine(scope, axis = "y", strength = 0.5) {
 
     if (connected) {
       if (axis === "y") {
+        // On met à jour la cible, le lerp dans render() fait le reste
         const y = (e.clientY - rect.top) * (400 / rect.height);
-        p1.y = (y * 2 - (p0.y + p2.y) / 2) * 0.15 + start * 0.85;
+        target = (y * 2 - (p0.y + p2.y) / 2) * 0.15 + start * 0.85;
       } else {
         const x = (e.clientX - rect.left) * (viewMid / rect.width);
         p1.x = (x * 2 - (p0.x + p2.x) / 2) * 0.15 + start * 0.85;
@@ -203,9 +211,22 @@ function initSVGLine(scope, axis = "y", strength = 0.5) {
 
   svg.addEventListener("pointerleave", () => {
     connected = false;
-    axis === "y"
-      ? gsap.to(p1, { duration: 0.9, y: start, ease: "elastic.out(1,0.3)" })
-      : gsap.to(p1, { duration: 0.9, x: start, ease: "elastic.out(1,0.3)" });
+    if (axis === "y") {
+      // Anime la cible vers start, le lerp suit naturellement
+      gsap.to(
+        { v: target },
+        {
+          v: start,
+          duration: 0.9,
+          ease: "elastic.out(1,0.3)",
+          onUpdate: function () {
+            target = this.targets()[0].v;
+          },
+        }
+      );
+    } else {
+      gsap.to(p1, { duration: 0.9, x: start, ease: "elastic.out(1,0.3)" });
+    }
   });
 
   render();
@@ -289,8 +310,6 @@ function initShaderAnimation(scope = document) {
     renderer.render(scene, camera);
     animationId = requestAnimationFrame(animate);
   }
-
-  animate();
 
   // Remplacez votre scrollHandler par :
   const scrollHandler = ({ scroll }) => {
@@ -390,8 +409,6 @@ barba.init({
       },
 
       async leave(data) {
-        console.log("👋 Quitte:", data.current.namespace);
-
         window.removeEventListener("scroll", handleScroll);
 
         if (shaderCleanup) {
@@ -404,21 +421,19 @@ barba.init({
 
         await gsapPromise(data.current.container, {
           opacity: 0,
-          duration: 0.3,
+          delay: 0.6,
         });
         await gsapPromise([overlayLeft, overlayRight], {
           x: 0,
           duration: 1.2,
           ease: "power3.inOut",
+
+          // les deux moitiés du logo se rejoignent automatiquement ici
         });
       },
 
       async enter(data) {
-        console.log("👉 Entre sur:", data.next.namespace);
-
         currentPageNamespace = data.next.namespace;
-        console.log("✅ Namespace mis à jour:", currentPageNamespace);
-
         window.scrollTo(0, 0);
 
         const overlayLeft = document.querySelector(".overlay-left");
@@ -435,6 +450,7 @@ barba.init({
           x: (index) => (index === 0 ? "-100%" : "100%"),
           duration: 1.2,
           ease: "power3.inOut",
+          // les deux moitiés se séparent automatiquement ici
         });
 
         await gsapPromise(container, { opacity: 1, duration: 0.5 });
@@ -447,7 +463,6 @@ barba.init({
 
         setTimeout(() => {
           window.addEventListener("scroll", handleScroll);
-          console.log("✅ Listener réattaché pour:", currentPageNamespace);
         }, 1000);
       },
     },
@@ -492,4 +507,86 @@ gsap.to(material.uniforms.uProgress, {
   duration: 5.5,
   ease: "power2.inOut",
   delay: 0.5, // Petit délai pour voir l'image au début
+});
+
+// ================== ANNIMATION SCROLL HORIZONTAL ==================
+
+gsap.to(".slider-container", {
+  x: "-33%",
+  scrollTrigger: {
+    trigger: ".slider-mask",
+    start: "top top ",
+    end: "500%",
+    scrub: true,
+    pin: true,
+    markers: true,
+  },
+});
+
+gsap.to(".slider-item", {
+  opacity: 1,
+  scrollTrigger: {
+    trigger: ".slider-item",
+    scrub: true,
+    start: "left 100%",
+  },
+});
+
+gsap.to("#item-1", {
+  opacity: 1,
+  y: "-15%",
+  scrollTrigger: {
+    trigger: ".slider-container",
+    start: "bottom center",
+    scrub: 1,
+    start: "-=600",
+    end: "-=150",
+  },
+});
+gsap.to("#item-2", {
+  opacity: 1,
+  y: "-25%",
+  scrollTrigger: {
+    trigger: ".slider-container",
+    start: "bottom center",
+    scrub: 1,
+    start: "-=500",
+    end: "-=150",
+  },
+});
+
+gsap.to("#item-3", {
+  opacity: 1,
+  y: "-20%",
+  scrollTrigger: {
+    trigger: ".slider-container",
+    start: "bottom center",
+    scrub: 1,
+    start: "-=500",
+    end: "-=150",
+  },
+});
+
+gsap.to("#item-4", {
+  opacity: 1,
+  y: "-25%",
+  scrollTrigger: {
+    trigger: ".slider-container",
+    start: "bottom center",
+    scrub: 1,
+    start: "-=500",
+    end: "-=150",
+  },
+});
+
+gsap.to("#item-5", {
+  opacity: 1,
+  y: "-25%",
+  scrollTrigger: {
+    trigger: ".slider-container",
+    start: "bottom center",
+    scrub: 1,
+    start: "-=500",
+    end: "-=150",
+  },
 });

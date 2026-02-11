@@ -19,12 +19,24 @@
   <body>
     <!-- <div class="vertical-line left"></div>
     <div class="vertical-line right"></div> -->
+    <button id="info-toggle">i</button>
+    <aside id="info-panel">
+      <div class="ip-head">
+        <div>Œuvres de la section</div>
+        <div class="ip-title" id="ip-title">—</div>
+      </div>
+      <div class="ip-body" id="ip-body"></div>
+    </aside>
 
     <div class="transition-overlay overlay-left">
-      <div class="logo-placeholder"></div>
+      <div class="logo-placeholder">
+        <img src="image/MAISON_LOGO.png" alt="Logo" />
+      </div>
     </div>
     <div class="transition-overlay overlay-right">
-      <div class="logo-placeholder"></div>
+      <div class="logo-placeholder">
+        <img src="image/MAISON_LOGO.png" alt="Logo" />
+      </div>
     </div>
 
     <!-- Barba Wrapper -->
@@ -101,9 +113,13 @@
               />
             </svg>
           </div>
-          <section class="intro_index">
+          <section id="s1" data-section="section1" class="intro_index">
             <div class="layout_img_index">
-              <img src="image/Self_Portrait-1953.avif" alt="William" />
+              <img
+                src="image/Self_Portrait-1953.avif"
+                data-artwork="0"
+                alt="William"
+              />
               <div class="container">
                 <div class="layout_intro_index">
                   <div class="info">
@@ -144,7 +160,7 @@
             </div>
           </section>
           <!-- PINNED SECTION -->
-          <section class="pinned-section">
+          <section id="s2" data-section="section2" class="pinned-section">
             <div class="pinned-wrapper">
               <!-- Text fixed -->
               <div class="text-layer">
@@ -167,7 +183,11 @@
                   data-speed="0.6"
                   data-rotation="-7"
                 >
-                  <img src="image/Self_Portrait-1955.avif" alt="william" />
+                  <img
+                    src="image/Self_Portrait-1955.avif"
+                    data-artwork="0"
+                    alt="william"
+                  />
                 </div>
                 <div
                   class="img-card"
@@ -175,7 +195,11 @@
                   data-speed="0.5"
                   data-rotation="5"
                 >
-                  <img src="image/Self_Portrait-1957.avif" alt="william" />
+                  <img
+                    src="image/Self_Portrait-1957.avif"
+                    data-artwork="1"
+                    alt="william"
+                  />
                 </div>
                 <div
                   class="img-card"
@@ -183,7 +207,11 @@
                   data-speed="0.3"
                   data-rotation="-4"
                 >
-                  <img src="image/Self_Portrait_Half-1955.avif" alt="william" />
+                  <img
+                    src="image/Self_Portrait_Half-1955.avif"
+                    data-artwork="2"
+                    alt="william"
+                  />
                 </div>
                 <div
                   class="img-card"
@@ -191,44 +219,58 @@
                   data-speed="0.4"
                   data-rotation="9"
                 >
-                  <img src="image/Portrait_1955.avif" alt="william" />
+                  <img
+                    src="image/Portrait_1955.avif"
+                    data-artwork="3"
+                    alt="william"
+                  />
                 </div>
               </div>
             </div>
           </section>
-          <div class="index_ligne_svg">
-            <svg viewBox="0 0 800 400">
-              <path
-                id="path"
-                d="M0,200 Q400,200 800,200"
-                stroke="#313131"
-                stroke-width="1"
-                fill="none"
-              />
-              <path
-                id="hit"
-                d="M0,200 Q400,200 800,200"
-                stroke="transparent"
-                stroke-width="30"
-                fill="none"
-              />
-            </svg>
-          </div>
 
-          <section class="after-section">
+          <section id="s3" data-section="section3" class="after-section">
             <h2>Au début des années 1950, William voyage en Europe.</h2>
             <p>
               C’est là-bas qu’il découvre l’art de la Renaissance italienne et
               le baroque français. Ces influences vont nourrir durablement son
               attachement à la figure humaine.
             </p>
+            <div class="mother">
+              <img
+                src="image/Europe-Londre-1950-1960/The-Artist's-Mother.avif"
+                data-artwork="0"
+                alt="the artistes mother"
+              />
+            </div>
+            <div class="father">
+              <img
+                src="image/Europe-Londre-1950-1960/46cc33_ba6a74bfbd8d49ba88dd8a13f19fe6aa~mv2.avif"
+                data-artwork="1"
+                alt="father"
+              />
+            </div>
           </section>
 
-          <a href="dante.html" style="display: none"></a>
-          <a href="conversation.html" style="display: none"></a>
-          <a href="maladie.html" style="display: none"></a>
-          <script type="module" src="js/text-animation-addon.js"></script>
-          <script type="module" src="js/main.js"></script>
+          <div class="slider-mask">
+            <div class="slider-container">
+              <div class="parapaysage">
+                <div id="item-1" class="slider-item"></div>
+                <div id="item-2" class="slider-item"></div>
+                <div id="item-3" class="slider-item"></div>
+                <div id="item-4" class="slider-item"></div>
+                <div id="item-5" class="slider-item"></div>
+                <div id="item-6" class="slider-item"></div>
+              </div>
+            </div>
+
+            <a href="dante.html" style="display: none"></a>
+            <a href="conversation.html" style="display: none"></a>
+            <a href="maladie.html" style="display: none"></a>
+            <script type="module" src="js/info.js"></script>
+            <script type="module" src="js/text-animation-addon.js"></script>
+            <script type="module" src="js/main.js"></script>
+          </div>
         </div>
       </div>
     </div>

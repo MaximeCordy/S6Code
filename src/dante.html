@@ -17,16 +17,15 @@
   </head>
 
   <body>
-    <div class="transition-overlay overlay-left">
-      <div class="logo-placeholder"></div>
-    </div>
-    <div class="transition-overlay overlay-right">
-      <div class="logo-placeholder"></div>
+    <div class="transition-overlay">
+      <div class="logo-placeholder">
+        <img src="image/MAISON_LOGO.png" alt="Logo" />
+      </div>
     </div>
     <!-- Barba Wrapper -->
     <div data-barba="wrapper">
       <div data-barba="container" data-barba-namespace="dante">
-        <div class="page page-dante">
+        <div class="page">
           <!-- Section 1 -->
           <header>
             <a href="index.html">index</a>
@@ -34,6 +33,14 @@
             <a href="conversation.html">conversation</a>
             <a href="maladie.html">maladie</a>
           </header>
+          <section class="hero_index">
+            <h1 data-animate-text>DANTE</h1>
+            <p data-animate-text>William Utermohlen</p>
+            <div class="scroll-hint">
+              <span>Scroll</span>
+              <div class="line"></div>
+            </div>
+          </section>
           <section class="content-section">
             <div class="section-label" data-animate-text>dante</div>
             <div class="image-block"></div>
@@ -85,6 +92,7 @@
         </div>
       </div>
     </div>
+    <script type="module" src="js/info.js"></script>
     <script type="module" src="js/text-animation-addon.js"></script>
     <script type="module" src="js/main.js"></script>
   </body>

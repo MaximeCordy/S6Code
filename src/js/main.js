@@ -407,7 +407,6 @@ barba.init({
           console.log("✅ Listener attaché");
         }, 1000);
       },
-
       async leave(data) {
         window.removeEventListener("scroll", handleScroll);
 
@@ -416,43 +415,64 @@ barba.init({
           shaderCleanup = null;
         }
 
-        const overlayLeft = document.querySelector(".overlay-left");
-        const overlayRight = document.querySelector(".overlay-right");
+        const overlay = document.querySelector(".transition-overlay");
+        const currentContainer = data.current.container;
 
-        await gsapPromise(data.current.container, {
+        // Fade out du contenu actuel
+        await gsapPromise(currentContainer, {
           opacity: 0,
-          delay: 0.6,
+          duration: 0.3,
         });
-        await gsapPromise([overlayLeft, overlayRight], {
-          x: 0,
+
+        // Cache complètement le container
+        gsap.set(currentContainer, {
+          visibility: "hidden",
+          position: "absolute",
+          zIndex: -1,
+        });
+
+        // Monte l'overlay
+        await gsapPromise(overlay, {
+          y: 0,
           duration: 1.2,
           ease: "power3.inOut",
-
-          // les deux moitiés du logo se rejoignent automatiquement ici
         });
       },
 
       async enter(data) {
+        console.log("👉 Entre sur:", data.next.namespace);
         currentPageNamespace = data.next.namespace;
+
         window.scrollTo(0, 0);
 
-        const overlayLeft = document.querySelector(".overlay-left");
-        const overlayRight = document.querySelector(".overlay-right");
+        const overlay = document.querySelector(".transition-overlay");
         const container = data.next.container;
 
-        gsap.set(container, { opacity: 0 });
+        // Prépare le nouveau container
+        gsap.set(container, {
+          opacity: 0,
+          visibility: "visible",
+          position: "relative",
+          zIndex: 1,
+        });
+
         gsap.set(container.querySelectorAll(".image-block"), {
           y: 50,
           opacity: 0,
         });
 
-        await gsapPromise([overlayLeft, overlayRight], {
-          x: (index) => (index === 0 ? "-100%" : "100%"),
+        // Descend l'overlay
+        await gsapPromise(overlay, {
+          y: "100%",
           duration: 1.2,
           ease: "power3.inOut",
-          // les deux moitiés se séparent automatiquement ici
+          delay: 0.6,
         });
 
+        // Reset l'overlay
+        gsap.set(overlay, { y: "100%" });
+
+        // Affiche le nouveau contenu
         await gsapPromise(container, { opacity: 1, duration: 0.5 });
 
         animateImageBlocks(container);
@@ -463,27 +483,11 @@ barba.init({
 
         setTimeout(() => {
           window.addEventListener("scroll", handleScroll);
+          console.log("✅ Listener réattaché pour:", currentPageNamespace);
         }, 1000);
       },
     },
   ],
-});
-
-// ================== HOOKS POUR ANIMATIONS DE TEXTE ==================
-barba.hooks.beforeLeave(() => {
-  if (typeof cleanupTextAnimations === "function") {
-    cleanupTextAnimations();
-  }
-});
-
-barba.hooks.after((data) => {
-  if (typeof animateTextByWords === "function") {
-    animateTextByWords("[data-animate-text]", {
-      animateOnScroll: true,
-      delay: 0.2,
-      scope: data.next.container,
-    });
-  }
 });
 
 // Lors de la création du material

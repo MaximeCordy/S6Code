@@ -16,38 +16,28 @@
     <script src="https://cdn.jsdelivr.net/npm/@barba/core@2.9.7/dist/barba.umd.js"></script>
   </head>
   <body>
-    <div class="vertical-line left"></div>
-    <div class="vertical-line right"></div>
-    <div class="transition-overlay overlay-left">
-      <div class="logo-placeholder"></div>
-    </div>
-    <div class="transition-overlay overlay-right">
-      <div class="logo-placeholder"></div>
+    <div class="transition-overlay">
+      <div class="logo-placeholder">
+        <img src="image/MAISON_LOGO.png" alt="Logo" />
+      </div>
     </div>
     <!-- Barba Wrapper -->
     <div data-barba="wrapper">
       <div data-barba="container" data-barba-namespace="conversation">
-        <div class="page page-conversation">
+        <div class="page">
+          <!-- Section 1 -->
           <header>
             <a href="index.html">index</a>
             <a href="dante.html">dante</a>
             <a href="conversation.html">conversation</a>
             <a href="maladie.html">maladie</a>
           </header>
-          <section class="hero_conversation">
-            <div class="hero_conversation_background">
-              <img src="image/1996-1 copie.avif" alt="1996" />
-            </div>
-
-            <canvas class="hero_canvas"></canvas>
-
-            <div class="hero_conversation_content">
-              <h1 class="hero_conversation_title" data-animate-text>
-                CONVERSATION
-              </h1>
-              <p class="hero_conversation_subtitle" data-animate-text>
-                Solid form gives way to liquid movement.
-              </p>
+          <section class="hero_index">
+            <h1 data-animate-text>CONVERSATION</h1>
+            <p data-animate-text>William Utermohlen</p>
+            <div class="scroll-hint">
+              <span>Scroll</span>
+              <div class="line"></div>
             </div>
           </section>
           <section class="about">
@@ -61,6 +51,7 @@
         </div>
       </div>
     </div>
+    <script type="module" src="js/info.js"></script>
     <script type="module" src="js/text-animation-addon.js"></script>
     <script type="module" src="js/main.js"></script>
   </body>

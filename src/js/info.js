@@ -154,29 +154,63 @@ const DATA = {
 
 // ─── NE PAS MODIFIER EN DESSOUS ────────────────
 
+// Variables globales pour le cleanup
+let infoPanelListeners = [];
+let scrollListener = null;
+
+// Fonction de cleanup
+function cleanupInfoPanel() {
+  // Retirer tous les listeners stockés
+  infoPanelListeners.forEach(({ element, event, handler }) => {
+    element.removeEventListener(event, handler);
+  });
+  infoPanelListeners = [];
+
+  // Retirer le scroll listener
+  if (scrollListener) {
+    window.removeEventListener("scroll", scrollListener);
+    scrollListener = null;
+  }
+
+  // Reset des classes
+  document.body.classList.remove("panel-open");
+  const toggle = document.getElementById("info-toggle");
+  if (toggle) toggle.textContent = "i";
+}
+
 export function initInfoPanel() {
+  // Cleanup avant de réinitialiser
+  cleanupInfoPanel();
+
   const toggle = document.getElementById("info-toggle");
   const ipTitle = document.getElementById("ip-title");
   const ipBody = document.getElementById("ip-body");
+
+  if (!toggle || !ipTitle || !ipBody) return;
+
   const fadeEls = [ipTitle.closest(".ip-head"), ipBody];
   const sections = [...document.querySelectorAll("section[data-section]")];
   let currentSection = null;
 
   // ── Toggle panneau ──
-  toggle.addEventListener("click", () => {
+  const toggleHandler = () => {
     document.body.classList.toggle("panel-open");
     toggle.textContent = document.body.classList.contains("panel-open")
       ? "✕"
       : "i";
-  });
+  };
+  toggle.addEventListener("click", toggleHandler);
+  infoPanelListeners.push({ element: toggle, event: "click", handler: toggleHandler });
 
   // ── Clic sur le backdrop = fermer ──
   const backdrop = document.querySelector(".panel-backdrop");
   if (backdrop) {
-    backdrop.addEventListener("click", () => {
+    const backdropHandler = () => {
       document.body.classList.remove("panel-open");
       toggle.textContent = "i";
-    });
+    };
+    backdrop.addEventListener("click", backdropHandler);
+    infoPanelListeners.push({ element: backdrop, event: "click", handler: backdropHandler });
   }
 
   // ── Surligne la carte ──
@@ -189,29 +223,33 @@ export function initInfoPanel() {
   // ── Helper : image dans la section active ──
   function getImgInActiveSection(index) {
     const activeSection = document.querySelector(
-      `section[data-section="${currentSection}"]`
+      `section[data-section="${currentSection}"]`,
     );
     if (!activeSection) return null;
     return activeSection.querySelector(`img[data-artwork="${index}"]`);
   }
 
   // ── Hover sur image = outline + surlignage carte ──
-  document.addEventListener("mouseover", (e) => {
+  const mouseoverHandler = (e) => {
     const img = e.target.closest("img[data-artwork]");
     if (!img) return;
     img.style.outline = "3px solid #111";
     highlightCard(parseInt(img.dataset.artwork));
-  });
+  };
+  document.addEventListener("mouseover", mouseoverHandler);
+  infoPanelListeners.push({ element: document, event: "mouseover", handler: mouseoverHandler });
 
-  document.addEventListener("mouseout", (e) => {
+  const mouseoutHandler = (e) => {
     const img = e.target.closest("img[data-artwork]");
     if (!img) return;
     img.style.outline = "";
     highlightCard(-1);
-  });
+  };
+  document.addEventListener("mouseout", mouseoutHandler);
+  infoPanelListeners.push({ element: document, event: "mouseout", handler: mouseoutHandler });
 
   // ── Hover sur carte = effet sur l'image liée dans la section active ──
-  ipBody.addEventListener("mouseover", (e) => {
+  const cardMouseoverHandler = (e) => {
     const card = e.target.closest(".ip-card");
     if (!card) return;
     const index = parseInt(card.dataset.card);
@@ -221,9 +259,11 @@ export function initInfoPanel() {
       img.style.transform = "scale(1.08)";
     }
     highlightCard(index);
-  });
+  };
+  ipBody.addEventListener("mouseover", cardMouseoverHandler);
+  infoPanelListeners.push({ element: ipBody, event: "mouseover", handler: cardMouseoverHandler });
 
-  ipBody.addEventListener("mouseout", (e) => {
+  const cardMouseoutHandler = (e) => {
     const card = e.target.closest(".ip-card");
     if (!card) return;
     const index = parseInt(card.dataset.card);
@@ -233,10 +273,12 @@ export function initInfoPanel() {
       img.style.transform = "";
     }
     highlightCard(-1);
-  });
+  };
+  ipBody.addEventListener("mouseout", cardMouseoutHandler);
+  infoPanelListeners.push({ element: ipBody, event: "mouseout", handler: cardMouseoutHandler });
 
   // ── Clic sur image = ouvre le panneau ──
-  document.addEventListener("click", (e) => {
+  const clickHandler = (e) => {
     const img = e.target.closest("img[data-artwork]");
     if (!img) return;
     document.body.classList.add("panel-open");
@@ -244,7 +286,9 @@ export function initInfoPanel() {
     setTimeout(() => {
       highlightCard(parseInt(img.dataset.artwork));
     }, 100);
-  });
+  };
+  document.addEventListener("click", clickHandler);
+  infoPanelListeners.push({ element: document, event: "click", handler: clickHandler });
 
   // ── Mise à jour du contenu ──
   function updatePanel(key) {
@@ -267,10 +311,10 @@ export function initInfoPanel() {
               <div class="ip-row">
                 <span class="ip-key">${r.cle}</span>
                 <span class="ip-val">${r.valeur}</span>
-              </div>`
+              </div>`,
               )
               .join("")}
-          </div>`
+          </div>`,
         )
         .join("");
       fadeEls.forEach((el) => el.classList.remove("fading"));
@@ -284,7 +328,7 @@ export function initInfoPanel() {
     for (const s of sections) {
       const rect = s.getBoundingClientRect();
       const dist = Math.abs(
-        rect.top + rect.height / 2 - window.innerHeight / 2
+        rect.top + rect.height / 2 - window.innerHeight / 2,
       );
       if (dist < closest) {
         closest = dist;
@@ -294,17 +338,19 @@ export function initInfoPanel() {
     return active;
   }
 
-  window.addEventListener(
-    "scroll",
-    () => {
-      const active = getActiveSection();
-      if (active) updatePanel(active.dataset.section);
-    },
-    { passive: true }
-  );
+  scrollListener = () => {
+    const active = getActiveSection();
+    if (active) updatePanel(active.dataset.section);
+  };
+  window.addEventListener("scroll", scrollListener, { passive: true });
 
   const init = getActiveSection();
   if (init) updatePanel(init.dataset.section);
 }
 
-initInfoPanel();
+// Auto-init au premier chargement
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initInfoPanel);
+} else {
+  initInfoPanel();
+}

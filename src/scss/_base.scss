@@ -44,9 +44,9 @@ body {
   right: 8%;
 }
 
-/* Page - HAUTEUR AUGMENTÉE POUR TOUTES LES PAGES */
+/* Page - Hauteur minimale ajustée au contenu */
 .page {
-  min-height: 250vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
@@ -106,11 +106,10 @@ svg {
   opacity: 0;
 }
 
-/* Pages spécifiques - TOUTES avec min-height augmenté */
+/* Pages spécifiques */
 .page-dante {
   background: #ffffff;
   gap: 80px;
-  min-height: 250vh;
 }
 
 .page-dante .image-block {
@@ -120,7 +119,6 @@ svg {
 
 .page-conversation {
   background: #d0d0d0;
-  min-height: 250vh;
 }
 
 .grid-layout {
@@ -143,7 +141,6 @@ svg {
 .page-maladie {
   background: #e0e0e0;
   gap: 100px;
-  min-height: 250vh;
 }
 
 .page-maladie .image-block.large {

@@ -5,6 +5,7 @@ import * as THREE from "three";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
+import { initInfoPanel } from "./info.js";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -106,7 +107,7 @@ export function initScrollPin() {
           end: "bottom bottom",
           scrub: 0.8 * speed,
         },
-      }
+      },
     );
   });
 
@@ -124,7 +125,7 @@ export function initScrollPin() {
         end: "top 20%",
         scrub: true,
       },
-    }
+    },
   );
 
   // ── Barre de progression ──
@@ -184,7 +185,7 @@ function initPatriciaAnimation() {
         duration: 1,
         ease: "power3.out",
       },
-      "-=0.4"
+      "-=0.4",
     )
     .to(h2, { opacity: 1, x: 0, duration: 1, ease: "power3.out" }, "<0.15")
     .to(h3, { opacity: 1, y: 0, duration: 0.9, ease: "power2.out" }, "-=0.3");
@@ -261,7 +262,7 @@ function initSVGLine(scope, axis = "y", strength = 0.5) {
           onUpdate: function () {
             target = this.targets()[0].v;
           },
-        }
+        },
       );
     } else {
       gsap.to(p1, { duration: 0.9, x: start, ease: "elastic.out(1,0.3)" });
@@ -316,7 +317,7 @@ function initShaderAnimation(scope = document) {
     if (material) {
       material.uniforms.uResolution.value.set(
         hero.offsetWidth,
-        hero.offsetHeight
+        hero.offsetHeight,
       );
     }
   };
@@ -393,7 +394,7 @@ function handleScroll() {
   const windowHeight = window.innerHeight;
   const documentHeight = document.documentElement.scrollHeight;
 
-  const isAtBottom = scrollTop + windowHeight >= documentHeight - 50;
+  const isAtBottom = scrollTop + windowHeight >= documentHeight - 10;
 
   if (isAtBottom) {
     console.log("⬇️ Bottom atteint sur:", currentPageNamespace);
@@ -437,8 +438,9 @@ barba.init({
           opacity: 0,
         });
 
-        animateImageBlocks(container);
-        initSVGAnimation(container);
+        // Initialiser les animations de la page
+        initScrollPin();
+        initSliderAnimation();
         initPatriciaAnimation();
         shaderCleanup = initShaderAnimation(container);
 
@@ -449,6 +451,19 @@ barba.init({
       },
       async leave(data) {
         window.removeEventListener("scroll", handleScroll);
+
+        // Fermer le panneau info et réinitialiser son état
+        const toggle = document.getElementById("info-toggle");
+        if (toggle) {
+          document.body.classList.remove("panel-open");
+          toggle.textContent = "i";
+        }
+
+        // Nettoyer tous les ScrollTriggers avant de quitter la page
+        ScrollTrigger.getAll().forEach((st) => st.kill());
+
+        // Tuer toutes les animations GSAP en cours
+        gsap.killTweensOf("*");
 
         if (shaderCleanup) {
           shaderCleanup();
@@ -468,7 +483,6 @@ barba.init({
         gsap.set(currentContainer, {
           visibility: "hidden",
           position: "absolute",
-          zIndex: -1,
         });
 
         // Monte l'overlay
@@ -483,22 +497,36 @@ barba.init({
         console.log("👉 Entre sur:", data.next.namespace);
         currentPageNamespace = data.next.namespace;
 
+        // Reset complet du scroll
         window.scrollTo(0, 0);
+        lenis.scrollTo(0, { immediate: true });
 
         const overlay = document.querySelector(".transition-overlay");
         const container = data.next.container;
+
+        // Réinitialiser le panneau info
+        const toggle = document.getElementById("info-toggle");
+        if (toggle) {
+          document.body.classList.remove("panel-open");
+          toggle.textContent = "i";
+        }
 
         // Prépare le nouveau container
         gsap.set(container, {
           opacity: 0,
           visibility: "visible",
           position: "relative",
-          zIndex: 1,
         });
 
+        // Reset tous les éléments animables
         gsap.set(container.querySelectorAll(".image-block"), {
           y: 50,
           opacity: 0,
+        });
+
+        gsap.set(container.querySelectorAll("[data-animate-text]"), {
+          opacity: 0,
+          y: 20,
         });
 
         // Descend l'overlay
@@ -515,10 +543,25 @@ barba.init({
         // Affiche le nouveau contenu
         await gsapPromise(container, { opacity: 1, duration: 0.5 });
 
-        animateImageBlocks(container);
-        initSVGAnimation(container);
+        // Réinitialiser les animations de texte
+        gsap.to(container.querySelectorAll("[data-animate-text]"), {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          stagger: 0.1,
+          ease: "power2.out",
+        });
+
+        // Initialiser les animations de la page
+        initScrollPin();
+        initSliderAnimation();
         initPatriciaAnimation();
         shaderCleanup = initShaderAnimation(container);
+
+        // Réinitialiser le panneau info pour la nouvelle page
+        setTimeout(() => {
+          initInfoPanel();
+        }, 100);
 
         isTransitioning = false;
 
@@ -555,94 +598,106 @@ gsap.to(material.uniforms.uProgress, {
 });
 
 // ================== ANNIMATION SCROLL HORIZONTAL ==================
+function initSliderAnimation() {
+  const sliderMask = document.querySelector(".slider-mask");
+  if (!sliderMask) return;
 
-gsap.to(".slider-container", {
-  x: "-33%",
-  scrollTrigger: {
-    trigger: ".slider-mask",
-    start: "top top ",
-    end: "500%",
-    scrub: true,
-    pin: true,
-    markers: true,
-  },
-});
+  gsap.to(".slider-container", {
+    x: "-33%",
+    scrollTrigger: {
+      trigger: ".slider-mask",
+      start: "top top",
+      end: "500%",
+      scrub: true,
+      pin: true,
+      markers: true,
+    },
+  });
 
-gsap.to(".slider-item", {
-  opacity: 1,
-  scrollTrigger: {
-    trigger: ".slider-item",
-    scrub: true,
-    start: "left 100%",
-  },
-});
+  gsap.to(".slider-item", {
+    opacity: 1,
+    scrollTrigger: {
+      trigger: ".slider-item",
+      scrub: true,
+      start: "left 100%",
+    },
+  });
 
-gsap.to("#item-1", {
-  opacity: 1,
-  y: "-15%",
-  scrollTrigger: {
-    trigger: ".slider-container",
-    start: "bottom center",
-    scrub: 1,
-    start: "-=600",
-    end: "-=150",
-  },
-});
-gsap.to("#item-2", {
-  opacity: 1,
-  y: "-25%",
-  scrollTrigger: {
-    trigger: ".slider-container",
-    start: "bottom center",
-    scrub: 1,
-    start: "-=500",
-    end: "-=150",
-  },
-});
+  gsap.to("#item-1", {
+    opacity: 1,
+    x: "-8%",
+    scrollTrigger: {
+      trigger: ".slider-mask",
+      start: "top top",
+      end: "+=500%",
+      scrub: 1,
+    },
+  });
 
-gsap.to("#item-3", {
-  opacity: 1,
-  y: "-20%",
-  scrollTrigger: {
-    trigger: ".slider-container",
-    start: "bottom center",
-    scrub: 1,
-    start: "-=500",
-    end: "-=150",
-  },
-});
+  gsap.to("#item-2", {
+    opacity: 1,
 
-gsap.to("#item-4", {
-  opacity: 1,
-  y: "-25%",
-  scrollTrigger: {
-    trigger: ".slider-container",
-    start: "bottom center",
-    scrub: 1,
-    start: "-=500",
-    end: "-=150",
-  },
-});
+    x: "-6%",
+    scrollTrigger: {
+      trigger: ".slider-mask",
+      start: "top top",
+      end: "+=500%",
+      scrub: 1,
+    },
+  });
 
-gsap.to("#item-5", {
-  opacity: 1,
-  y: "-25%",
-  scrollTrigger: {
-    trigger: ".slider-container",
-    start: "bottom center",
-    scrub: 1,
-    start: "-=500",
-    end: "-=150",
-  },
-});
-gsap.to("#item-6", {
-  opacity: 1,
-  y: "-25%",
-  scrollTrigger: {
-    trigger: ".slider-container",
-    start: "bottom center",
-    scrub: 1,
-    start: "-=500",
-    end: "-=150",
-  },
-});
+  gsap.to("#item-3", {
+    opacity: 1,
+
+    x: "-5%",
+    scrollTrigger: {
+      trigger: ".slider-mask",
+      start: "top top",
+      end: "+=500%",
+      scrub: 1,
+    },
+  });
+
+  gsap.to("#item-4", {
+    opacity: 1,
+
+    x: "-7%",
+    scrollTrigger: {
+      trigger: ".slider-mask",
+      start: "top top",
+      end: "+=500%",
+      scrub: 1,
+    },
+  });
+
+  gsap.to("#item-5", {
+    opacity: 1,
+
+    x: "-6%",
+    scrollTrigger: {
+      trigger: ".slider-mask",
+      start: "top top",
+      end: "+=500%",
+      scrub: 1,
+    },
+  });
+
+  gsap.to("#item-6", {
+    opacity: 1,
+
+    x: "-4%",
+    scrollTrigger: {
+      trigger: ".slider-mask",
+      start: "top top",
+      end: "+=500%",
+      scrub: 1,
+    },
+  });
+}
+
+// Initialiser le slider au chargement
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initSliderAnimation);
+} else {
+  initSliderAnimation();
+}

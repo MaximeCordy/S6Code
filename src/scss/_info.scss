@@ -1,9 +1,22 @@
-/* ── Sections : pas de z-index ── */
+/* ── S'assurer que le wrapper Barba ne crée pas de contexte de stacking ── */
+[data-barba="wrapper"],
+[data-barba="container"] {
+  position: relative;
+  z-index: auto !important;
+}
+
+/* ── Sections : pas de z-index sauf si panneau ouvert ── */
 section {
   position: relative;
 }
 
 section * {
+  position: relative;
+}
+
+/* ── Sections remontent au-dessus du backdrop quand panneau ouvert ── */
+body.panel-open section {
+  z-index: 99997;
   position: relative;
 }
 
@@ -31,8 +44,20 @@ body.panel-open .panel-backdrop {
 /* ── Conteneurs des images au-dessus du backdrop quand panneau ouvert ── */
 body.panel-open .image-block {
   position: relative;
-  z-index: 101 !important; /* ← tout le stacking context remonte */
+  z-index: 99997 !important; /* ← tout le stacking context remonte */
   overflow: visible !important;
+}
+
+/* ── Tous les éléments qui contiennent des images data-artwork ── */
+body.panel-open .layout_img_index,
+body.panel-open .intro_index,
+body.panel-open .after-section,
+body.panel-open .patricia,
+body.panel-open .mother,
+body.panel-open .father,
+body.panel-open .container-pat {
+  z-index: 99997 !important;
+  position: relative;
 }
 
 /* ── Images ── */
@@ -40,10 +65,16 @@ img[data-artwork] {
   pointer-events: auto;
   cursor: pointer;
   position: relative;
-  z-index: 99997 !important;
+  z-index: 99998 !important;
   transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
     outline 0.3s ease, box-shadow 0.5s ease;
   transform-origin: center;
+}
+
+/* ── Assurer que les images sont toujours au-dessus quand panneau ouvert ── */
+body.panel-open img[data-artwork] {
+  z-index: 99998 !important;
+  position: relative;
 }
 
 /* ── Zoom doux au hover quand le panneau est ouvert ── */

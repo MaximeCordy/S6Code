@@ -62,7 +62,7 @@ const DATA = {
         artiste: "William Utermohlen",
         infos: [
           { cle: "Date", valeur: "1970" },
-          { cle: "Technique", valeur: "oil and photography on canvas" },
+          { cle: "Technique", valeur: "Huile et photographie sur toile" },
           { cle: "Sujet", valeur: "La mère de William" },
         ],
       },
@@ -71,8 +71,81 @@ const DATA = {
         artiste: "William Utermohlen",
         infos: [
           { cle: "Date", valeur: "1970" },
-          { cle: "Technique", valeur: "oil on canvas" },
+          { cle: "Technique", valeur: "Huile sur toile" },
           { cle: "Sujet", valeur: "Le père de William" },
+        ],
+      },
+    ],
+  },
+  section4: {
+    titre: "Patricia Redmond",
+    oeuvres: [
+      {
+        titre: "Patricia",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1962" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+          { cle: "Sujet", valeur: "Patricia Redmond" },
+        ],
+      },
+    ],
+  },
+  section5: {
+    titre: "1950-1970",
+    oeuvres: [
+      {
+        titre: "Demeter",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1969" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+          { cle: "Sujet", valeur: "Femme sur canapé" },
+        ],
+      },
+      {
+        titre: "Monstera Dekiciosa",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1967" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+          { cle: "Sujet", valeur: "trois hommes" },
+        ],
+      },
+      {
+        titre: "Rosamund",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1982" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+          { cle: "Sujet", valeur: "Rosamund" },
+        ],
+      },
+      {
+        titre: "Staghorn Fern",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1967" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+          { cle: "Sujet", valeur: "un homme est une femme" },
+        ],
+      },
+      {
+        titre: "The Green Chair",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1968" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+          { cle: "Sujet", valeur: "un homme est une chaise" },
+        ],
+      },
+      {
+        titre: "Woman at piano",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1971" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+          { cle: "Sujet", valeur: "une femme assise à un piano" },
         ],
       },
     ],

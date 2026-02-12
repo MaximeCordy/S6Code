@@ -34,6 +34,14 @@ body {
   gap: 122px;
   align-self: stretch;
 }
+#titrage {
+  color: #313131;
+  text-align: center;
+  font-family: Poppins;
+
+  line-height: 150%; /* 18px */
+  letter-spacing: -0.276px;
+}
 .layout_img_index {
   display: flex;
   align-items: center;
@@ -230,6 +238,7 @@ body.panel-open .pinned-section {
 .index_ligne_svg {
   margin-top: -30%;
 }
+
 // ================== AFTER-SECTION ==================
 .after-section {
   min-height: 100vh;
@@ -241,36 +250,74 @@ body.panel-open .pinned-section {
   padding: 6rem 2rem;
 }
 
-.after-section h2 {
-  font-family: "Poppins", sans-serif;
-  font-size: clamp(2rem, 4vw, 3.5rem);
-  font-weight: 700;
-  margin-bottom: 1.5rem;
-  max-width: 70%;
-}
-
-.after-section p {
-  font-family: "Poppins", sans-serif;
-  color: var(--muted);
-  font-size: 1.1rem;
-  font-weight: 300;
-  max-width: 500px;
-  line-height: 1.7;
-}
-
 .after-section .mother img {
-  width: 904px;
-  height: 871px;
-  aspect-ratio: 82/79;
+  width: 440px;
+  height: 423px;
+  aspect-ratio: 207/199;
 }
 .after-section .father img {
-  width: 407px;
-  height: 506px;
-  aspect-ratio: 37/46;
-
+  width: 198px;
+  height: 246px;
+  aspect-ratio: 33/41;
+  width: 198px;
+  height: 246px;
+  aspect-ratio: 33/41;
   margin-top: -70%;
   margin-left: 70%;
 }
+.after-section {
+  background: var(--bg);
+}
+.after-section img {
+  margin-top: -40%;
+}
+.after-section {
+  position: relative;
+}
+.after-section-text1 {
+  position: relative;
+  top: 130px;
+  right: 450px;
+  width: 289px;
+  height: 84px;
+}
+.after-section-text2 {
+  position: relative;
+  top: 430px;
+  left: 450px;
+  width: 289px;
+  height: 84px;
+}
+// ================== PAT ==================
+.patricia {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding: 6rem 2rem;
+}
+.patricia img {
+  width: 30%;
+  height: auto;
+  object-fit: cover;
+}
+.container-pat {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 2rem;
+  align-items: end;
+  justify-content: start;
+  margin-left: 6%;
+  gap: 10%;
+}
+.patricia h3 {
+  margin-left: 10%;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20%;
+  max-width: 80%;
+}
+
 // ================== ANNIMATION SCROLL HORIZONTAL ==================
 .slider-mask {
   overflow: hidden;
@@ -286,7 +333,10 @@ body.panel-open .pinned-section {
   position: relative;
   display: flex;
 }
-
+.slider-item img {
+  left: -80px;
+  position: relative;
+}
 .slider-item {
   position: absolute;
   z-index: 3;
@@ -294,49 +344,38 @@ body.panel-open .pinned-section {
 }
 .slider-item#item-1 {
   left: 500px;
-  width: 150px;
-  height: 150px;
-  background: red;
-  top: 30%;
-  left: 6%;
+  width: 20%;
+  top: 20%;
+  left: 8%;
 }
 .slider-item#item-2 {
   left: 500px;
-  width: 300px;
-  height: 300px;
-  background: red;
-  top: 55%;
-  left: 14%;
+  width: 25%;
+  top: 65%;
+  left: 25%;
 }
 .slider-item#item-3 {
   left: 500px;
-  width: 200px;
-  height: 200px;
-  background: red;
-  top: 35%;
-  left: 24%;
+  width: 10%;
+  top: 25%;
+  left: 30%;
 }
 .slider-item#item-4 {
   left: 500px;
-  width: 350px;
-  height: 200px;
-  background: red;
+  width: 20%;
   top: 65%;
   left: 40%;
 }
 .slider-item#item-5 {
   left: 500px;
-  width: 150px;
-  height: 150px;
-  background: red;
+  width: 20%;
+
   top: 70%;
   left: 56%;
 }
 .slider-item#item-6 {
   left: 500px;
-  width: 350px;
-  height: 350px;
-  background: red;
+  width: 20%;
   top: 50%;
   left: 70%;
 }

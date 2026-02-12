@@ -1,3 +1,10 @@
+:root {
+  --bg: #313131;
+  --text: #ffffff;
+  --accent: #c8a45a;
+  --muted: #6b6572;
+}
+
 p #titrage {
   color: #313131;
   text-align: center;
@@ -16,4 +23,83 @@ p #titrage {
   font-weight: 700;
   line-height: 150%; /* 36px */
   letter-spacing: -0.552px;
+}
+#titrage {
+  color: #313131;
+  text-align: center;
+  font-family: Poppins;
+  line-height: 150%; /* 18px */
+  letter-spacing: -0.276px;
+}
+.patricia img {
+  will-change: clip-path, transform, opacity;
+  transform-origin: center center;
+}
+
+/* Nécessaire pour les transforms sur PAT */
+.PAT {
+  will-change: transform, opacity;
+  display: block;
+  transform-origin: center top;
+}
+
+/* Nécessaire pour les transforms sur h2 et h3 */
+.patricia h2,
+.patricia h3 {
+  will-change: transform, opacity;
+}
+
+/* Éviter le flash de contenu non-animé avant GSAP */
+.patricia.js-loaded .PAT,
+.patricia.js-loaded img,
+.patricia.js-loaded h2,
+.patricia.js-loaded h3 {
+  visibility: visible;
+}
+.patricia h2 {
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  max-width: 55%;
+  color: var(--bg);
+  text-align: start;
+}
+.PAT {
+  font-family: "Poppins", sans-serif;
+  font-size: 680px;
+  font-weight: 700;
+  color: var(--bg);
+}
+.patricia h3 {
+  color: var(--bg);
+  text-align: center;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 150%; /* 18px */
+  letter-spacing: -1.012px;
+}
+
+.after-section h2 {
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  max-width: 70%;
+  color: var(--text);
+}
+
+.after-section p {
+  font-family: "Poppins", sans-serif;
+  color: var(--text);
+  font-size: 1.1rem;
+  font-weight: 300;
+  max-width: 500px;
+  line-height: 1.7;
+  margin-bottom: 5%;
+  text-align: left;
+}
+
+.after-section h2,
+p {
+  color: var(--text);
 }

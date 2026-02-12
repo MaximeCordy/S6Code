@@ -151,6 +151,45 @@ if (document.readyState === "loading") {
   initScrollPin();
 }
 
+// ================== ANIMATION SECTION PATRICIA ==================
+function initPatriciaAnimation() {
+  const section = document.querySelector(".patricia");
+  if (!section) return;
+
+  const pat = section.querySelector(".PAT");
+  const image = section.querySelector("img");
+  const h2 = section.querySelector("h2");
+  const h3 = section.querySelector("h3");
+
+  gsap.set(pat, { opacity: 0, scale: 1.4, y: -60 });
+  gsap.set(image, { opacity: 0, x: 80, clipPath: "inset(0 100% 0 0)" });
+  gsap.set(h2, { opacity: 0, x: -60 });
+  gsap.set(h3, { opacity: 0, y: 40 });
+
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: section,
+      start: "top 60%",
+      once: true,
+    },
+  });
+
+  tl.to(pat, { opacity: 1, scale: 1, y: 0, duration: 1.2, ease: "expo.out" })
+    .to(
+      image,
+      {
+        opacity: 1,
+        x: 0,
+        clipPath: "inset(0 0% 0 0)",
+        duration: 1,
+        ease: "power3.out",
+      },
+      "-=0.4"
+    )
+    .to(h2, { opacity: 1, x: 0, duration: 1, ease: "power3.out" }, "<0.15")
+    .to(h3, { opacity: 1, y: 0, duration: 0.9, ease: "power2.out" }, "-=0.3");
+}
+
 // ================== ANIMATIONS ligne ==================
 function initSVGLine(scope, axis = "y", strength = 0.5) {
   const svg = scope.querySelector("svg");
@@ -251,7 +290,7 @@ function initShaderAnimation(scope = document) {
   console.log("🎨 Init shader animation");
 
   const CONFIG = {
-    color: "#000000",
+    color: "#ffffff",
     spread: 0.5,
     speed: 2,
   };
@@ -400,6 +439,7 @@ barba.init({
 
         animateImageBlocks(container);
         initSVGAnimation(container);
+        initPatriciaAnimation();
         shaderCleanup = initShaderAnimation(container);
 
         setTimeout(() => {
@@ -477,6 +517,7 @@ barba.init({
 
         animateImageBlocks(container);
         initSVGAnimation(container);
+        initPatriciaAnimation();
         shaderCleanup = initShaderAnimation(container);
 
         isTransitioning = false;
@@ -584,6 +625,17 @@ gsap.to("#item-4", {
 });
 
 gsap.to("#item-5", {
+  opacity: 1,
+  y: "-25%",
+  scrollTrigger: {
+    trigger: ".slider-container",
+    start: "bottom center",
+    scrub: 1,
+    start: "-=500",
+    end: "-=150",
+  },
+});
+gsap.to("#item-6", {
   opacity: 1,
   y: "-25%",
   scrollTrigger: {

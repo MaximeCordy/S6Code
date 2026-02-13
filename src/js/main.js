@@ -443,6 +443,7 @@ barba.init({
         initSliderAnimation();
         initPatriciaAnimation();
         shaderCleanup = initShaderAnimation(container);
+        initCursor(data.next.namespace);
 
         setTimeout(() => {
           window.addEventListener("scroll", handleScroll);
@@ -557,6 +558,7 @@ barba.init({
         initSliderAnimation();
         initPatriciaAnimation();
         shaderCleanup = initShaderAnimation(container);
+        initCursor(data.next.namespace);
 
         // Réinitialiser le panneau info pour la nouvelle page
         setTimeout(() => {
@@ -703,96 +705,136 @@ if (document.readyState === "loading") {
 }
 
 // ================== CURSOR ==================
-const canvas = document.querySelector("canvas");
-const ctx = canvas.getContext("2d");
+const cursorConfigs = {
+  index: {
+    pointsNumber: 5,
+    widthFactor: 0.5,
+    spring: 0.4,
+    friction: 0.5,
+    strokeStyle: "rgba(0, 0, 0, 0.85)",
+  },
+  dante: {
+    pointsNumber: 5,
+    widthFactor: 0.5,
+    spring: 0.4,
+    friction: 0.5,
+    strokeStyle: "rgb(255, 0, 0)",
+  },
+  conversation: {
+    pointsNumber: 5,
+    widthFactor: 0.5,
+    spring: 0.4,
+    friction: 0.3,
+    strokeStyle: "rgb(255, 250, 103)",
+  },
+  maladie: {
+    pointsNumber: 5,
+    widthFactor: 0.5,
+    spring: 0.4,
+    friction: 0.15,
+    strokeStyle: "rgb(255, 255, 255)",
+  },
+};
 
-// for intro motion
-let mouseMoved = false;
-
-const pointer = {
+let cursorAnimationId = null;
+let cursorMouseMoved = false;
+const cursorPointer = {
   x: 0.5 * window.innerWidth,
   y: 0.5 * window.innerHeight,
 };
-const params = {
-  pointsNumber: 5,
-  widthFactor: 0.5,
-  mouseThreshold: 0.6,
-  spring: 0.4,
-  friction: 0.5,
-};
 
-const trail = new Array(params.pointsNumber);
-for (let i = 0; i < params.pointsNumber; i++) {
-  trail[i] = {
-    x: pointer.x,
-    y: pointer.y,
-    dx: 0,
-    dy: 0,
-  };
+function onCursorClick(e) {
+  cursorPointer.x = e.clientX;
+  cursorPointer.y = e.clientY;
+}
+function onCursorMouseMove(e) {
+  cursorMouseMoved = true;
+  cursorPointer.x = e.clientX;
+  cursorPointer.y = e.clientY;
+}
+function onCursorTouchMove(e) {
+  cursorMouseMoved = true;
+  cursorPointer.x = e.targetTouches[0].clientX;
+  cursorPointer.y = e.targetTouches[0].clientY;
 }
 
-window.addEventListener("click", (e) => {
-  updateMousePosition(e.clientX, e.clientY);
-});
-window.addEventListener("mousemove", (e) => {
-  mouseMoved = true;
-  updateMousePosition(e.clientX, e.clientY);
-});
-window.addEventListener("touchmove", (e) => {
-  mouseMoved = true;
-  updateMousePosition(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
-});
+window.addEventListener("click", onCursorClick);
+window.addEventListener("mousemove", onCursorMouseMove);
+window.addEventListener("touchmove", onCursorTouchMove);
 
-function updateMousePosition(eX, eY) {
-  pointer.x = eX;
-  pointer.y = eY;
-}
-
-setupCanvas();
-update(0);
-window.addEventListener("resize", setupCanvas);
-
-function update(t) {
-  // for intro motion
-  if (!mouseMoved) {
-    pointer.x =
-      (0.5 + 0.3 * Math.cos(0.002 * t) * Math.sin(0.005 * t)) *
-      window.innerWidth;
-    pointer.y =
-      (0.5 + 0.2 * Math.cos(0.005 * t) + 0.1 * Math.cos(0.01 * t)) *
-      window.innerHeight;
+function initCursor(namespace) {
+  // Annuler l'animation précédente
+  if (cursorAnimationId) {
+    cancelAnimationFrame(cursorAnimationId);
+    cursorAnimationId = null;
   }
 
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  trail.forEach((p, pIdx) => {
-    const prev = pIdx === 0 ? pointer : trail[pIdx - 1];
-    const spring = pIdx === 0 ? 0.4 * params.spring : params.spring;
-    p.dx += (prev.x - p.x) * spring;
-    p.dy += (prev.y - p.y) * spring;
-    p.dx *= params.friction;
-    p.dy *= params.friction;
-    p.x += p.dx;
-    p.y += p.dy;
-  });
+  const canvas = document.querySelector("canvas");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
 
-  ctx.lineCap = "round";
-  ctx.beginPath();
-  ctx.moveTo(trail[0].x, trail[0].y);
+  const params = cursorConfigs[namespace] || cursorConfigs.index;
 
-  for (let i = 1; i < trail.length - 1; i++) {
-    const xc = 0.5 * (trail[i].x + trail[i + 1].x);
-    const yc = 0.5 * (trail[i].y + trail[i + 1].y);
-    ctx.quadraticCurveTo(trail[i].x, trail[i].y, xc, yc);
-    ctx.lineWidth = params.widthFactor * (params.pointsNumber - i);
+  // Reset le trail avec la config de la page
+  const trail = new Array(params.pointsNumber);
+  for (let i = 0; i < params.pointsNumber; i++) {
+    trail[i] = {
+      x: cursorPointer.x,
+      y: cursorPointer.y,
+      dx: 0,
+      dy: 0,
+    };
+  }
+
+  function setupCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+
+  setupCanvas();
+  window.removeEventListener("resize", setupCanvas);
+  window.addEventListener("resize", setupCanvas);
+
+  function update(t) {
+    if (!cursorMouseMoved) {
+      cursorPointer.x =
+        (0.5 + 0.3 * Math.cos(0.002 * t) * Math.sin(0.005 * t)) *
+        window.innerWidth;
+      cursorPointer.y =
+        (0.5 + 0.2 * Math.cos(0.005 * t) + 0.1 * Math.cos(0.01 * t)) *
+        window.innerHeight;
+    }
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.strokeStyle = params.strokeStyle;
+
+    trail.forEach((p, pIdx) => {
+      const prev = pIdx === 0 ? cursorPointer : trail[pIdx - 1];
+      const spring = pIdx === 0 ? 0.4 * params.spring : params.spring;
+      p.dx += (prev.x - p.x) * spring;
+      p.dy += (prev.y - p.y) * spring;
+      p.dx *= params.friction;
+      p.dy *= params.friction;
+      p.x += p.dx;
+      p.y += p.dy;
+    });
+
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.moveTo(trail[0].x, trail[0].y);
+
+    for (let i = 1; i < trail.length - 1; i++) {
+      const xc = 0.5 * (trail[i].x + trail[i + 1].x);
+      const yc = 0.5 * (trail[i].y + trail[i + 1].y);
+      ctx.quadraticCurveTo(trail[i].x, trail[i].y, xc, yc);
+      ctx.lineWidth = params.widthFactor * (params.pointsNumber - i);
+      ctx.stroke();
+    }
+    ctx.lineTo(trail[trail.length - 1].x, trail[trail.length - 1].y);
     ctx.stroke();
+
+    cursorAnimationId = window.requestAnimationFrame(update);
   }
-  ctx.lineTo(trail[trail.length - 1].x, trail[trail.length - 1].y);
-  ctx.stroke();
 
-  window.requestAnimationFrame(update);
-}
-
-function setupCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  cursorAnimationId = window.requestAnimationFrame(update);
 }

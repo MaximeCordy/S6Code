@@ -17,6 +17,7 @@
   </head>
 
   <body>
+    <canvas></canvas>
     <!-- <div class="vertical-line left"></div>
     <div class="vertical-line right"></div> -->
     <button id="info-toggle">i</button>
@@ -45,7 +46,6 @@
             <a href="conversation.html">conversation</a>
             <a href="maladie.html">maladie</a>
           </header>
-          <canvas></canvas>
           <section class="hero_index">
             <h1 data-animate-text>La Galerie des souvenirs</h1>
             <p data-animate-text>William Utermohlen</p>
@@ -60,7 +60,7 @@
                 class="line-path"
                 d="M50,0 Q50,400 50,800"
                 stroke="#313131"
-                stroke-width="2"
+                stroke-width="3"
                 fill="none"
               />
               <path
@@ -79,7 +79,7 @@
                 class="line-path"
                 d="M50,0 Q50,400 50,800"
                 stroke="#313131"
-                stroke-width="2"
+                stroke-width="3"
                 fill="none"
               />
               <path
@@ -91,7 +91,7 @@
               />
             </svg>
           </div>
-          <div class="ligne-h">
+          <div class="ligne-h" id="ligne-h1">
             <svg viewBox="0 0 800 400">
               <path
                 class="line-path"
@@ -155,6 +155,25 @@
               </div>
             </div>
           </section>
+          <div class="ligne-h" id="ligne-h2">
+            <svg viewBox="0 0 800 400">
+              <path
+                class="line-path"
+                d="M0,200 Q400,200 800,200"
+                stroke="#313131"
+                stroke-width="1"
+                fill="none"
+              />
+              <path
+                class="line-hit"
+                d="M0,200 Q400,200 800,200"
+                stroke="transparent"
+                stroke-width="30"
+                fill="none"
+              />
+            </svg>
+          </div>
+          <h2 data-animate-text class="artiste">D'artiste à Art triste</h2>
           <!-- PINNED SECTION -->
           <section id="s2" data-section="section2" class="pinned-section">
             <div class="pinned-wrapper">
@@ -267,6 +286,24 @@
                   data-artwork="0"
                   alt="Patricia Redmond"
                 />
+              </div>
+              <div class="ligne-h" id="ligne-h3">
+                <svg viewBox="0 0 800 400">
+                  <path
+                    class="line-path"
+                    d="M0,200 Q400,200 800,200"
+                    stroke="#313131"
+                    stroke-width="1"
+                    fill="none"
+                  />
+                  <path
+                    class="line-hit"
+                    d="M0,200 Q400,200 800,200"
+                    stroke="transparent"
+                    stroke-width="30"
+                    fill="none"
+                  />
+                </svg>
               </div>
               <h3 data-animate-text>
                 Londres devient alors le centre de sa vie artistique et

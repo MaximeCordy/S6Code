@@ -1,6 +1,7 @@
 const DATA = {
   section1: {
     titre: "William Utermohlen",
+    audio: { src: "audio/section1.mp3", label: "William, 1953" },
     oeuvres: [
       {
         titre: "Autoportrait",
@@ -15,6 +16,7 @@ const DATA = {
   },
   section2: {
     titre: "Adolessence",
+    audio: { src: "audio/section2.mp3", label: "Adolescence, 1955–57" },
     oeuvres: [
       {
         titre: "Autoportrait",
@@ -56,6 +58,7 @@ const DATA = {
   },
   section3: {
     titre: "Londre et l'Europe",
+    audio: { src: "audio/section3.mp3", label: "Londres, 1962" },
     oeuvres: [
       {
         titre: "The artist's mother",
@@ -79,6 +82,7 @@ const DATA = {
   },
   section4: {
     titre: "Patricia Redmond",
+    audio: { src: "audio/section4.mp3", label: "Patricia, 1965" },
     oeuvres: [
       {
         titre: "Patricia",
@@ -93,6 +97,7 @@ const DATA = {
   },
   section5: {
     titre: "1950-1970",
+    audio: { src: "audio/section5.mp3", label: "Œuvres, 1950–70" },
     oeuvres: [
       {
         titre: "Demeter",
@@ -157,29 +162,107 @@ const DATA = {
 // Variables globales pour le cleanup
 let infoPanelListeners = [];
 let scrollListener = null;
+let audioEl = null;
 
 // Fonction de cleanup
 function cleanupInfoPanel() {
-  // Retirer tous les listeners stockés
   infoPanelListeners.forEach(({ element, event, handler }) => {
     element.removeEventListener(event, handler);
   });
   infoPanelListeners = [];
 
-  // Retirer le scroll listener
   if (scrollListener) {
     window.removeEventListener("scroll", scrollListener);
     scrollListener = null;
   }
 
-  // Reset des classes
+  // Stop l'audio en cours
+  if (audioEl) {
+    audioEl.pause();
+    audioEl.src = "";
+    audioEl = null;
+  }
+
   document.body.classList.remove("panel-open");
   const toggle = document.getElementById("info-toggle");
   if (toggle) toggle.textContent = "i";
 }
 
+// ── Player audio ──
+function buildPlayer(audioData) {
+  const player = document.getElementById("ip-player");
+  if (!player) return;
+
+  if (audioEl) {
+    audioEl.pause();
+    audioEl.src = "";
+    audioEl = null;
+  }
+
+  if (!audioData) {
+    player.innerHTML = "";
+    return;
+  }
+
+  audioEl = new Audio(audioData.src);
+  audioEl.preload = "metadata";
+
+  const fmt = (t) => {
+    const m = Math.floor(t / 60);
+    const s = Math.floor(t % 60);
+    return `${m}:${s.toString().padStart(2, "0")}`;
+  };
+
+  player.innerHTML = `
+    <div class="ip-player-label">${audioData.label}</div>
+    <div class="ip-player-controls">
+      <button class="ip-play-btn" aria-label="Play">▶</button>
+      <div class="ip-progress-wrap">
+        <div class="ip-progress-bar"><div class="ip-progress-fill"></div></div>
+        <div class="ip-time"><span class="ip-current">0:00</span> / <span class="ip-duration">—</span></div>
+      </div>
+    </div>
+  `;
+
+  const playBtn = player.querySelector(".ip-play-btn");
+  const fill = player.querySelector(".ip-progress-fill");
+  const current = player.querySelector(".ip-current");
+  const duration = player.querySelector(".ip-duration");
+  const bar = player.querySelector(".ip-progress-bar");
+
+  audioEl.addEventListener("loadedmetadata", () => {
+    duration.textContent = fmt(audioEl.duration);
+  });
+
+  audioEl.addEventListener("timeupdate", () => {
+    const pct = (audioEl.currentTime / audioEl.duration) * 100 || 0;
+    fill.style.width = pct + "%";
+    current.textContent = fmt(audioEl.currentTime);
+  });
+
+  audioEl.addEventListener("ended", () => {
+    playBtn.textContent = "▶";
+    fill.style.width = "0%";
+  });
+
+  playBtn.addEventListener("click", () => {
+    if (audioEl.paused) {
+      audioEl.play();
+      playBtn.textContent = "⏸";
+    } else {
+      audioEl.pause();
+      playBtn.textContent = "▶";
+    }
+  });
+
+  bar.addEventListener("click", (e) => {
+    const rect = bar.getBoundingClientRect();
+    const pct = (e.clientX - rect.left) / rect.width;
+    audioEl.currentTime = pct * audioEl.duration;
+  });
+}
+
 export function initInfoPanel() {
-  // Cleanup avant de réinitialiser
   cleanupInfoPanel();
 
   const toggle = document.getElementById("info-toggle");
@@ -200,7 +283,11 @@ export function initInfoPanel() {
       : "i";
   };
   toggle.addEventListener("click", toggleHandler);
-  infoPanelListeners.push({ element: toggle, event: "click", handler: toggleHandler });
+  infoPanelListeners.push({
+    element: toggle,
+    event: "click",
+    handler: toggleHandler,
+  });
 
   // ── Clic sur le backdrop = fermer ──
   const backdrop = document.querySelector(".panel-backdrop");
@@ -210,7 +297,11 @@ export function initInfoPanel() {
       toggle.textContent = "i";
     };
     backdrop.addEventListener("click", backdropHandler);
-    infoPanelListeners.push({ element: backdrop, event: "click", handler: backdropHandler });
+    infoPanelListeners.push({
+      element: backdrop,
+      event: "click",
+      handler: backdropHandler,
+    });
   }
 
   // ── Surligne la carte ──
@@ -237,7 +328,11 @@ export function initInfoPanel() {
     highlightCard(parseInt(img.dataset.artwork));
   };
   document.addEventListener("mouseover", mouseoverHandler);
-  infoPanelListeners.push({ element: document, event: "mouseover", handler: mouseoverHandler });
+  infoPanelListeners.push({
+    element: document,
+    event: "mouseover",
+    handler: mouseoverHandler,
+  });
 
   const mouseoutHandler = (e) => {
     const img = e.target.closest("img[data-artwork]");
@@ -246,7 +341,11 @@ export function initInfoPanel() {
     highlightCard(-1);
   };
   document.addEventListener("mouseout", mouseoutHandler);
-  infoPanelListeners.push({ element: document, event: "mouseout", handler: mouseoutHandler });
+  infoPanelListeners.push({
+    element: document,
+    event: "mouseout",
+    handler: mouseoutHandler,
+  });
 
   // ── Hover sur carte = effet sur l'image liée dans la section active ──
   const cardMouseoverHandler = (e) => {
@@ -261,7 +360,11 @@ export function initInfoPanel() {
     highlightCard(index);
   };
   ipBody.addEventListener("mouseover", cardMouseoverHandler);
-  infoPanelListeners.push({ element: ipBody, event: "mouseover", handler: cardMouseoverHandler });
+  infoPanelListeners.push({
+    element: ipBody,
+    event: "mouseover",
+    handler: cardMouseoverHandler,
+  });
 
   const cardMouseoutHandler = (e) => {
     const card = e.target.closest(".ip-card");
@@ -275,7 +378,11 @@ export function initInfoPanel() {
     highlightCard(-1);
   };
   ipBody.addEventListener("mouseout", cardMouseoutHandler);
-  infoPanelListeners.push({ element: ipBody, event: "mouseout", handler: cardMouseoutHandler });
+  infoPanelListeners.push({
+    element: ipBody,
+    event: "mouseout",
+    handler: cardMouseoutHandler,
+  });
 
   // ── Clic sur image = ouvre le panneau ──
   const clickHandler = (e) => {
@@ -288,7 +395,11 @@ export function initInfoPanel() {
     }, 100);
   };
   document.addEventListener("click", clickHandler);
-  infoPanelListeners.push({ element: document, event: "click", handler: clickHandler });
+  infoPanelListeners.push({
+    element: document,
+    event: "click",
+    handler: clickHandler,
+  });
 
   // ── Mise à jour du contenu ──
   function updatePanel(key) {
@@ -317,6 +428,7 @@ export function initInfoPanel() {
           </div>`,
         )
         .join("");
+      buildPlayer(d.audio || null);
       fadeEls.forEach((el) => el.classList.remove("fading"));
     }, 220);
   }

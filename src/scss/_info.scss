@@ -66,8 +66,10 @@ img[data-artwork] {
   cursor: pointer;
   position: relative;
   z-index: 99998 !important;
-  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    outline 0.3s ease, box-shadow 0.5s ease;
+  transition:
+    transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    outline 0.3s ease,
+    box-shadow 0.5s ease;
   transform-origin: center;
 }
 
@@ -106,15 +108,17 @@ body.panel-open img[data-artwork]:hover {
   opacity: 1;
   cursor: pointer;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-  transition: right 0.4s ease, transform 0.2s;
+  transition:
+    right 0.4s ease,
+    transform 0.2s;
 }
 
 #info-toggle:hover {
   transform: scale(1.1);
 }
 
-body.panel-open #info-toggle {
-  right: calc(var(--panel-w) + 1rem);
+.panel-open #info-toggle {
+  right: calc(var(--panel-w) + 1.5rem);
 }
 
 /* ── Panneau latéral ── */
@@ -177,7 +181,9 @@ body.panel-open #info-panel {
   border-radius: 6px;
   margin-bottom: 0.4rem;
   border: 1px solid transparent;
-  transition: background 0.2s, border-color 0.2s;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
 }
 
 .ip-card.active {
@@ -221,10 +227,89 @@ body.panel-open #info-panel {
 
 .ip-head,
 .ip-body {
-  transition: opacity 0.25s, transform 0.25s;
+  transition:
+    opacity 0.25s,
+    transform 0.25s;
 }
 
 .fading {
   opacity: 0;
   transform: translateY(6px);
+}
+
+/* ── Player audio ── */
+#ip-player {
+  padding: 1rem 1.4rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  min-height: 72px;
+}
+
+.ip-player-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #666;
+  margin-bottom: 0.6rem;
+}
+
+.ip-player-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.ip-play-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #eee;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+  transition: background 0.2s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+}
+
+.ip-progress-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.ip-progress-bar {
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  cursor: pointer;
+  position: relative;
+
+  &:hover .ip-progress-fill {
+    background: #fff;
+  }
+}
+
+.ip-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 2px;
+  transition:
+    width 0.1s linear,
+    background 0.2s;
+}
+
+.ip-time {
+  font-size: 0.6rem;
+  color: #555;
+  letter-spacing: 0.05em;
 }

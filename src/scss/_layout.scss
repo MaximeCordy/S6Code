@@ -248,10 +248,16 @@ body.panel-open .pinned-section {
 
 #ligne-h3 {
   width: 100vw;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
+  margin-left: calc(-50vw + 50%);
+  margin-bottom: -40%;
+  margin-top: -20%;
+  svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
 }
+
 // ================== AFTER-SECTION ==================
 .after-section {
   min-height: 100vh;
@@ -329,6 +335,9 @@ body.panel-open .pinned-section {
   justify-content: center;
   margin-top: 20%;
   max-width: 80%;
+}
+.patricia h1 {
+  margin-top: -10%;
 }
 
 // ================== ANNIMATION SCROLL HORIZONTAL ==================

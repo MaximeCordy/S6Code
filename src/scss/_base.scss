@@ -7,6 +7,7 @@
 body {
   font-family: "Poppins", sans-serif;
   overflow-x: hidden;
+  overscroll-behavior: none;
 }
 
 .vertical-line-svg {
@@ -225,4 +226,24 @@ svg {
 .mother img,
 .father img {
   will-change: transform;
+}
+//======================CURSOR===================
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.links {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  font-size: 18px;
+  font-family: sans-serif;
+  background-color: white;
+  padding: 10px;
 }

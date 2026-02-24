@@ -155,6 +155,66 @@ const DATA = {
       },
     ],
   },
+  section6: {
+    titre: "1950-1970",
+    audio: { src: "audio/section5.mp3", label: "Œuvres, 1950–70" },
+    oeuvres: [
+      {
+        titre: "Demeter",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1969" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+          { cle: "Sujet", valeur: "Femme sur canapé" },
+        ],
+      },
+      {
+        titre: "Monstera Dekiciosa",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1967" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+          { cle: "Sujet", valeur: "trois hommes" },
+        ],
+      },
+      {
+        titre: "Rosamund",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1982" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+          { cle: "Sujet", valeur: "Rosamund" },
+        ],
+      },
+      {
+        titre: "Staghorn Fern",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1967" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+          { cle: "Sujet", valeur: "un homme est une femme" },
+        ],
+      },
+      {
+        titre: "The Green Chair",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1968" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+          { cle: "Sujet", valeur: "un homme est une chaise" },
+        ],
+      },
+      {
+        titre: "Woman at piano",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1971" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+          { cle: "Sujet", valeur: "une femme assise à un piano" },
+        ],
+      },
+    ],
+  },
 };
 
 // ─── NE PAS MODIFIER EN DESSOUS ────────────────
@@ -163,6 +223,165 @@ const DATA = {
 let infoPanelListeners = [];
 let scrollListener = null;
 let audioEl = null;
+let audioPopup = null;
+let audioRAF = null;
+let currentAudioLabel = "";
+
+// ── Helper format temps ──
+function fmtTime(s) {
+  if (!s || isNaN(s)) return "0:00";
+  const m = Math.floor(s / 60);
+  const sec = Math.floor(s % 60);
+  return `${m}:${sec.toString().padStart(2, "0")}`;
+}
+
+// ── Créer / récupérer le popup audio ──
+function getOrCreatePopup() {
+  if (audioPopup) return audioPopup;
+
+  const popup = document.createElement("div");
+  popup.id = "audio-popup";
+  popup.className = "audio-popup";
+  popup.innerHTML = `
+    <div class="ap-drag" id="ap-drag">
+      <span class="ap-label" id="ap-label">—</span>
+      <button class="ap-close" id="ap-close">✕</button>
+    </div>
+    <div class="ap-controls">
+      <button class="ap-play" id="ap-play">▶</button>
+      <div class="ap-progress" id="ap-progress">
+        <div class="ap-fill" id="ap-fill"></div>
+      </div>
+      <span class="ap-time" id="ap-time">0:00 / 0:00</span>
+    </div>
+  `;
+  document.body.appendChild(popup);
+  audioPopup = popup;
+
+  // ── Drag ──
+  const drag = popup.querySelector("#ap-drag");
+  let isDragging = false;
+  let offsetX = 0;
+  let offsetY = 0;
+
+  function startDrag(clientX, clientY) {
+    isDragging = true;
+    const rect = popup.getBoundingClientRect();
+    offsetX = clientX - rect.left;
+    offsetY = clientY - rect.top;
+    popup.style.transition = "none";
+    popup.style.bottom = "auto";
+    popup.style.right = "auto";
+    popup.style.left = rect.left + "px";
+    popup.style.top = rect.top + "px";
+    popup.classList.add("dragged");
+  }
+
+  function moveDrag(clientX, clientY) {
+    if (!isDragging) return;
+    let x = clientX - offsetX;
+    let y = clientY - offsetY;
+    x = Math.max(0, Math.min(x, window.innerWidth - popup.offsetWidth));
+    y = Math.max(0, Math.min(y, window.innerHeight - popup.offsetHeight));
+    popup.style.left = x + "px";
+    popup.style.top = y + "px";
+  }
+
+  function endDrag() {
+    if (!isDragging) return;
+    isDragging = false;
+    popup.style.transition = "";
+  }
+
+  drag.addEventListener("mousedown", (e) => startDrag(e.clientX, e.clientY));
+  document.addEventListener("mousemove", (e) => moveDrag(e.clientX, e.clientY));
+  document.addEventListener("mouseup", endDrag);
+
+  drag.addEventListener("touchstart", (e) => {
+    const t = e.touches[0];
+    startDrag(t.clientX, t.clientY);
+  });
+  document.addEventListener("touchmove", (e) => {
+    const t = e.touches[0];
+    moveDrag(t.clientX, t.clientY);
+  });
+  document.addEventListener("touchend", endDrag);
+
+  // ── Play/Pause dans le popup ──
+  popup.querySelector("#ap-play").addEventListener("click", () => {
+    if (!audioEl) return;
+    if (audioEl.paused) audioEl.play();
+    else audioEl.pause();
+  });
+
+  // ── Seek sur la barre ──
+  popup.querySelector("#ap-progress").addEventListener("click", (e) => {
+    if (!audioEl || !audioEl.duration) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const pct = (e.clientX - rect.left) / rect.width;
+    audioEl.currentTime = pct * audioEl.duration;
+  });
+
+  // ── Fermer ──
+  popup.querySelector("#ap-close").addEventListener("click", () => {
+    if (audioEl) {
+      audioEl.pause();
+    }
+    hidePopup();
+  });
+
+  return popup;
+}
+
+function showPopup() {
+  const popup = getOrCreatePopup();
+  popup.classList.add("visible");
+}
+
+function hidePopup() {
+  if (audioPopup) {
+    audioPopup.classList.remove("visible");
+    audioPopup.classList.remove("dragged");
+    // Reset inline positioning pour revenir à la position CSS par défaut
+    audioPopup.style.top = "";
+    audioPopup.style.left = "";
+    audioPopup.style.right = "";
+    audioPopup.style.bottom = "";
+    audioPopup.style.transition = "";
+  }
+  if (audioRAF) {
+    cancelAnimationFrame(audioRAF);
+    audioRAF = null;
+  }
+  const btn = document.getElementById("audio-toggle");
+  if (btn) {
+    btn.classList.remove("playing");
+    btn.textContent = "♪";
+  }
+}
+
+function updatePopupProgress() {
+  if (!audioEl || !audioPopup) return;
+  const fill = audioPopup.querySelector("#ap-fill");
+  const time = audioPopup.querySelector("#ap-time");
+  if (audioEl.duration && !isNaN(audioEl.duration)) {
+    const pct = (audioEl.currentTime / audioEl.duration) * 100;
+    if (fill) fill.style.width = pct + "%";
+    if (time) time.textContent = `${fmtTime(audioEl.currentTime)} / ${fmtTime(audioEl.duration)}`;
+  }
+  audioRAF = requestAnimationFrame(updatePopupProgress);
+}
+
+function syncPopupPlayState(playing) {
+  if (!audioPopup) return;
+  const playBtn = audioPopup.querySelector("#ap-play");
+  if (playBtn) playBtn.textContent = playing ? "⏸" : "▶";
+  const btn = document.getElementById("audio-toggle");
+  if (btn) {
+    btn.classList.toggle("playing", playing);
+    btn.textContent = playing ? "⏸" : "♪";
+  }
+}
 
 // Fonction de cleanup
 function cleanupInfoPanel() {
@@ -177,21 +396,39 @@ function cleanupInfoPanel() {
   }
 
   // Stop l'audio en cours
+  if (audioRAF) {
+    cancelAnimationFrame(audioRAF);
+    audioRAF = null;
+  }
   if (audioEl) {
     audioEl.pause();
     audioEl.src = "";
     audioEl = null;
   }
 
+  hidePopup();
+
   document.body.classList.remove("panel-open");
   const toggle = document.getElementById("info-toggle");
   if (toggle) toggle.textContent = "i";
+
+  const audioBtn = document.getElementById("audio-toggle");
+  if (audioBtn) {
+    audioBtn.classList.add("hidden");
+    audioBtn.classList.remove("playing");
+    audioBtn.textContent = "♪";
+  }
 }
 
-// ── Player audio ──
-function buildPlayer(audioData) {
-  const player = document.getElementById("ip-player");
-  if (!player) return;
+// ── Bouton audio externe ──
+function setupAudioButton(audioData) {
+  const btn = document.getElementById("audio-toggle");
+  if (!btn) return;
+
+  if (audioRAF) {
+    cancelAnimationFrame(audioRAF);
+    audioRAF = null;
+  }
 
   if (audioEl) {
     audioEl.pause();
@@ -200,65 +437,52 @@ function buildPlayer(audioData) {
   }
 
   if (!audioData) {
-    player.innerHTML = "";
+    btn.classList.add("hidden");
+    btn.classList.remove("playing");
+    hidePopup();
     return;
   }
 
+  currentAudioLabel = audioData.label || "Audio";
   audioEl = new Audio(audioData.src);
   audioEl.preload = "metadata";
+  btn.classList.remove("hidden");
+  btn.classList.remove("playing");
+  btn.textContent = "♪";
 
-  const fmt = (t) => {
-    const m = Math.floor(t / 60);
-    const s = Math.floor(t % 60);
-    return `${m}:${s.toString().padStart(2, "0")}`;
-  };
+  // Mettre à jour le label dans le popup si visible
+  if (audioPopup) {
+    const label = audioPopup.querySelector("#ap-label");
+    if (label) label.textContent = currentAudioLabel;
+    const fill = audioPopup.querySelector("#ap-fill");
+    if (fill) fill.style.width = "0%";
+    const time = audioPopup.querySelector("#ap-time");
+    if (time) time.textContent = "0:00 / 0:00";
+  }
 
-  player.innerHTML = `
-    <div class="ip-player-label">${audioData.label}</div>
-    <div class="ip-player-controls">
-      <button class="ip-play-btn" aria-label="Play">▶</button>
-      <div class="ip-progress-wrap">
-        <div class="ip-progress-bar"><div class="ip-progress-fill"></div></div>
-        <div class="ip-time"><span class="ip-current">0:00</span> / <span class="ip-duration">—</span></div>
-      </div>
-    </div>
-  `;
-
-  const playBtn = player.querySelector(".ip-play-btn");
-  const fill = player.querySelector(".ip-progress-fill");
-  const current = player.querySelector(".ip-current");
-  const duration = player.querySelector(".ip-duration");
-  const bar = player.querySelector(".ip-progress-bar");
-
-  audioEl.addEventListener("loadedmetadata", () => {
-    duration.textContent = fmt(audioEl.duration);
+  audioEl.addEventListener("play", () => {
+    syncPopupPlayState(true);
+    updatePopupProgress();
   });
 
-  audioEl.addEventListener("timeupdate", () => {
-    const pct = (audioEl.currentTime / audioEl.duration) * 100 || 0;
-    fill.style.width = pct + "%";
-    current.textContent = fmt(audioEl.currentTime);
-  });
-
-  audioEl.addEventListener("ended", () => {
-    playBtn.textContent = "▶";
-    fill.style.width = "0%";
-  });
-
-  playBtn.addEventListener("click", () => {
-    if (audioEl.paused) {
-      audioEl.play();
-      playBtn.textContent = "⏸";
-    } else {
-      audioEl.pause();
-      playBtn.textContent = "▶";
+  audioEl.addEventListener("pause", () => {
+    syncPopupPlayState(false);
+    if (audioRAF) {
+      cancelAnimationFrame(audioRAF);
+      audioRAF = null;
     }
   });
 
-  bar.addEventListener("click", (e) => {
-    const rect = bar.getBoundingClientRect();
-    const pct = (e.clientX - rect.left) / rect.width;
-    audioEl.currentTime = pct * audioEl.duration;
+  audioEl.addEventListener("ended", () => {
+    syncPopupPlayState(false);
+    if (audioPopup) {
+      const fill = audioPopup.querySelector("#ap-fill");
+      if (fill) fill.style.width = "0%";
+    }
+    if (audioRAF) {
+      cancelAnimationFrame(audioRAF);
+      audioRAF = null;
+    }
   });
 }
 
@@ -274,6 +498,31 @@ export function initInfoPanel() {
   const fadeEls = [ipTitle.closest(".ip-head"), ipBody];
   const sections = [...document.querySelectorAll("section[data-section]")];
   let currentSection = null;
+
+  // ── Toggle audio = ouvre/ferme le popup ──
+  const audioBtn = document.getElementById("audio-toggle");
+  if (audioBtn) {
+    const audioHandler = () => {
+      if (!audioEl) return;
+      const popup = getOrCreatePopup();
+      const label = popup.querySelector("#ap-label");
+      if (label) label.textContent = currentAudioLabel;
+
+      if (popup.classList.contains("visible")) {
+        audioEl.pause();
+        hidePopup();
+      } else {
+        showPopup();
+        audioEl.play();
+      }
+    };
+    audioBtn.addEventListener("click", audioHandler);
+    infoPanelListeners.push({
+      element: audioBtn,
+      event: "click",
+      handler: audioHandler,
+    });
+  }
 
   // ── Toggle panneau ──
   const toggleHandler = () => {
@@ -390,6 +639,14 @@ export function initInfoPanel() {
     if (!img) return;
     document.body.classList.add("panel-open");
     toggle.textContent = "✕";
+
+    // Forcer la section active à celle de l'image cliquée
+    const parentSection = img.closest("section[data-section]");
+    if (parentSection) {
+      currentSection = null; // Reset pour forcer la mise à jour
+      updatePanel(parentSection.dataset.section);
+    }
+
     setTimeout(() => {
       highlightCard(parseInt(img.dataset.artwork));
     }, 100);
@@ -428,7 +685,7 @@ export function initInfoPanel() {
           </div>`,
         )
         .join("");
-      buildPlayer(d.audio || null);
+      setupAudioButton(d.audio || null);
       fadeEls.forEach((el) => el.classList.remove("fading"));
     }, 220);
   }

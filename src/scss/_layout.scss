@@ -6,7 +6,7 @@
 
 :root {
   --bg: #313131;
-  --text: #ffffff;
+  --text: #f8f6f0;
   --accent: #c8a45a;
   --muted: #6b6572;
 }
@@ -132,7 +132,7 @@ body {
 .pinned-section {
   position: relative;
   height: 300vh;
-  margin-top: -15vh;
+  margin-top: -65vh;
 }
 
 .pinned-wrapper {
@@ -314,6 +314,7 @@ body.panel-open .pinned-section {
   flex-direction: column;
   text-align: center;
   padding: 6rem 2rem;
+  margin-top: 10%;
 }
 .patricia img {
   width: 30%;
@@ -433,4 +434,7 @@ body.panel-open .slider-item {
     transform: rotate(30deg);
     transform-origin: bottom right;
   }
+}
+.slider {
+  margin-top: 10%;
 }

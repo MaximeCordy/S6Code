@@ -87,6 +87,49 @@ body.panel-open img[data-artwork]:hover {
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
+/* ── Bouton audio ── */
+#audio-toggle {
+  position: fixed;
+  bottom: calc(1.5rem + 40px + 0.8rem);
+  right: 1.5rem;
+  z-index: 99999;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #111;
+  color: #fff;
+  border: none;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  transition:
+    right 0.4s ease,
+    transform 0.3s ease,
+    opacity 0.3s ease;
+}
+
+#audio-toggle:hover {
+  transform: scale(1.1);
+}
+
+#audio-toggle.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.8);
+}
+
+#audio-toggle.playing {
+  background: #fff;
+  color: #111;
+}
+
+.panel-open #audio-toggle {
+  right: calc(280px + 1.5rem);
+}
+
 /* ── Bouton toggle ── */
 #info-toggle {
   position: fixed;
@@ -113,12 +156,39 @@ body.panel-open img[data-artwork]:hover {
     transform 0.2s;
 }
 
+#info-toggle::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 3px solid rgba(0, 0, 0, 0.4);
+  transform: translate(-50%, -50%);
+  animation: ripple 2.5s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes ripple {
+  0% {
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+  }
+  100% {
+    width: 160%;
+    height: 160%;
+    opacity: 0;
+  }
+}
+
 #info-toggle:hover {
   transform: scale(1.1);
 }
 
 .panel-open #info-toggle {
-  right: calc(var(--panel-w) + 1.5rem);
+  right: calc(280px + 1.5rem);
 }
 
 /* ── Panneau latéral ── */
@@ -126,8 +196,11 @@ body.panel-open img[data-artwork]:hover {
   position: fixed;
   top: 0;
   right: 0;
-  width: var(--panel-w);
+  width: 280px;
+  min-width: 280px;
+  max-width: 280px;
   height: 100vh;
+  resize: none;
   background: #111;
   color: #eee;
   border-left: 1px solid rgba(255, 255, 255, 0.08);
@@ -164,6 +237,7 @@ body.panel-open #info-panel {
 
 .ip-body {
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
   padding: 0.8rem 1.4rem;
 }
@@ -237,39 +311,113 @@ body.panel-open #info-panel {
   transform: translateY(6px);
 }
 
-/* ── Player audio ── */
-#ip-player {
-  padding: 1rem 1.4rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.07);
-  min-height: 72px;
+/* ── Popup audio flottant draggable ── */
+.audio-popup {
+  position: fixed;
+  bottom: 1.5rem;
+  right: calc(1.5rem + 40px + 0.8rem);
+  left: auto;
+  z-index: 99999;
+  background: #111;
+  color: #eee;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 0;
+  width: 260px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  font-family: sans-serif;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(20px);
+  transition:
+    transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.35s ease,
+    right 0.4s ease;
 }
 
-.ip-player-label {
-  font-size: 0.6rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #666;
-  margin-bottom: 0.6rem;
+.panel-open .audio-popup {
+  right: 280px;
+  border-radius: 12px 0 0 12px;
 }
 
-.ip-player-controls {
+.audio-popup.visible {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Quand le popup a été draggé, ignorer le repositionnement panel-open */
+.audio-popup.dragged {
+  right: auto !important;
+  bottom: auto !important;
+  border-radius: 12px !important;
+}
+
+/* Verrouiller les dimensions du popup */
+.audio-popup {
+  min-width: 260px;
+  max-width: 260px;
+  resize: none;
+}
+
+.ap-drag {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  justify-content: space-between;
+  padding: 0.6rem 0.8rem;
+  cursor: grab;
+  user-select: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
 }
 
-.ip-play-btn {
+.ap-drag:active {
+  cursor: grabbing;
+}
+
+.ap-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #aaa;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+}
+
+.ap-close {
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 0.75rem;
+  cursor: pointer;
+  padding: 0 0 0 0.5rem;
+  transition: color 0.2s;
+
+  &:hover {
+    color: #fff;
+  }
+}
+
+.ap-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.8rem;
+}
+
+.ap-play {
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.15);
   color: #eee;
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 0.75rem;
+  font-size: 0.6rem;
   flex-shrink: 0;
   transition: background 0.2s;
 
@@ -278,38 +426,31 @@ body.panel-open #info-panel {
   }
 }
 
-.ip-progress-wrap {
+.ap-progress {
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-}
-
-.ip-progress-bar {
-  width: 100%;
   height: 3px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 2px;
   cursor: pointer;
   position: relative;
 
-  &:hover .ip-progress-fill {
+  &:hover .ap-fill {
     background: #fff;
   }
 }
 
-.ip-progress-fill {
+.ap-fill {
   height: 100%;
   width: 0%;
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.5);
   border-radius: 2px;
-  transition:
-    width 0.1s linear,
-    background 0.2s;
+  transition: background 0.2s;
 }
 
-.ip-time {
-  font-size: 0.6rem;
+.ap-time {
+  font-size: 0.55rem;
   color: #555;
   letter-spacing: 0.05em;
+  white-space: nowrap;
 }
+

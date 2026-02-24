@@ -11,6 +11,7 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="./scss/scroll-section.scss" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@barba/core@2.9.7/dist/barba.umd.js"></script>
@@ -18,6 +19,9 @@
 
   <body>
     <canvas></canvas>
+    <a href="index.html" class="site-logo">
+      <img src="image/MAISON_LOGO_NOIR.png" alt="Logo" />
+    </a>
     <button id="audio-toggle" class="hidden" aria-label="Audio">♪</button>
     <button id="info-toggle">i</button>
     <div class="panel-backdrop"></div>
@@ -53,43 +57,347 @@
               <div class="line"></div>
             </div>
           </section>
-          <section class="content-section">
-            <div class="section-label" data-animate-text>dante</div>
-            <div class="image-block"></div>
+          <div class="vertical-line-svg left">
+            <svg viewBox="0 0 100 800" preserveAspectRatio="none">
+              <path
+                class="line-path"
+                d="M50,0 Q50,400 50,800"
+                stroke="#313131"
+                stroke-width="3"
+                fill="none"
+              />
+              <path
+                class="line-hit"
+                d="M50,0 Q50,400 50,800"
+                stroke="transparent"
+                stroke-width="40"
+                fill="none"
+              />
+            </svg>
+          </div>
 
+          <div class="vertical-line-svg right">
+            <svg viewBox="0 0 100 800" preserveAspectRatio="none">
+              <path
+                class="line-path"
+                d="M50,0 Q50,400 50,800"
+                stroke="#313131"
+                stroke-width="3"
+                fill="none"
+              />
+              <path
+                class="line-hit"
+                d="M50,0 Q50,400 50,800"
+                stroke="transparent"
+                stroke-width="40"
+                fill="none"
+              />
+            </svg>
+          </div>
+          <div class="ligne-h" id="ligne-h4">
             <svg viewBox="0 0 800 400">
               <path
-                id="path"
+                class="line-path"
                 d="M0,200 Q400,200 800,200"
                 stroke="#313131"
                 stroke-width="1"
                 fill="none"
               />
               <path
-                id="hit"
+                class="line-hit"
                 d="M0,200 Q400,200 800,200"
                 stroke="transparent"
                 stroke-width="30"
                 fill="none"
               />
             </svg>
-          </section>
-          <section class="text-section">
-            <p data-animate-text>DANTE</p>
-            <div class="h1">
-              <h1 data-animate-text>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore
-                magnam quo, a ipsum dolorem debitis labore voluptatibus delectus
-                explicabo! Nisi nobis esse ut molestias cupiditate eveniet
-                soluta maxime repudiandae animi.
-              </h1>
+          </div>
+          <!-- PINNED SECTION -->
+          <section id="s6" data-section="section6" class="pinned-section">
+            <div class="pinned-wrapper">
+              <!-- Text fixed -->
+              <h2 data-animate-text class="artiste">33 chants de l’Enfer</h2>
+              <div class="text-layer">
+                <div class="label" data-animate-text>Londre 1964</div>
+                <h2 data-animate-text>
+                  Entre 1964 et 1966, William Utermohlen peint le Dante Cycle,
+                  inspiré de l’Enfer de Dante. Alors que l’art des années 60 est
+                  optimiste, il choisit un sujet sombre et médiéval pour
+                  explorer la souffrance et la condition humaine.
+                </h2>
+              </div>
+
+              <!-- Images qui montent -->
+              <div class="image-track">
+                <div
+                  class="img-card"
+                  id="img1"
+                  data-speed="0.6"
+                  data-rotation="-7"
+                >
+                  <img
+                    src="image/Dante-Cycle-1964-1966/An-Elder-of-Santa-Zita.avif"
+                    data-artwork="0"
+                    alt="Dante 1964"
+                  />
+                </div>
+                <div
+                  class="img-card"
+                  id="img2"
+                  data-speed="0.5"
+                  data-rotation="5"
+                >
+                  <img
+                    src="image/Dante-Cycle-1964-1966/Dust-Again.avif"
+                    data-artwork="1"
+                    alt="Dante 1964"
+                  />
+                </div>
+                <div
+                  class="img-card"
+                  id="img3"
+                  data-speed="0.3"
+                  data-rotation="-4"
+                >
+                  <img
+                    src="image/Dante-Cycle-1964-1966/Guido-da-Montefeltro.avif"
+                    data-artwork="2"
+                    alt="Dante 1965"
+                  />
+                </div>
+                <div
+                  class="img-card"
+                  id="img4"
+                  data-speed="0.4"
+                  data-rotation="9"
+                >
+                  <img
+                    src="image/Dante-Cycle-1964-1966/Sometimes-With-Trumpets-Sometimes-With-Bells.avif"
+                    data-artwork="3"
+                    alt="Dante 1965"
+                  />
+                </div>
+                <div
+                  class="img-card"
+                  id="img5"
+                  data-speed="0.35"
+                  data-rotation="-5"
+                >
+                  <img
+                    src="image/Dante-Cycle-1964-1966/Sterile-Bed.avif"
+                    data-artwork="4"
+                    alt="Dante 1965"
+                  />
+                </div>
+                <div
+                  class="img-card"
+                  id="img6"
+                  data-speed="0.55"
+                  data-rotation="7"
+                >
+                  <img
+                    src="image/Dante-Cycle-1964-1966/The-Schizmatics.avif"
+                    data-artwork="5"
+                    alt="Dante 1966"
+                  />
+                </div>
+              </div>
             </div>
           </section>
+          <div class="ligne-h" id="ligne-h5">
+            <svg viewBox="0 0 800 400">
+              <path
+                class="line-path"
+                d="M0,200 Q400,200 800,200"
+                stroke="#313131"
+                stroke-width="1"
+                fill="none"
+              />
+              <path
+                class="line-hit"
+                d="M0,200 Q400,200 800,200"
+                stroke="transparent"
+                stroke-width="30"
+                fill="none"
+              />
+            </svg>
+          </div>
+          <section class="scroll-lock" id="scrollLock">
+            <div class="scroll-lock__sticky">
+              <div class="scroll-hint" id="scrollHint">
+                <p>scroll</p>
+                <div class="arrow"></div>
+              </div>
+
+              <div class="text-stage" data-index="0">
+                <h2 class="text-stage__headline">
+                  Dans cette série de peintures, William voulait explorer la
+                  souffrance et la condition humaine.
+                </h2>
+              </div>
+
+              <div class="text-stage" data-index="1">
+                <h2 class="text-stage__headline">
+                  L’Enfer de Dante lui permettait de représenter la douleur, la
+                  peur et la culpabilité de manière dramatique et visuelle.
+                </h2>
+              </div>
+
+              <div class="text-stage" data-index="2">
+                <h2 class="text-stage__headline">
+                  Avec ce cycle, Utermohlen combine un style médiéval
+                  réinterprété et une sensibilité moderne pour explorer la
+                  condition humaine.
+                </h2>
+              </div>
+
+              <div class="text-stage" data-index="3">
+                <h2 class="text-stage__headline">
+                  Les souffrances invisibles, physiques comme mentales.
+                </h2>
+              </div>
+              <div class="horizontal-gallery">
+                <div class="horizontal-gallery__track" id="galleryTrack">
+                  <div class="gallery-item">
+                    <img
+                      src="image/Dante-Cycle-1964-1966/An-Elder-of-Santa-Zita.avif"
+                      data-artwork="0"
+                      alt="Dante 1964"
+                    />
+                  </div>
+                  <div class="gallery-item">
+                    <img
+                      src="image/Dante-Cycle-1964-1966/Dust-Again.avif"
+                      data-artwork="1"
+                      alt="Dante 1964"
+                    />
+                  </div>
+                  <div class="gallery-item">
+                    <img
+                      src="image/Dante-Cycle-1964-1966/Guido-da-Montefeltro.avif"
+                      data-artwork="2"
+                      alt="Dante 1965"
+                    />
+                  </div>
+                  <div class="gallery-item">
+                    <img
+                      src="image/Dante-Cycle-1964-1966/Sometimes-With-Trumpets-Sometimes-With-Bells.avif"
+                      data-artwork="3"
+                      alt="Dante 1965"
+                    />
+                  </div>
+                  <div class="gallery-item">
+                    <img
+                      src="image/Dante-Cycle-1964-1966/Sterile-Bed.avif"
+                      data-artwork="4"
+                      alt="Dante 1965"
+                    />
+                  </div>
+                  <div class="gallery-item">
+                    <img
+                      src="image/Dante-Cycle-1964-1966/The-Schizmatics.avif"
+                      data-artwork="5"
+                      alt="Dante 1966"
+                    />
+                  </div>
+
+                  <div class="gallery-item">
+                    <img
+                      src="image/Dante-Cycle-1964-1966/An-Elder-of-Santa-Zita.avif"
+                      data-artwork="0"
+                      alt="Dante 1964"
+                    />
+                  </div>
+                  <div class="gallery-item">
+                    <img
+                      src="image/Dante-Cycle-1964-1966/Dust-Again.avif"
+                      data-artwork="1"
+                      alt="Dante 1964"
+                    />
+                  </div>
+                  <div class="gallery-item">
+                    <img
+                      src="image/Dante-Cycle-1964-1966/Guido-da-Montefeltro.avif"
+                      data-artwork="2"
+                      alt="Dante 1965"
+                    />
+                  </div>
+                  <div class="gallery-item">
+                    <img
+                      src="image/Dante-Cycle-1964-1966/Sometimes-With-Trumpets-Sometimes-With-Bells.avif"
+                      data-artwork="3"
+                      alt="Dante 1965"
+                    />
+                  </div>
+                  <div class="gallery-item">
+                    <img
+                      src="image/Dante-Cycle-1964-1966/Sterile-Bed.avif"
+                      data-artwork="4"
+                      alt="Dante 1965"
+                    />
+                  </div>
+                  <div class="gallery-item">
+                    <img
+                      src="image/Dante-Cycle-1964-1966/The-Schizmatics.avif"
+                      data-artwork="5"
+                      alt="Dante 1966"
+                    />
+                  </div>
+
+                  <div class="gallery-item">
+                    <img
+                      src="image/Dante-Cycle-1964-1966/An-Elder-of-Santa-Zita.avif"
+                      data-artwork="0"
+                      alt="Dante 1964"
+                    />
+                  </div>
+                  <div class="gallery-item">
+                    <img
+                      src="image/Dante-Cycle-1964-1966/Dust-Again.avif"
+                      data-artwork="1"
+                      alt="Dante 1964"
+                    />
+                  </div>
+                  <div class="gallery-item">
+                    <img
+                      src="image/Dante-Cycle-1964-1966/Guido-da-Montefeltro.avif"
+                      data-artwork="2"
+                      alt="Dante 1965"
+                    />
+                  </div>
+                  <div class="gallery-item">
+                    <img
+                      src="image/Dante-Cycle-1964-1966/Sometimes-With-Trumpets-Sometimes-With-Bells.avif"
+                      data-artwork="3"
+                      alt="Dante 1965"
+                    />
+                  </div>
+                  <div class="gallery-item">
+                    <img
+                      src="image/Dante-Cycle-1964-1966/Sterile-Bed.avif"
+                      data-artwork="4"
+                      alt="Dante 1965"
+                    />
+                  </div>
+                  <div class="gallery-item">
+                    <img
+                      src="image/Dante-Cycle-1964-1966/The-Schizmatics.avif"
+                      data-artwork="5"
+                      alt="Dante 1966"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <div class="placeholder">Section suivante</div>
         </div>
       </div>
+      <script type="module" src="js/info.js"></script>
+      <script type="module" src="js/text-animation-addon.js"></script>
+      <script type="module" src="js/main.js"></script>
+      <script type="module" src="js/scroll-section.js"></script>
     </div>
-    <script type="module" src="js/info.js"></script>
-    <script type="module" src="js/text-animation-addon.js"></script>
-    <script type="module" src="js/main.js"></script>
   </body>
 </html>

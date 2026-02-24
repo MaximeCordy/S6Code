@@ -237,6 +237,19 @@ body.panel-open .pinned-section {
   top: 10%;
 }
 
+.img-card:nth-child(5) {
+  width: clamp(200px, 30vw, 340px);
+  height: clamp(300px, 34vw, 540px);
+  right: 55%;
+  top: 60%;
+}
+
+.img-card:nth-child(6) {
+  width: clamp(140px, 16vw, 240px);
+  height: clamp(200px, 24vw, 340px);
+  right: 25%;
+  top: 100%;
+}
 /// ── SVG ──*/
 #ligne-h1 {
   margin-top: 30%;
@@ -256,6 +269,11 @@ body.panel-open .pinned-section {
     width: 100%;
     height: auto;
   }
+}
+
+#ligne-h5 {
+  margin-top: -25%;
+  margin-bottom: -28.3%;
 }
 
 // ================== AFTER-SECTION ==================

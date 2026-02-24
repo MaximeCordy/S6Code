@@ -156,61 +156,62 @@ const DATA = {
     ],
   },
   section6: {
-    titre: "1950-1970",
-    audio: { src: "audio/section5.mp3", label: "Œuvres, 1950–70" },
+    titre: "1964-1966",
+    audio: { src: "audio/section6.mp3", label: "DANTE, 1964-1966" },
     oeuvres: [
       {
-        titre: "Demeter",
+        titre: "Canto XXI - An Elder of Santa Zita",
         artiste: "William Utermohlen",
         infos: [
-          { cle: "Date", valeur: "1969" },
+          { cle: "Date", valeur: "1965" },
           { cle: "Technique", valeur: "Huile sur toile" },
-          { cle: "Sujet", valeur: "Femme sur canapé" },
+          { cle: "Sujet", valeur: "homme et cadavre mécanique" },
         ],
       },
       {
-        titre: "Monstera Dekiciosa",
+        titre: "Canto XXIV - The Dust Again",
         artiste: "William Utermohlen",
         infos: [
-          { cle: "Date", valeur: "1967" },
+          { cle: "Date", valeur: "1965" },
           { cle: "Technique", valeur: "Huile sur toile" },
-          { cle: "Sujet", valeur: "trois hommes" },
+          { cle: "Sujet", valeur: "homme et serpent" },
         ],
       },
       {
-        titre: "Rosamund",
+        titre: "Canto XXVII - Guido da Montefeltro",
         artiste: "William Utermohlen",
         infos: [
-          { cle: "Date", valeur: "1982" },
+          { cle: "Date", valeur: "1965" },
           { cle: "Technique", valeur: "Huile sur toile" },
-          { cle: "Sujet", valeur: "Rosamund" },
+          { cle: "Sujet", valeur: "flamme et visages" },
         ],
       },
       {
-        titre: "Staghorn Fern",
+        titre: "Canto XXII - Sometimes With Trumpets Sometimes With Bells",
         artiste: "William Utermohlen",
         infos: [
-          { cle: "Date", valeur: "1967" },
+          { cle: "Date", valeur: "1966" },
           { cle: "Technique", valeur: "Huile sur toile" },
-          { cle: "Sujet", valeur: "un homme est une femme" },
+          { cle: "Sujet", valeur: "compisition humaine et musical" },
         ],
       },
       {
-        titre: "The Green Chair",
+        titre: "Canto XIV - Sterile Bed",
         artiste: "William Utermohlen",
         infos: [
-          { cle: "Date", valeur: "1968" },
+          { cle: "Date", valeur: "1966" },
           { cle: "Technique", valeur: "Huile sur toile" },
-          { cle: "Sujet", valeur: "un homme est une chaise" },
+          { cle: "Sujet", valeur: "un homme est femme nues sur lit" },
         ],
       },
       {
-        titre: "Woman at piano",
+        titre:
+          "Canto XXVIII - The Schizmatics (An Eye for An Eye for All Eternity)",
         artiste: "William Utermohlen",
         infos: [
-          { cle: "Date", valeur: "1971" },
+          { cle: "Date", valeur: "1966" },
           { cle: "Technique", valeur: "Huile sur toile" },
-          { cle: "Sujet", valeur: "une femme assise à un piano" },
+          { cle: "Sujet", valeur: "4 corps" },
         ],
       },
     ],
@@ -367,7 +368,8 @@ function updatePopupProgress() {
   if (audioEl.duration && !isNaN(audioEl.duration)) {
     const pct = (audioEl.currentTime / audioEl.duration) * 100;
     if (fill) fill.style.width = pct + "%";
-    if (time) time.textContent = `${fmtTime(audioEl.currentTime)} / ${fmtTime(audioEl.duration)}`;
+    if (time)
+      time.textContent = `${fmtTime(audioEl.currentTime)} / ${fmtTime(audioEl.duration)}`;
   }
   audioRAF = requestAnimationFrame(updatePopupProgress);
 }

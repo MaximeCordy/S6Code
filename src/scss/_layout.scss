@@ -278,52 +278,66 @@ body.panel-open .pinned-section {
 
 // ================== AFTER-SECTION ==================
 .after-section {
-  min-height: 100vh;
+  min-height: 130vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-align: center;
   padding: 6rem 2rem;
+  position: relative;
 }
 
-.after-section .mother img {
-  width: 440px;
-  height: 423px;
-  aspect-ratio: 207/199;
+.mother img {
+  width: 325px;
+  height: 313px;
+  aspect-ratio: 325/313;
 }
-.after-section .father img {
-  width: 198px;
-  height: 246px;
-  aspect-ratio: 33/41;
-  width: 198px;
-  height: 246px;
-  aspect-ratio: 33/41;
-  margin-top: -70%;
-  margin-left: 70%;
+.father img {
+  width: 250px;
+  height: 312px;
+  aspect-ratio: 125/156;
+}
+.containerimgmother {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 62px;
+  margin-bottom: 20%;
+}
+.containertextmother {
+  margin-left: 5%;
+  margin-top: -10%;
+  text-align: center;
 }
 .after-section {
-  background: var(--bg);
+  border-radius: 100px 100px 0 0;
+  background: #943934;
 }
-.after-section img {
-  margin-top: -40%;
+
+.after-section .after-section-text {
+  max-width: 90%;
+  color: var(--text);
+  font-size: clamp(3rem, 2.5vw, 2rem);
+  letter-spacing: -1.012px;
+  line-height: 1.3;
 }
-.after-section {
-  position: relative;
+.after-section .after-section-text2 {
+  max-width: 90%;
+  color: var(--text);
+  font-size: clamp(3rem, 2.5vw, 2rem);
+  letter-spacing: -1.012px;
+  line-height: 1.3;
 }
-.after-section-text1 {
-  position: relative;
-  top: 130px;
-  right: 450px;
-  width: 289px;
-  height: 84px;
-}
-.after-section-text2 {
-  position: relative;
-  top: 430px;
-  left: 450px;
-  width: 289px;
-  height: 84px;
+.after-section h2 {
+  margin-bottom: 5%;
+  color: #f8f6f0;
+  font-family: Poppins;
+  font-size: 46px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 101%; /* 46.46px */
+  letter-spacing: -1.012px;
+  text-transform: uppercase;
+  font-size: 80px;
 }
 // ================== PAT ==================
 .patricia {
@@ -356,7 +370,8 @@ body.panel-open .pinned-section {
   max-width: 80%;
 }
 .patricia h1 {
-  margin-top: -10%;
+  margin-top: -15%;
+  color: #943934;
 }
 
 // ================== ANNIMATION SCROLL HORIZONTAL ==================

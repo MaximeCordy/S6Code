@@ -140,7 +140,61 @@ export function initScrollPin() {
 }
 
 // ============================================================
-//  6. LIGNES SVG INTERACTIVES
+//  6. ANIMATION IMAGE PATRICIA (accrochée + chute)
+// ============================================================
+function initPatriciaHangingImage() {
+  const section = document.querySelector(".patricia");
+  const wrapper = document.getElementById("hanging-pat-wrapper");
+  if (!section || !wrapper) return;
+
+  // Reset de l'état du wrapper
+  wrapper.classList.remove("falling", "fallen", "no-string");
+  wrapper.classList.add("swinging");
+  wrapper.style.transform = "";
+
+  let fell = false;
+
+  function triggerFall() {
+    if (fell) return;
+    fell = true;
+
+    const sectionRect = section.getBoundingClientRect();
+    const wrapperRect = wrapper.getBoundingClientRect();
+    const wrapperTopInSection = wrapperRect.top - sectionRect.top;
+    const fallY = section.offsetHeight - wrapperTopInSection - wrapper.offsetHeight - 10;
+
+    wrapper.style.setProperty("--fall-y", fallY + "px");
+    wrapper.classList.remove("swinging");
+    wrapper.classList.add("no-string");
+    wrapper.style.transform = "rotate(0deg)";
+
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => {
+        wrapper.style.transform = "";
+        wrapper.classList.add("falling");
+        wrapper.addEventListener(
+          "animationend",
+          () => {
+            wrapper.classList.remove("falling");
+            wrapper.classList.add("fallen");
+            wrapper.style.transform = `translateY(${fallY}px) rotate(-2deg)`;
+          },
+          { once: true },
+        );
+      }),
+    );
+  }
+
+  ScrollTrigger.create({
+    trigger: section,
+    start: "center 80%",
+    once: true,
+    onEnter: triggerFall,
+  });
+}
+
+// ============================================================
+//  7. LIGNES SVG INTERACTIVES
 // ============================================================
 function initSVGLine(scope, axis = "y", strength = 0.5) {
   const svg = scope.querySelector("svg");
@@ -586,6 +640,7 @@ barba.init({
         });
 
         initScrollPin();
+        initPatriciaHangingImage();
         initSliderAnimation();
         shaderCleanup = initShaderAnimation(container);
         initCursor(data.next.namespace);
@@ -697,6 +752,7 @@ barba.init({
 
         // Init animations de la nouvelle page
         initScrollPin();
+        initPatriciaHangingImage();
         initSliderAnimation();
         shaderCleanup = initShaderAnimation(container);
         initCursor(data.next.namespace);
@@ -724,9 +780,11 @@ document
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", () => {
     initScrollPin();
+    initPatriciaHangingImage();
     initSliderAnimation();
   });
 } else {
   initScrollPin();
+  initPatriciaHangingImage();
   initSliderAnimation();
 }

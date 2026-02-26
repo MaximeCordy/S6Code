@@ -339,41 +339,183 @@ body.panel-open .pinned-section {
   text-transform: uppercase;
   font-size: 80px;
 }
+// ================== HANGING IMAGE ==================
+.hanging-img-wrapper {
+  display: inline-block;
+  position: relative;
+  transform-origin: top center;
+  user-select: none;
+  margin-top: -15%;
+
+  &.no-string::before {
+    opacity: 0;
+  }
+
+  img {
+    display: block;
+    box-shadow: 4px 8px 24px rgba(0, 0, 0, 0.35);
+    transition:
+      transform 0.35s ease,
+      box-shadow 0.35s ease;
+  }
+
+  &:hover img {
+    transform: translateY(8px) rotate(2deg);
+    box-shadow: 6px 16px 36px rgba(0, 0, 0, 0.5);
+  }
+}
+
+@keyframes hanging-swing {
+  0% {
+    transform: rotate(-3deg);
+  }
+  25% {
+    transform: rotate(3deg);
+  }
+  50% {
+    transform: rotate(-3deg);
+  }
+  75% {
+    transform: rotate(1.5deg);
+  }
+  100% {
+    transform: rotate(-3deg);
+  }
+}
+
+.hanging-img-wrapper.swinging {
+  animation: hanging-swing 3s ease-in-out infinite;
+  &:hover {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes hanging-fall {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  78% {
+    transform: translateY(var(--fall-y)) rotate(3deg);
+    animation-timing-function: ease-out;
+  }
+  88% {
+    transform: translateY(calc(var(--fall-y) - 16px)) rotate(-2deg);
+    animation-timing-function: ease-in;
+  }
+  100% {
+    transform: translateY(var(--fall-y)) rotate(-2deg);
+  }
+}
+
+.hanging-img-wrapper.falling {
+  animation: hanging-fall 0.85s cubic-bezier(0.55, 0, 0.8, 0.6) forwards;
+  pointer-events: none;
+}
+
+.hanging-img-wrapper.fallen {
+  pointer-events: none;
+}
+
 // ================== PAT ==================
 .patricia {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   text-align: center;
-  padding: 6rem 2rem;
+  padding: 0 2rem;
   margin-top: 10%;
 }
 .patricia img {
-  width: 30%;
+  width: 40%;
   height: auto;
   object-fit: cover;
+  position: relative;
 }
 .container-pat {
   display: flex;
   flex-direction: row-reverse;
-  gap: 2rem;
-  align-items: end;
+  align-items: flex-start;
   justify-content: start;
   margin-left: 6%;
+  margin-right: 20%;
   gap: 10%;
 }
-.patricia h3 {
-  margin-left: 10%;
-  align-items: center;
-  justify-content: center;
-  margin-top: 20%;
-  max-width: 80%;
-}
 .patricia h1 {
-  margin-top: -15%;
-  color: #943934;
+  color: #313131;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 130px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: 150%; /* 195px */
+  letter-spacing: -2.86px;
+}
+.pat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem 0;
 }
 
+.pat-grid div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.pat-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #666;
+}
+
+.pat-grid strong {
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--bg, #313131);
+}
+.container-text-pat {
+  display: flex;
+  width: 600px;
+  flex-direction: column;
+  gap: 34px;
+  margin-top: -10%;
+  margin-left: -30%;
+  margin-right: -10%;
+}
+.patricia h2 {
+  color: var(--bg, #313131);
+  font-family: Poppins;
+  font-size: 35px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150%; /* 52.5px */
+  letter-spacing: -0.77px;
+  text-align: left;
+}
+.after-patricia {
+  display: flex;
+  width: 1437px;
+  flex-direction: column;
+  align-items: center;
+  gap: 90px;
+  text-align: center;
+  justify-content: center;
+}
+.after-patricia h1 {
+  color: var(--bg, #313131);
+  font-family: Poppins;
+  font-size: 46px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150%; /* 69px */
+  letter-spacing: -1.012px;
+  max-width: 90%;
+  top: 150;
+  left: 30;
+}
 // ================== ANNIMATION SCROLL HORIZONTAL ==================
 .slider-mask {
   overflow: hidden;

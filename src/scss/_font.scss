@@ -43,28 +43,12 @@ p #titrage {
 .patricia.js-loaded h3 {
   visibility: visible;
 }
-.patricia h2 {
-  font-family: "Poppins", sans-serif;
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 700;
-  max-width: 55%;
-  color: var(--bg);
-  text-align: start;
-  line-height: 1.3;
-}
+
 .PAT {
   font-family: "Poppins", sans-serif;
   font-size: 680px;
   font-weight: 700;
   color: var(--bg);
-}
-.patricia h3 {
-  color: var(--bg);
-  text-align: center;
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 700;
-  line-height: 150%; /* 18px */
-  letter-spacing: -1.012px;
 }
 
 .artiste {

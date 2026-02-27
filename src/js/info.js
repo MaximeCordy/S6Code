@@ -216,6 +216,66 @@ const DATA = {
       },
     ],
   },
+  section7: {
+    titre: "Mummers Cycle",
+    audio: { src: "audio/section7.mp3", label: "Mummers, 1969–1970" },
+    oeuvres: [
+      {
+        titre: "Happy New Year",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1969" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+          { cle: "Sujet", valeur: "Fête du Nouvel An" },
+        ],
+      },
+      {
+        titre: "Uncle Sam's Clowns",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1969" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+          { cle: "Sujet", valeur: "Clowns américains" },
+        ],
+      },
+      {
+        titre: "New Year's Day Morning",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1970" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+          { cle: "Sujet", valeur: "Matin du Jour de l'An" },
+        ],
+      },
+      {
+        titre: "Double Portrait",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1969" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+          { cle: "Sujet", valeur: "Double portrait" },
+        ],
+      },
+      {
+        titre: "Three Clowns",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1969" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+          { cle: "Sujet", valeur: "Trois clowns" },
+        ],
+      },
+      {
+        titre: "Silver",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1970" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+          { cle: "Sujet", valeur: "Composition argentée" },
+        ],
+      },
+    ],
+  },
 };
 
 // ─── NE PAS MODIFIER EN DESSOUS ────────────────

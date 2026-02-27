@@ -34,7 +34,7 @@ body {
 }
 
 :root {
-  --sl-bg: #5b867f;
+  --sl-bg: #446e47;
   --sl-white: #ffffff;
   --sl-muted: rgba(255, 255, 255, 0.5);
 }
@@ -55,6 +55,36 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* ── Header fixe (logo + labels) ── */
+.scroll-lock__header {
+  position: absolute;
+  top: 1.8rem;
+  left: 8rem;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.scroll-lock__logo {
+  width: 70px;
+  height: auto;
+  opacity: 0.8;
+}
+
+.scroll-lock__label {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.scroll-lock__label--year {
+  margin-top: 0.3rem;
 }
 
 /* ── Indicateur scroll ── */
@@ -154,8 +184,20 @@ body {
   overflow: hidden;
   z-index: 2;
   pointer-events: none;
-  mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 10%,
+    black 90%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 10%,
+    black 90%,
+    transparent 100%
+  );
 }
 
 .horizontal-gallery__track {
@@ -169,7 +211,7 @@ body {
 
 .gallery-item {
   flex-shrink: 0;
-  height: 80%;
+  height: 92%;
   transform-origin: center;
 }
 
@@ -179,4 +221,6 @@ body {
   object-fit: cover;
   border-radius: 0;
   filter: contrast(1.05) saturate(1.05);
+  outline: 3px solid #ffffff;
+  outline-offset: -3px;
 }

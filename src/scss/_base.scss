@@ -229,6 +229,7 @@ svg {
 }
 //======================LOGO===================
 .site-logo {
+  display: none;
   position: fixed;
   top: 1.5rem;
   left: 0.8rem;
@@ -257,4 +258,97 @@ canvas {
   height: 100vh !important;
   z-index: 9999;
   pointer-events: none;
+}
+
+//======================section 6===================
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  color: #1a1a1a;
+  font-family: "DM Sans", sans-serif;
+}
+
+.Section-mummers {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 80px 40px 100px;
+}
+
+.subtitle {
+  text-align: center;
+  font-family: Poppins;
+  font-size: 33px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 150%; /* 49.5px */
+  letter-spacing: -0.726px;
+  color: var(--bg);
+  margin-top: 10%;
+}
+
+.title {
+  color: var(--bg);
+  font-family: Poppins;
+  font-size: 110px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 150%; /* 195px */
+  letter-spacing: -2.86px;
+  margin-bottom: 10%;
+}
+
+/* 2 grandes images */
+.row-big {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+.row-big .pic {
+  aspect-ratio: 4/3;
+}
+
+/* 4 petites images */
+.row-small {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+.row-small .pic {
+  aspect-ratio: 3/4;
+}
+
+.pic img {
+  width: 100%;
+  height: 100%;
+}
+.After-mummers .subtitle p {
+  color: #000;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 33px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 150%; /* 49.5px */
+  letter-spacing: -0.726px;
+  width: 1259px;
+  height: 100px;
+}
+
+.After-mummers h1 {
+  color: #000;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 150%; /* 60px */
+  letter-spacing: -0.88px;
+  text-transform: uppercase;
 }

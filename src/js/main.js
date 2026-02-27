@@ -161,7 +161,8 @@ function initPatriciaHangingImage() {
     const sectionRect = section.getBoundingClientRect();
     const wrapperRect = wrapper.getBoundingClientRect();
     const wrapperTopInSection = wrapperRect.top - sectionRect.top;
-    const fallY = section.offsetHeight - wrapperTopInSection - wrapper.offsetHeight - 10;
+    const fallY =
+      section.offsetHeight - wrapperTopInSection - wrapper.offsetHeight - 10;
 
     wrapper.style.setProperty("--fall-y", fallY + "px");
     wrapper.classList.remove("swinging");

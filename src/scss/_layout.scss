@@ -16,7 +16,62 @@ body {
   color: var(--bg);
   overflow-x: hidden;
 }
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
 
+.bg {
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  right: -50%;
+  bottom: -50%;
+  width: 200%;
+  height: 200vh;
+  background: transparent
+    url("http://assets.iceable.com/img/noise-transparent.png") repeat 0 0;
+  background-repeat: repeat;
+  animation: bg-animation 0.2s infinite;
+  opacity: 0.9;
+  visibility: visible;
+}
+
+@keyframes bg-animation {
+  0% {
+    transform: translate(0, 0);
+  }
+  10% {
+    transform: translate(-5%, -5%);
+  }
+  20% {
+    transform: translate(-10%, 5%);
+  }
+  30% {
+    transform: translate(5%, -10%);
+  }
+  40% {
+    transform: translate(-5%, 15%);
+  }
+  50% {
+    transform: translate(-10%, 5%);
+  }
+  60% {
+    transform: translate(15%, 0);
+  }
+  70% {
+    transform: translate(0, 10%);
+  }
+  80% {
+    transform: translate(-15%, 0);
+  }
+  90% {
+    transform: translate(10%, 5%);
+  }
+  100% {
+    transform: translate(5%, 0);
+  }
+}
 .info {
   display: flex;
   width: 100%;
@@ -309,7 +364,7 @@ body.panel-open .pinned-section {
   text-align: center;
 }
 .after-section {
-  border-radius: 100px 100px 0 0;
+  border-radius: 200px 200px 400px 0;
   background: #943934;
 }
 
@@ -426,7 +481,7 @@ body.panel-open .pinned-section {
   margin-top: 10%;
 }
 .patricia img {
-  width: 40%;
+  width: 45%;
   height: auto;
   object-fit: cover;
   position: relative;
@@ -436,7 +491,7 @@ body.panel-open .pinned-section {
   flex-direction: row-reverse;
   align-items: flex-start;
   justify-content: start;
-  margin-left: 6%;
+  margin-left: 16%;
   margin-right: 20%;
   gap: 10%;
 }
@@ -453,7 +508,9 @@ body.panel-open .pinned-section {
 .pat-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 3rem 0;
+  gap: 1rem 0;
+  margin-bottom: 10%;
+  margin-top: -5%;
 }
 
 .pat-grid div {
@@ -494,6 +551,7 @@ body.panel-open .pinned-section {
   line-height: 150%; /* 52.5px */
   letter-spacing: -0.77px;
   text-align: left;
+  text-transform: none;
 }
 .after-patricia {
   display: flex;
@@ -612,4 +670,62 @@ body.panel-open .slider-item {
 }
 .slider {
   margin-top: 10%;
+}
+
+body .page-maladie {
+  background-color: #111111;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+.bg2 {
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  right: -50%;
+  bottom: -50%;
+  width: 200%;
+  height: 200vh;
+  background: transparent
+    url("http://assets.iceable.com/img/noise-transparent.png") repeat 0 0;
+  background-repeat: repeat;
+  animation: bg-animation 0.2s infinite;
+  opacity: 0.9;
+  visibility: visible;
+}
+
+@keyframes bg-animation {
+  0% {
+    transform: translate(0, 0);
+  }
+  10% {
+    transform: translate(-5%, -5%);
+  }
+  20% {
+    transform: translate(-10%, 5%);
+  }
+  30% {
+    transform: translate(5%, -10%);
+  }
+  40% {
+    transform: translate(-5%, 15%);
+  }
+  50% {
+    transform: translate(-10%, 5%);
+  }
+  60% {
+    transform: translate(15%, 0);
+  }
+  70% {
+    transform: translate(0, 10%);
+  }
+  80% {
+    transform: translate(-15%, 0);
+  }
+  90% {
+    transform: translate(10%, 5%);
+  }
+  100% {
+    transform: translate(5%, 0);
+  }
 }

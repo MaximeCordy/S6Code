@@ -299,7 +299,7 @@ function initSliderAnimation() {
     },
   });
 
-  const itemOffsets = ["-8%", "-6%", "-5%", "-7%", "-6%", "-4%"];
+  const itemOffsets = ["-8%", "-6%", "-5%", "-7%", "-6%", "-4%", "-5%"];
   itemOffsets.forEach((x, i) => {
     gsap.to(`#item-${i + 1}`, {
       opacity: 1,
@@ -778,14 +778,59 @@ document
   .querySelectorAll(".vertical-line-svg")
   .forEach((el) => initSVGLine(el, "x"));
 
+function initMummersDraggable() {
+  const pics = document.querySelectorAll(".Section-mummers .pic");
+  if (!pics.length || typeof Draggable === "undefined") return;
+  let zCounter = 10;
+
+  pics.forEach((pic) => {
+    let prevX = 0,
+      prevY = 0,
+      velX = 0,
+      velY = 0;
+
+    Draggable.create(pic, {
+      type: "x,y",
+      bounds: ".Section-mummers",
+      onPress: function () {
+        zCounter++;
+        gsap.set(this.target, { zIndex: zCounter });
+        gsap.killTweensOf(this.target);
+        prevX = this.x;
+        prevY = this.y;
+        velX = 0;
+        velY = 0;
+      },
+      onDrag: function () {
+        velX = this.x - prevX;
+        velY = this.y - prevY;
+        prevX = this.x;
+        prevY = this.y;
+      },
+      onDragEnd: function () {
+        const targetX = Math.max(this.minX, Math.min(this.maxX, this.x + velX * 6));
+        const targetY = Math.max(this.minY, Math.min(this.maxY, this.y + velY * 6));
+        gsap.to(this.target, {
+          x: targetX,
+          y: targetY,
+          ease: "power3.out",
+          duration: 0.7,
+        });
+      },
+    });
+  });
+}
+
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", () => {
     initScrollPin();
     initPatriciaHangingImage();
     initSliderAnimation();
+    initMummersDraggable();
   });
 } else {
   initScrollPin();
   initPatriciaHangingImage();
   initSliderAnimation();
+  initMummersDraggable();
 }

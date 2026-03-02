@@ -60,7 +60,7 @@ body {
 /* ── Header fixe (logo + labels) ── */
 .scroll-lock__header {
   position: absolute;
-  top: 1.8rem;
+  bottom: 1.8rem;
   left: 8rem;
   z-index: 10;
   display: flex;
@@ -133,7 +133,7 @@ body {
   align-items: center;
   justify-content: center;
   padding: 4rem;
-  padding-bottom: 30vh;
+  padding-top: 30vh;
   text-align: center;
   z-index: 5;
   pointer-events: none;
@@ -177,10 +177,10 @@ body {
 
 .horizontal-gallery {
   position: absolute;
-  bottom: 0;
+  top: 0;
   left: 0;
   width: 100%;
-  height: 38vh;
+  height: 26vh;
   overflow: hidden;
   z-index: 2;
   pointer-events: none;
@@ -211,7 +211,7 @@ body {
 
 .gallery-item {
   flex-shrink: 0;
-  height: 92%;
+  height: 88%;
   transform-origin: center;
 }
 

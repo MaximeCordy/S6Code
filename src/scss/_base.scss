@@ -275,58 +275,113 @@ body {
 }
 
 .Section-mummers {
+  position: relative;
   max-width: 1100px;
   margin: 0 auto;
-  padding: 80px 40px 100px;
+  padding: 80px 40px 0;
+  height: 1180px;
 }
 
 .subtitle {
+  position: relative;
+  z-index: 1;
   text-align: center;
   font-family: Poppins;
   font-size: 33px;
   font-style: normal;
   font-weight: 500;
-  line-height: 150%; /* 49.5px */
+  line-height: 150%;
   letter-spacing: -0.726px;
   color: var(--bg);
   margin-top: 10%;
+  pointer-events: none;
 }
 
 .title {
+  position: relative;
+  z-index: 1;
   color: var(--bg);
   font-family: Poppins;
   font-size: 110px;
   font-style: normal;
   font-weight: 700;
-  line-height: 150%; /* 195px */
+  line-height: 150%;
   letter-spacing: -2.86px;
-  margin-bottom: 10%;
+  margin-bottom: 0;
+  pointer-events: none;
 }
 
-/* 2 grandes images */
-.row-big {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  margin-bottom: 24px;
-}
-.row-big .pic {
-  aspect-ratio: 4/3;
-}
-
-/* 4 petites images */
+/* Grilles désactivées — images dispersées en absolu */
+.row-big,
 .row-small {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
+  display: contents;
 }
-.row-small .pic {
-  aspect-ratio: 3/4;
+
+.pic {
+  position: absolute;
+  cursor: grab;
+  z-index: 2;
+  user-select: none;
+
+  &:active {
+    cursor: grabbing;
+  }
 }
 
 .pic img {
   width: 100%;
   height: 100%;
+  display: block;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.mummers-signature {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  left: 20%;
+  opacity: 1;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ── Positions individuelles ── */
+.row-big .pic:nth-child(1) {
+  width: 320px;
+  top: 460px;
+  left: 150px;
+  transform: rotate(-8deg);
+}
+.row-big .pic:nth-child(2) {
+  width: 290px;
+  top: 420px;
+  left: 490px;
+  transform: rotate(6deg);
+}
+.row-small .pic:nth-child(1) {
+  width: 230px;
+  top: 590px;
+  left: 180px;
+  transform: rotate(-5deg);
+}
+.row-small .pic:nth-child(2) {
+  width: 210px;
+  top: 630px;
+  left: 380px;
+  transform: rotate(10deg);
+}
+.row-small .pic:nth-child(3) {
+  width: 260px;
+  top: 660px;
+  left: 540px;
+  transform: rotate(-4deg);
+}
+.row-small .pic:nth-child(4) {
+  width: 195px;
+  top: 860px;
+  left: 310px;
+  transform: rotate(7deg);
 }
 .After-mummers .subtitle p {
   color: #000;

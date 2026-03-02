@@ -668,6 +668,17 @@ body.panel-open .slider-item {
     transform-origin: bottom right;
   }
 }
+.slider-item#item-7 {
+  width: 5%;
+  top: 40%;
+  left: 76%;
+}
+.slider-item--logo img {
+  left: auto;
+  pointer-events: none;
+  cursor: default;
+  filter: none;
+}
 .slider {
   margin-top: 10%;
 }

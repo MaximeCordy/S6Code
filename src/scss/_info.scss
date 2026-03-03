@@ -1,11 +1,13 @@
-/* ── S'assurer que le wrapper Barba ne crée pas de contexte de stacking ── */
+// ============================================================
+// BARBA — STACKING CONTEXT
+// ============================================================
+
 [data-barba="wrapper"],
 [data-barba="container"] {
   position: relative;
   z-index: auto !important;
 }
 
-/* ── Sections : pas de z-index sauf si panneau ouvert ── */
 section {
   position: relative;
 }
@@ -14,13 +16,19 @@ section * {
   position: relative;
 }
 
-/* ── Sections remontent au-dessus du backdrop quand panneau ouvert ── */
+// ============================================================
+// PANNEAU OUVERT — SECTIONS AU-DESSUS DU BACKDROP
+// ============================================================
+
 body.panel-open section {
   z-index: 99997;
   position: relative;
 }
 
-/* ── Overlay de flou ── */
+// ============================================================
+// BACKDROP (flou + overlay gris)
+// ============================================================
+
 .panel-backdrop {
   position: fixed;
   top: 0;
@@ -41,14 +49,16 @@ body.panel-open .panel-backdrop {
   pointer-events: auto;
 }
 
-/* ── Conteneurs des images au-dessus du backdrop quand panneau ouvert ── */
+// ============================================================
+// CONTENEURS — AU-DESSUS DU BACKDROP QUAND PANNEAU OUVERT
+// ============================================================
+
 body.panel-open .image-block {
   position: relative;
-  z-index: 99997 !important; /* ← tout le stacking context remonte */
+  z-index: 99997 !important;
   overflow: visible !important;
 }
 
-/* ── Tous les éléments qui contiennent des images data-artwork ── */
 body.panel-open .layout_img_index,
 body.panel-open .intro_index,
 body.panel-open .after-section,
@@ -60,7 +70,10 @@ body.panel-open .container-pat {
   position: relative;
 }
 
-/* ── Images ── */
+// ============================================================
+// IMAGES [data-artwork] — HOVER & CLIC
+// ============================================================
+
 img[data-artwork] {
   pointer-events: auto;
   cursor: pointer;
@@ -73,13 +86,11 @@ img[data-artwork] {
   transform-origin: center;
 }
 
-/* ── Assurer que les images sont toujours au-dessus quand panneau ouvert ── */
 body.panel-open img[data-artwork] {
   z-index: 99998 !important;
   position: relative;
 }
 
-/* ── Zoom doux au hover quand le panneau est ouvert ── */
 body.panel-open img[data-artwork]:hover {
   transform: scale(1.08);
   z-index: 99997 !important;
@@ -87,7 +98,10 @@ body.panel-open img[data-artwork]:hover {
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
-/* ── Bouton audio ── */
+// ============================================================
+// BOUTON AUDIO (fixe, bas droite)
+// ============================================================
+
 #audio-toggle {
   position: fixed;
   bottom: calc(1.5rem + 40px + 0.8rem);
@@ -112,7 +126,7 @@ body.panel-open img[data-artwork]:hover {
 }
 
 #audio-toggle:hover {
-  transform: scale(1.1);
+  transform: none;
 }
 
 #audio-toggle.hidden {
@@ -130,7 +144,10 @@ body.panel-open img[data-artwork]:hover {
   right: calc(280px + 1.5rem);
 }
 
-/* ── Bouton toggle ── */
+// ============================================================
+// BOUTON INFO TOGGLE (fixe, bas droite)
+// ============================================================
+
 #info-toggle {
   position: fixed;
   bottom: 1.5rem;
@@ -184,14 +201,17 @@ body.panel-open img[data-artwork]:hover {
 }
 
 #info-toggle:hover {
-  transform: scale(1.1);
+  transform: none;
 }
 
 .panel-open #info-toggle {
   right: calc(280px + 1.5rem);
 }
 
-/* ── Panneau latéral ── */
+// ============================================================
+// PANNEAU LATÉRAL (slide depuis la droite)
+// ============================================================
+
 #info-panel {
   position: fixed;
   top: 0;
@@ -216,7 +236,10 @@ body.panel-open #info-panel {
   transform: translateX(0);
 }
 
-/* ── Contenu du panneau ── */
+// ============================================================
+// CONTENU DU PANNEAU (ip-head, ip-body, ip-card)
+// ============================================================
+
 .ip-head {
   padding: 1.4rem 1.4rem 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.07);
@@ -311,7 +334,10 @@ body.panel-open #info-panel {
   transform: translateY(6px);
 }
 
-/* ── Popup audio flottant draggable ── */
+// ============================================================
+// POPUP AUDIO FLOTTANT (draggable)
+// ============================================================
+
 .audio-popup {
   position: fixed;
   bottom: 1.5rem;
@@ -324,6 +350,9 @@ body.panel-open #info-panel {
   border-radius: 12px;
   padding: 0;
   width: 260px;
+  min-width: 260px;
+  max-width: 260px;
+  resize: none;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
   font-family: sans-serif;
   opacity: 0;
@@ -346,18 +375,10 @@ body.panel-open #info-panel {
   pointer-events: auto;
 }
 
-/* Quand le popup a été draggé, ignorer le repositionnement panel-open */
 .audio-popup.dragged {
   right: auto !important;
   bottom: auto !important;
   border-radius: 12px !important;
-}
-
-/* Verrouiller les dimensions du popup */
-.audio-popup {
-  min-width: 260px;
-  max-width: 260px;
-  resize: none;
 }
 
 .ap-drag {
@@ -453,4 +474,3 @@ body.panel-open #info-panel {
   letter-spacing: 0.05em;
   white-space: nowrap;
 }
-

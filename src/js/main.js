@@ -140,6 +140,31 @@ export function initScrollPin() {
 }
 
 // ============================================================
+//  6b. ZOOM SCROLL IMAGES MOTHER & FATHER
+// ============================================================
+function initAfterSectionZoom() {
+  const imgs = document.querySelectorAll(".mother img, .father img");
+  if (!imgs.length) return;
+
+  imgs.forEach((img) => {
+    gsap.fromTo(
+      img,
+      { scale: 1 },
+      {
+        scale: 1.08,
+        ease: "none",
+        scrollTrigger: {
+          trigger: img,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1,
+        },
+      },
+    );
+  });
+}
+
+// ============================================================
 //  6. ANIMATION IMAGE PATRICIA (accrochée + chute)
 // ============================================================
 function initPatriciaHangingImage() {
@@ -642,6 +667,7 @@ barba.init({
 
         initScrollPin();
         initPatriciaHangingImage();
+        initAfterSectionZoom();
         initSliderAnimation();
         shaderCleanup = initShaderAnimation(container);
         initCursor(data.next.namespace);
@@ -754,6 +780,7 @@ barba.init({
         // Init animations de la nouvelle page
         initScrollPin();
         initPatriciaHangingImage();
+        initAfterSectionZoom();
         initSliderAnimation();
         shaderCleanup = initShaderAnimation(container);
         initCursor(data.next.namespace);
@@ -771,7 +798,56 @@ barba.init({
 });
 
 // ============================================================
-//  13. INIT AU CHARGEMENT
+//  13. BOUTONS MAGNÉTIQUES
+// ============================================================
+function initMagneticButtons() {
+  const buttons = document.querySelectorAll("#info-toggle, #audio-toggle");
+  const radius = 80;
+  const maxIconMove = 7;
+
+  buttons.forEach((btn) => {
+    if (!btn.querySelector("span")) {
+      btn.innerHTML = `<span style="display:inline-flex;pointer-events:none">${btn.innerHTML}</span>`;
+    }
+    const icon = btn.querySelector("span");
+
+    document.addEventListener("mousemove", (e) => {
+      const rect = btn.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = e.clientX - cx;
+      const dy = e.clientY - cy;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
+      if (dist < radius) {
+        const factor = 1 - dist / radius;
+        const tx = Math.max(
+          -maxIconMove,
+          Math.min(maxIconMove, dx * 0.35 * factor),
+        );
+        const ty = Math.max(
+          -maxIconMove,
+          Math.min(maxIconMove, dy * 0.35 * factor),
+        );
+        gsap.to(icon, { x: tx, y: ty, duration: 0.3, ease: "power2.out" });
+        gsap.to(btn, { scale: 1.08, duration: 0.3, ease: "power2.out" });
+      } else {
+        gsap.to(icon, {
+          x: 0,
+          y: 0,
+          duration: 0.6,
+          ease: "elastic.out(1, 0.4)",
+        });
+        gsap.to(btn, { scale: 1, duration: 0.6, ease: "elastic.out(1, 0.4)" });
+      }
+    });
+  });
+}
+
+initMagneticButtons();
+
+// ============================================================
+//  14. INIT AU CHARGEMENT
 // ============================================================
 document.querySelectorAll(".ligne-h").forEach((el) => initSVGLine(el, "y"));
 document
@@ -808,8 +884,14 @@ function initMummersDraggable() {
         prevY = this.y;
       },
       onDragEnd: function () {
-        const targetX = Math.max(this.minX, Math.min(this.maxX, this.x + velX * 6));
-        const targetY = Math.max(this.minY, Math.min(this.maxY, this.y + velY * 6));
+        const targetX = Math.max(
+          this.minX,
+          Math.min(this.maxX, this.x + velX * 6),
+        );
+        const targetY = Math.max(
+          this.minY,
+          Math.min(this.maxY, this.y + velY * 6),
+        );
         gsap.to(this.target, {
           x: targetX,
           y: targetY,
@@ -825,12 +907,42 @@ if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", () => {
     initScrollPin();
     initPatriciaHangingImage();
+    initAfterSectionZoom();
     initSliderAnimation();
     initMummersDraggable();
   });
 } else {
   initScrollPin();
   initPatriciaHangingImage();
+  initAfterSectionZoom();
   initSliderAnimation();
   initMummersDraggable();
+}
+
+// ─────────────────────────────────────────
+// Animation logo au clic
+//
+// Usage :
+//   1. Ajouter id="logo" sur votre élément
+//   2. Inclure logo-animation.css
+//   3. Inclure ce fichier en bas du <body>
+// ─────────────────────────────────────────
+
+const logo = document.getElementById("logo");
+
+if (logo) {
+  logo.addEventListener("click", () => {
+    // Évite de relancer l'animation si elle est déjà en cours
+    if (logo.classList.contains("shaking")) return;
+
+    logo.classList.add("shaking");
+
+    logo.addEventListener(
+      "animationend",
+      () => {
+        logo.classList.remove("shaking");
+      },
+      { once: true },
+    );
+  });
 }

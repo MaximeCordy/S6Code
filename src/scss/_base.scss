@@ -1,14 +1,29 @@
-* {
+// ============================================================
+// RESET
+// ============================================================
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
+
+// ============================================================
+// BODY
+// ============================================================
 
 body {
   font-family: "Poppins", sans-serif;
   overflow-x: hidden;
   overscroll-behavior: none;
+  color: #1a1a1a;
 }
+
+// ============================================================
+// LIGNES VERTICALES SVG (fixes, gauche & droite)
+// ============================================================
 
 .vertical-line-svg {
   position: fixed;
@@ -45,7 +60,10 @@ body {
   right: 8%;
 }
 
-/* Page - Hauteur minimale ajustée au contenu */
+// ============================================================
+// PAGE — STRUCTURE GÉNÉRALE
+// ============================================================
+
 .page {
   min-height: 100vh;
   display: flex;
@@ -58,7 +76,6 @@ body {
   margin-bottom: 40px;
 }
 
-/* Sections */
 .content-section {
   display: flex;
   flex-direction: column;
@@ -78,7 +95,10 @@ body {
   letter-spacing: 2px;
 }
 
-/* SVG PLEINE LARGEUR */
+// ============================================================
+// SVG PLEINE LARGEUR
+// ============================================================
+
 svg {
   width: 100vw;
   height: auto;
@@ -89,15 +109,11 @@ svg {
   margin-left: -50vw;
   margin-right: -50vw;
 }
-svg {
-  width: 100vw; // ← ça s'applique aussi au SVG vertical
-  height: auto; // ← ça le rend plat
-  position: relative;
-  left: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-}
-/* Blocs images */
+
+// ============================================================
+// BLOCS IMAGES GÉNÉRIQUES
+// ============================================================
+
 .image-block {
   width: 100%;
   max-width: 600px;
@@ -107,7 +123,10 @@ svg {
   opacity: 0;
 }
 
-/* Pages spécifiques */
+// ============================================================
+// PAGES SPÉCIFIQUES (dante, conversation, maladie)
+// ============================================================
+
 .page-dante {
   background: #ffffff;
   gap: 80px;
@@ -149,10 +168,18 @@ svg {
   height: 600px;
 }
 
+// ============================================================
+// LIGNE (transition transform)
+// ============================================================
+
 .line {
   transform: translateY(100%);
   will-change: transform;
 }
+
+// ============================================================
+// HERO CONVERSATION
+// ============================================================
 
 .hero_conversation {
   position: relative;
@@ -218,6 +245,10 @@ svg {
   }
 }
 
+// ============================================================
+// MOTHER & FATHER (images will-change)
+// ============================================================
+
 .mother,
 .father {
   position: relative;
@@ -227,7 +258,11 @@ svg {
 .father img {
   will-change: transform;
 }
-//======================LOGO===================
+
+// ============================================================
+// SITE LOGO (fixe, haut gauche)
+// ============================================================
+
 .site-logo {
   display: none;
   position: fixed;
@@ -249,7 +284,10 @@ svg {
   }
 }
 
-//======================CURSOR===================
+// ============================================================
+// CURSOR — CANVAS (fixe, plein écran, pointer-events: none)
+// ============================================================
+
 canvas {
   position: fixed;
   top: 0;
@@ -260,19 +298,9 @@ canvas {
   pointer-events: none;
 }
 
-//======================section 6===================
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  color: #1a1a1a;
-  font-family: "DM Sans", sans-serif;
-}
+// ============================================================
+// SECTION MUMMERS (section 6 — index page)
+// ============================================================
 
 .Section-mummers {
   position: relative;
@@ -338,15 +366,17 @@ body {
 
 .mummers-signature {
   position: absolute;
-  width: 50%;
-  height: 50%;
-  left: 20%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 160px;
+  height: auto;
   opacity: 1;
   z-index: 1;
   pointer-events: none;
 }
 
-/* ── Positions individuelles ── */
+/* Positions individuelles des images */
 .row-big .pic:nth-child(1) {
   width: 320px;
   top: 460px;
@@ -383,6 +413,7 @@ body {
   left: 310px;
   transform: rotate(7deg);
 }
+
 .After-mummers .subtitle p {
   color: #000;
   text-align: center;
@@ -390,7 +421,7 @@ body {
   font-size: 33px;
   font-style: normal;
   font-weight: 500;
-  line-height: 150%; /* 49.5px */
+  line-height: 150%;
   letter-spacing: -0.726px;
   width: 1259px;
   height: 100px;
@@ -403,7 +434,49 @@ body {
   font-size: 40px;
   font-style: normal;
   font-weight: 700;
-  line-height: 150%; /* 60px */
+  line-height: 150%;
   letter-spacing: -0.88px;
   text-transform: uppercase;
+}
+
+// ============================================================
+// LOGO WRAPPER — ANIMATION AU CLIC (wiggle)
+// ============================================================
+
+.logo-wrapper {
+  cursor: pointer;
+  user-select: none;
+  display: inline-block;
+  position: relative;
+
+  &.shaking {
+    animation: wiggle 1s ease-in-out;
+  }
+}
+
+@keyframes wiggle {
+  0% {
+    transform: translate(0px, 0px) rotate(0deg) scale(1);
+  }
+  10% {
+    transform: translate(-7px, -4px) rotate(-2.5deg) scale(1.08);
+  }
+  25% {
+    transform: translate(7px, 4px) rotate(2.5deg) scale(1.12);
+  }
+  40% {
+    transform: translate(-5px, 5px) rotate(-2deg) scale(1.1);
+  }
+  55% {
+    transform: translate(5px, -5px) rotate(2deg) scale(1.06);
+  }
+  70% {
+    transform: translate(-4px, -2px) rotate(-1deg) scale(1.03);
+  }
+  85% {
+    transform: translate(3px, 2px) rotate(0.8deg) scale(1.01);
+  }
+  100% {
+    transform: translate(0px, 0px) rotate(0deg) scale(1);
+  }
 }

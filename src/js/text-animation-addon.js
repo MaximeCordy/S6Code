@@ -1,20 +1,21 @@
-// ================== ANIMATION DE TEXTE STANDALONE ==================
-// Ce fichier s'occupe UNIQUEMENT de l'animation de texte
-// Il ne touche PAS à Barba ou aux autres animations
+// ============================================================
+// ANIMATION DE TEXTE — MOT PAR MOT (standalone)
+// Compatible Barba — ne touche pas aux autres animations
+// ============================================================
 
 gsap.registerPlugin(ScrollTrigger);
 
-/**
- * Anime le texte mot par mot avec effet de montée
- * Compatible avec Barba - nettoie automatiquement les animations
- */
+// ============================================================
+// FONCTION PRINCIPALE — animateTextByWords
+// ============================================================
+
 function animateTextByWords(selector = "[data-animate-text]", options = {}) {
   const {
     animateOnScroll = true,
     delay = 0,
     duration = 2,
     stagger = 0.03,
-    scrollTriggerStart = "top 60%",
+    scrollTriggerStart = "top 80%",
     scope = document,
   } = options;
 
@@ -25,41 +26,26 @@ function animateTextByWords(selector = "[data-animate-text]", options = {}) {
     return;
   }
 
-  console.log(`🎨 Animation de ${elements.length} élément(s) de texte`);
-
   elements.forEach((element) => {
-    // Éviter de réanimer un élément déjà animé
-    if (element.hasAttribute("data-text-animated")) {
-      console.log("⏭️ Élément déjà animé, skip");
-      return;
-    }
+    if (element.hasAttribute("data-text-animated")) return;
     element.setAttribute("data-text-animated", "true");
 
-    // Sauvegarder le texte original
     const originalText = element.textContent;
-
-    // Découper en mots (garde les espaces)
     const words = originalText.split(/(\s+)/);
-
-    // Vider l'élément
     element.innerHTML = "";
 
-    // Créer un span wrapper pour chaque mot
     const wordSpans = words
       .map((word) => {
-        // Si c'est juste un espace, le garder tel quel
         if (word.trim() === "") {
           element.appendChild(document.createTextNode(word));
           return null;
         }
 
-        // Créer le wrapper avec overflow hidden
         const wrapper = document.createElement("span");
         wrapper.style.display = "inline-block";
         wrapper.style.overflow = "hidden";
         wrapper.style.verticalAlign = "bottom";
 
-        // Créer le span du mot
         const wordSpan = document.createElement("span");
         wordSpan.textContent = word;
         wordSpan.style.display = "inline-block";
@@ -69,12 +55,10 @@ function animateTextByWords(selector = "[data-animate-text]", options = {}) {
 
         return wordSpan;
       })
-      .filter(Boolean); // Enlever les null (espaces)
+      .filter(Boolean);
 
-    // Positionner les mots hors écran (en dessous)
     gsap.set(wordSpans, { y: "100%" });
 
-    // Configuration de l'animation
     const animationProps = {
       y: "0%",
       duration: duration,
@@ -83,7 +67,6 @@ function animateTextByWords(selector = "[data-animate-text]", options = {}) {
       delay: delay,
     };
 
-    // Animer au scroll ou immédiatement
     if (animateOnScroll) {
       gsap.to(wordSpans, {
         ...animationProps,
@@ -91,7 +74,6 @@ function animateTextByWords(selector = "[data-animate-text]", options = {}) {
           trigger: element,
           start: scrollTriggerStart,
           once: true,
-          markers: true,
         },
       });
     } else {
@@ -100,23 +82,22 @@ function animateTextByWords(selector = "[data-animate-text]", options = {}) {
   });
 }
 
-// ================== NETTOYAGE POUR BARBA ==================
-/**
- * Nettoie les attributs data-text-animated pour permettre la réanimation
- * Appelle cette fonction dans ton hook Barba "beforeLeave" ou "leave"
- */
+// ============================================================
+// CLEANUP — POUR BARBA (appeler dans beforeLeave)
+// ============================================================
+
 function cleanupTextAnimations() {
   const animatedElements = document.querySelectorAll("[data-text-animated]");
   animatedElements.forEach((el) => {
     el.removeAttribute("data-text-animated");
   });
-  console.log("🧹 Nettoyage des animations de texte");
 }
 
-// ================== INITIALISATION ==================
-// Animation au chargement initial de la page
+// ============================================================
+// INITIALISATION AU CHARGEMENT
+// ============================================================
+
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("🎬 Initialisation des animations de texte");
   animateTextByWords("[data-animate-text]", {
     animateOnScroll: true,
     delay: 0.2,

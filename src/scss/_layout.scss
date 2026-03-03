@@ -1,8 +1,16 @@
+// ============================================================
+// RESET
+// ============================================================
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
+// ============================================================
+// VARIABLES GLOBALES
+// ============================================================
 
 :root {
   --bg: #313131;
@@ -11,15 +19,20 @@
   --muted: #6b6572;
 }
 
+// ============================================================
+// BODY & FOND
+// ============================================================
+
 body {
   background: var(--text);
   color: var(--bg);
   overflow-x: hidden;
-}
-body {
   margin: 0;
-  overflow-x: hidden;
 }
+
+// ============================================================
+// BRUIT DE FOND (noise overlay animé)
+// ============================================================
 
 .bg {
   position: fixed;
@@ -72,6 +85,11 @@ body {
     transform: translate(5%, 0);
   }
 }
+
+// ============================================================
+// INTRO INDEX — SECTION 1 (biographie)
+// ============================================================
+
 .info {
   display: flex;
   width: 100%;
@@ -79,24 +97,28 @@ body {
   align-items: center;
   gap: -1px;
 }
+
 .intro_index {
   margin-top: -20%;
   display: flex;
   align-items: center;
 }
+
 .layout_intro_index {
   display: flex;
   align-items: center;
   align-self: stretch;
 }
+
 #titrage {
   color: #313131;
   text-align: center;
   font-family: Poppins;
   text-transform: uppercase;
-  line-height: 150%; /* 18px */
+  line-height: 150%;
   letter-spacing: -0.276px;
 }
+
 .layout_img_index {
   display: flex;
   flex-direction: row;
@@ -107,11 +129,12 @@ body {
 }
 
 .layout_img_index img {
-  width: 20%; /* taille réelle, pas scale */
+  width: 20%;
   height: auto;
   object-fit: cover;
   flex-shrink: 0;
 }
+
 .container {
   display: flex;
   width: 60%;
@@ -120,7 +143,10 @@ body {
   gap: 34px;
 }
 
-/* ── HERO INDEX ── */
+// ============================================================
+// HERO INDEX
+// ============================================================
+
 .hero_index {
   height: 100vh;
   display: flex;
@@ -150,6 +176,10 @@ body {
   letter-spacing: 0.15em;
   text-transform: uppercase;
 }
+
+// ============================================================
+// SCROLL HINT (indicateur de défilement — page index)
+// ============================================================
 
 .scroll-hint {
   position: absolute;
@@ -183,7 +213,10 @@ body {
   }
 }
 
-/* ── PINNED SECTION ── */
+// ============================================================
+// PINNED SECTION — SECTION 2 (sticky + cartes parallaxe)
+// ============================================================
+
 .pinned-section {
   position: relative;
   height: 300vh;
@@ -200,7 +233,10 @@ body {
   justify-content: center;
 }
 
-/* ── TEXT LAYER ── */
+// ============================================================
+// TEXT LAYER (texte fixe dans pinned section)
+// ============================================================
+
 .text-layer {
   position: absolute;
   z-index: 10;
@@ -229,7 +265,10 @@ body {
   max-width: 1100px;
 }
 
-/* ── IMAGE CARDS ── */
+// ============================================================
+// IMAGE CARDS (cartes flottantes dans pinned section)
+// ============================================================
+
 body.panel-open .image-track {
   pointer-events: auto;
 }
@@ -237,11 +276,11 @@ body.panel-open .pinned-wrapper {
   overflow: visible !important;
   z-index: 99998;
 }
-
 body.panel-open .pinned-section {
   z-index: 99998;
   position: relative;
 }
+
 .image-track {
   position: absolute;
   inset: 0;
@@ -264,48 +303,48 @@ body.panel-open .pinned-section {
   z-index: 99998 !important;
   pointer-events: auto;
 }
+
 .img-card:nth-child(1) {
   width: clamp(160px, 18vw, 260px);
   height: clamp(220px, 26vw, 360px);
   left: 10%;
   top: 20%;
 }
-
 .img-card:nth-child(2) {
   width: clamp(180px, 20vw, 300px);
   height: clamp(240px, 28vw, 380px);
   left: 33%;
   top: 0%;
 }
-
 .img-card:nth-child(3) {
   width: clamp(140px, 16vw, 240px);
   height: clamp(200px, 24vw, 340px);
   right: 34%;
   top: 40%;
 }
-
 .img-card:nth-child(4) {
   width: clamp(170px, 19vw, 280px);
   height: clamp(230px, 35vw, 870px);
   right: 10%;
   top: 10%;
 }
-
 .img-card:nth-child(5) {
   width: clamp(200px, 30vw, 340px);
   height: clamp(300px, 34vw, 540px);
   right: 55%;
   top: 60%;
 }
-
 .img-card:nth-child(6) {
   width: clamp(140px, 16vw, 240px);
   height: clamp(200px, 24vw, 340px);
   right: 25%;
   top: 100%;
 }
-/// ── SVG ──*/
+
+// ============================================================
+// LIGNES SVG HORIZONTALES (ligne-h1 à h6)
+// ============================================================
+
 #ligne-h1 {
   margin-top: 30%;
 }
@@ -331,76 +370,105 @@ body.panel-open .pinned-section {
   margin-bottom: -28.3%;
 }
 
-// ================== AFTER-SECTION ==================
+#ligne-h6 {
+  margin-top: -29%;
+  margin-bottom: -28.3%;
+}
+#ligne-h7 {
+  margin-top: -29%;
+  margin-bottom: -28.3%;
+}
+
+// ============================================================
+// AFTER-SECTION — SECTION 3 (Europe / Mère & Père)
+// ============================================================
+
 .after-section {
-  min-height: 130vh;
-  display: flex;
-  flex-direction: column;
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  padding: 6rem 2rem;
-  position: relative;
+  background: #943934;
+}
+.after-section p {
+  color: #f8f6f0;
+  font-family: Poppins;
+  font-size: 42px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 150%; /* 63px */
+  letter-spacing: -0.924px;
+  max-width: 60%;
+  margin-bottom: 15%;
+}
+.textimg {
+  display: inline-flex;
+  align-items: center;
 }
 
 .mother img {
-  width: 325px;
-  height: 313px;
-  aspect-ratio: 325/313;
-}
-.father img {
-  width: 250px;
-  height: 312px;
-  aspect-ratio: 125/156;
-}
-.containerimgmother {
-  display: inline-flex;
-  align-items: flex-start;
-  gap: 62px;
-  margin-bottom: 20%;
-}
-.containertextmother {
-  margin-left: 5%;
-  margin-top: -10%;
-  text-align: center;
-}
-.after-section {
-  border-radius: 200px 200px 400px 0;
-  background: #943934;
+  width: 235px;
+  height: 225px;
+  flex-shrink: 0;
+  aspect-ratio: 76/73;
 }
 
-.after-section .after-section-text {
-  max-width: 90%;
-  color: var(--text);
-  font-size: clamp(3rem, 2.5vw, 2rem);
-  letter-spacing: -1.012px;
-  line-height: 1.3;
+.father img {
+  width: 235px;
+  flex: 1 0 0;
+  aspect-ratio: 37/56;
 }
-.after-section .after-section-text2 {
-  max-width: 90%;
-  color: var(--text);
-  font-size: clamp(3rem, 2.5vw, 2rem);
-  letter-spacing: -1.012px;
-  line-height: 1.3;
+
+.logo-wrapper {
+  width: 106px;
+  height: 106px;
+  aspect-ratio: 1/1;
+  right: 350;
 }
+
+.containerimgmother {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 15px;
+  right: 200;
+  bottom: 30;
+}
+
+.containertextmother {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 29px;
+  margin-left: -10%;
+  margin-top: 10%;
+}
+
 .after-section h2 {
-  margin-bottom: 5%;
+  height: 116px;
   color: #f8f6f0;
+  text-align: left;
   font-family: Poppins;
   font-size: 46px;
   font-style: normal;
   font-weight: 600;
-  line-height: 101%; /* 46.46px */
+  line-height: 101%;
   letter-spacing: -1.012px;
   text-transform: uppercase;
-  font-size: 80px;
+  width: 50%;
+  right: 5%;
 }
-// ================== HANGING IMAGE ==================
+
+// ============================================================
+// IMAGE SUSPENDUE — ANIMATIONS (swing, fall, fallen)
+// ============================================================
+
 .hanging-img-wrapper {
   display: inline-block;
   position: relative;
   transform-origin: top center;
   user-select: none;
-  margin-top: -15%;
+  margin-top: -25%;
 
   &.no-string::before {
     opacity: 0;
@@ -408,6 +476,7 @@ body.panel-open .pinned-section {
 
   img {
     display: block;
+    transform: rotate(-15deg);
     box-shadow: 4px 8px 24px rgba(0, 0, 0, 0.35);
     transition:
       transform 0.35s ease,
@@ -471,21 +540,26 @@ body.panel-open .pinned-section {
   pointer-events: none;
 }
 
-// ================== PAT ==================
+// ============================================================
+// PATRICIA — SECTION 4
+// ============================================================
+
 .patricia {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   text-align: center;
   padding: 0 2rem;
-  margin-top: 10%;
+  margin-top: 15%;
 }
+
 .patricia img {
   width: 45%;
   height: auto;
   object-fit: cover;
   position: relative;
 }
+
 .container-pat {
   display: flex;
   flex-direction: row-reverse;
@@ -495,6 +569,7 @@ body.panel-open .pinned-section {
   margin-right: 20%;
   gap: 10%;
 }
+
 .patricia h1 {
   color: #313131;
   text-align: center;
@@ -502,9 +577,10 @@ body.panel-open .pinned-section {
   font-size: 130px;
   font-style: normal;
   font-weight: 900;
-  line-height: 150%; /* 195px */
+  line-height: 150%;
   letter-spacing: -2.86px;
 }
+
 .pat-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -533,6 +609,7 @@ body.panel-open .pinned-section {
   letter-spacing: 0.02em;
   color: var(--bg, #313131);
 }
+
 .container-text-pat {
   display: flex;
   width: 600px;
@@ -542,17 +619,19 @@ body.panel-open .pinned-section {
   margin-left: -30%;
   margin-right: -10%;
 }
+
 .patricia h2 {
   color: var(--bg, #313131);
   font-family: Poppins;
   font-size: 35px;
   font-style: normal;
   font-weight: 600;
-  line-height: 150%; /* 52.5px */
+  line-height: 150%;
   letter-spacing: -0.77px;
   text-align: left;
   text-transform: none;
 }
+
 .after-patricia {
   display: flex;
   width: 1437px;
@@ -562,19 +641,24 @@ body.panel-open .pinned-section {
   text-align: center;
   justify-content: center;
 }
+
 .after-patricia h1 {
   color: var(--bg, #313131);
   font-family: Poppins;
   font-size: 46px;
   font-style: normal;
   font-weight: 600;
-  line-height: 150%; /* 69px */
+  line-height: 150%;
   letter-spacing: -1.012px;
   max-width: 90%;
   top: 150;
   left: 30;
 }
-// ================== ANNIMATION SCROLL HORIZONTAL ==================
+
+// ============================================================
+// SLIDER HORIZONTAL — SECTION 5
+// ============================================================
+
 .slider-mask {
   overflow: hidden;
   height: 100vh;
@@ -621,6 +705,7 @@ body.panel-open .slider-item {
   z-index: 99998;
   position: absolute;
 }
+
 .slider-item#item-1 {
   left: 500px;
   width: 18%;
@@ -662,7 +747,6 @@ body.panel-open .slider-item {
   width: 20%;
   top: 60%;
   left: 76%;
-
   img {
     transform: rotate(30deg);
     transform-origin: bottom right;
@@ -673,15 +757,21 @@ body.panel-open .slider-item {
   top: 40%;
   left: 76%;
 }
+
 .slider-item--logo img {
   left: auto;
   pointer-events: none;
   cursor: default;
   filter: none;
 }
+
 .slider {
   margin-top: 10%;
 }
+
+// ============================================================
+// PAGE MALADIE + BRUIT DE FOND 2
+// ============================================================
 
 body .page-maladie {
   background-color: #111111;
@@ -704,39 +794,29 @@ body .page-maladie {
   opacity: 0.9;
   visibility: visible;
 }
+// ============================================================
+// after-dante
+// ============================================================
 
-@keyframes bg-animation {
-  0% {
-    transform: translate(0, 0);
-  }
-  10% {
-    transform: translate(-5%, -5%);
-  }
-  20% {
-    transform: translate(-10%, 5%);
-  }
-  30% {
-    transform: translate(5%, -10%);
-  }
-  40% {
-    transform: translate(-5%, 15%);
-  }
-  50% {
-    transform: translate(-10%, 5%);
-  }
-  60% {
-    transform: translate(15%, 0);
-  }
-  70% {
-    transform: translate(0, 10%);
-  }
-  80% {
-    transform: translate(-15%, 0);
-  }
-  90% {
-    transform: translate(10%, 5%);
-  }
-  100% {
-    transform: translate(5%, 0);
-  }
+.after-dante {
+  display: flex;
+  width: 1437px;
+  flex-direction: column;
+  align-items: center;
+  gap: 90px;
+  text-align: center;
+  justify-content: center;
+}
+
+.after-dante h1 {
+  color: var(--bg, #313131);
+  font-family: Poppins;
+  font-size: 46px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150%;
+  letter-spacing: -1.012px;
+  max-width: 90%;
+  top: 0;
+  left: 30;
 }

@@ -1,3 +1,7 @@
+// ============================================================
+// RESET & BASE
+// ============================================================
+
 *,
 *::before,
 *::after {
@@ -16,6 +20,20 @@ body {
   overflow-x: hidden;
 }
 
+// ============================================================
+// VARIABLES
+// ============================================================
+
+:root {
+  --sl-bg: #446e47;
+  --sl-white: #ffffff;
+  --sl-muted: rgba(255, 255, 255, 0.5);
+}
+
+// ============================================================
+// SECTIONS AVANT / APRÈS (placeholders)
+// ============================================================
+
 .section-before,
 .section-after {
   height: 100vh;
@@ -33,31 +51,34 @@ body {
   border-top: 1px solid #1a1a1a;
 }
 
-:root {
-  --sl-bg: #446e47;
-  --sl-white: #ffffff;
-  --sl-muted: rgba(255, 255, 255, 0.5);
-}
+// ============================================================
+// SCROLL-LOCK — CONTENEUR PRINCIPAL
+// ============================================================
 
-/* ── Conteneur principal ── */
 .scroll-lock {
   position: relative;
   height: 500vh; /* (nb slides + 1) × 100vh */
-  background: var(--sl-bg);
+  background: linear-gradient(to right, var(--sl-bg) 65%, transparent 65%);
 }
 
-/* ── Zone sticky ── */
+// ============================================================
+// SCROLL-LOCK — ZONE STICKY
+// ============================================================
+
 .scroll-lock__sticky {
   position: sticky;
   top: 0;
   height: 100vh;
-  overflow: hidden;
+  overflow: visible;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* ── Header fixe (logo + labels) ── */
+// ============================================================
+// SCROLL-LOCK — HEADER (logo + labels en bas à gauche)
+// ============================================================
+
 .scroll-lock__header {
   position: absolute;
   bottom: 1.8rem;
@@ -87,7 +108,27 @@ body {
   margin-top: 0.3rem;
 }
 
-/* ── Indicateur scroll ── */
+// ============================================================
+// SCROLL-LOCK — LOGO STICKER (animé à l'entrée)
+// ============================================================
+
+.scroll-lock__sticker {
+  position: absolute;
+  z-index: 6;
+  left: calc(7% + 4rem);
+  top: calc(50vh - 120px);
+
+  img {
+    width: 100px;
+    height: auto;
+    opacity: 1;
+  }
+}
+
+// ============================================================
+// INDICATEUR SCROLL (flèche animée)
+// ============================================================
+
 .scroll-hint {
   position: absolute;
   bottom: 2.5rem;
@@ -124,48 +165,84 @@ body {
   }
 }
 
-/* ── Blocs de texte ── */
+// ============================================================
+// TEXT STAGES — CONTENEUR
+// ============================================================
+
 .text-stage {
   position: absolute;
   inset: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: left;
   justify-content: center;
   padding: 4rem;
-  padding-top: 30vh;
-  text-align: center;
+  padding-top: 50vh;
+  text-align: left;
   z-index: 5;
   pointer-events: none;
+  margin-left: 7%;
 }
+
+// ============================================================
+// TEXT STAGES — PHRASE (surtitre)
+// ============================================================
+
+.text-stage__phrase {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 1rem;
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s ease 0.05s,
+    transform 0.7s ease 0.05s;
+}
+
+// ============================================================
+// TEXT STAGES — HEADLINE
+// ============================================================
 
 .text-stage__headline {
   font-family: "Poppins", sans-serif;
-  line-height: 1.1;
-  font-weight: 700;
-  font-size: 250%;
-  max-width: 70%;
-  color: #fff;
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 150%;
+  letter-spacing: -0.924px;
+  text-transform: none;
+  max-width: 60%;
+  height: 200%;
+  color: var(--sl-white);
   opacity: 0;
   transform: translateY(28px);
   transition:
     opacity 0.7s ease 0.1s,
     transform 0.7s ease 0.1s;
+
+  em {
+    font-style: italic;
+    font-weight: 300;
+  }
 }
 
-.text-stage__headline em {
-  font-style: italic;
-  font-weight: 300;
-}
+// ============================================================
+// TEXT STAGES — ÉTATS (actif / sortant)
+// ============================================================
 
-/* ── Actif ── */
-.text-stage.is-active .text-stage__headline {
+/* Entrée */
+.text-stage.is-active .text-stage__headline,
+.text-stage.is-active .text-stage__phrase {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* ── Sortant ── */
-.text-stage.is-exiting .text-stage__headline {
+/* Sortie */
+.text-stage.is-exiting .text-stage__headline,
+.text-stage.is-exiting .text-stage__phrase {
   opacity: 0;
   transform: translateY(-22px);
   transition:
@@ -173,53 +250,72 @@ body {
     transform 0.35s ease;
 }
 
-/* ── Galerie horizontale ── */
+// ============================================================
+// GALERIE VERTICALE DROITE
+// ============================================================
 
 .horizontal-gallery {
   position: absolute;
   top: 0;
-  left: 0;
-  width: 100%;
-  height: 26vh;
-  overflow: hidden;
+  right: 10vw;
+  width: 20vw;
+  height: 100%;
+  overflow: visible;
   z-index: 2;
   pointer-events: none;
   mask-image: linear-gradient(
-    to right,
+    to bottom,
     transparent 0%,
-    black 10%,
-    black 90%,
+    black 8%,
+    black 92%,
     transparent 100%
   );
   -webkit-mask-image: linear-gradient(
-    to right,
+    to bottom,
     transparent 0%,
-    black 10%,
-    black 90%,
+    black 8%,
+    black 92%,
     transparent 100%
   );
+
+  /* Overlay grain */
+  &::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    right: -50%;
+    bottom: -50%;
+    width: 200%;
+    height: 200%;
+    background: transparent
+      url("http://assets.iceable.com/img/noise-transparent.png") repeat 0 0;
+    background-repeat: repeat;
+    animation: bg-animation 0.2s infinite;
+    opacity: 0.9;
+    z-index: 10;
+    pointer-events: none;
+  }
 }
 
 .horizontal-gallery__track {
   display: flex;
-  gap: 1.2vw;
-  height: 100%;
-  align-items: center;
-  padding: 0;
+  flex-direction: column;
+  gap: 1.5vh;
+  width: 100%;
+  padding: 0 1.5vw;
   will-change: transform;
 }
 
 .gallery-item {
   flex-shrink: 0;
-  height: 88%;
+  width: fit-content;
   transform-origin: center;
 }
 
 .gallery-item img {
+  width: 100%;
   height: 100%;
-  width: auto;
-  object-fit: cover;
-  border-radius: 0;
   filter: contrast(1.05) saturate(1.05);
   outline: 3px solid #ffffff;
   outline-offset: -3px;

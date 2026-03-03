@@ -1,15 +1,26 @@
+// ============================================================
+// VARIABLES
+// ============================================================
+
 :root {
   --base-100: #ffffff;
   --base-200: #000000;
   --base-300: #000000;
 }
 
-/* Réinitialisation des marges et paddings */
+// ============================================================
+// RESET
+// ============================================================
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
+// ============================================================
+// TYPOGRAPHIE GLOBALE
+// ============================================================
 
 img {
   width: 100%;
@@ -28,6 +39,7 @@ h2 {
 h1 {
   font-size: clamp(4rem, 7.5vw, 10rem);
 }
+
 h2 {
   font-size: clamp(2.5rem, 4.5vw, 5rem);
 }
@@ -38,16 +50,19 @@ p {
   font-weight: 400;
 }
 
+// ============================================================
+// HERO CONVERSATION (page conversation.html)
+// ============================================================
+
 .hero_conversation {
   position: relative;
   width: 100%;
   height: 175vh;
   color: var(--base-200);
   overflow: hidden;
+  background: #000000;
 }
-.hero_conversation {
-  background: #000000; /* ta couleur finale */
-}
+
 .hero_conversation_background {
   position: absolute;
   inset: 0;
@@ -60,12 +75,15 @@ p {
   height: 100%;
 }
 
+// ============================================================
+// HERO CANVAS (masque dégradé en haut)
+// ============================================================
+
 .hero_canvas {
   position: absolute;
   inset: 0;
   z-index: 2;
   pointer-events: none;
-  /* Masque le haut avec un gradient */
   mask-image: linear-gradient(to top, black 0%, black 80%, transparent 100%);
   -webkit-mask-image: linear-gradient(
     to top,
@@ -74,6 +92,10 @@ p {
     transparent 100%
   );
 }
+
+// ============================================================
+// HERO CONTENT (titre centré par-dessus le canvas)
+// ============================================================
 
 .hero_conversation_content {
   position: absolute;
@@ -90,6 +112,10 @@ p {
   width: 75%;
   color: var(--base-300);
 }
+
+// ============================================================
+// ABOUT SECTION
+// ============================================================
 
 .about {
   position: relative;
@@ -113,6 +139,10 @@ p {
     width: calc(100% - 4rem);
   }
 }
+
+// ============================================================
+// TRANSITION OVERLAY (animation entre pages Barba)
+// ============================================================
 
 .transition-overlay {
   position: fixed;

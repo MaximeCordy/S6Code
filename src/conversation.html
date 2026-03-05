@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Conversation</title>
     <link rel="stylesheet" href="scss/main.scss" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -19,13 +20,10 @@
   <body>
     <canvas></canvas>
     <a href="index.html" class="site-logo">
-      <img src="image/MAISON_LOGO_NOIR.png" alt="Logo" />
+      <img src="image/MAISON_LOGO_simple_noir.png" alt="Logo" />
     </a>
-
-    <canvas></canvas>
-    <a href="index.html" class="site-logo">
-      <img src="image/MAISON_LOGO_NOIR.png" alt="Logo" />
-    </a>
+    <!-- <div class="vertical-line left"></div>
+    <div class="vertical-line right"></div> -->
     <button id="audio-toggle" class="hidden" aria-label="Audio">♪</button>
     <button id="info-toggle">i</button>
     <div class="panel-backdrop"></div>
@@ -39,48 +37,206 @@
 
     <div class="transition-overlay">
       <div class="logo-placeholder">
-        <img src="image/MAISON_LOGO.png" alt="Logo" />
+        <img src="image/MAISON_LOGO_simple_noir.png" alt="Logo" />
       </div>
     </div>
+    <div class="bg"></div>
     <!-- Barba Wrapper -->
     <div data-barba="wrapper">
-      <div data-barba="container" data-barba-namespace="conversation">
+      <div data-barba="container" data-barba-namespace="Conversation">
         <div class="page">
-          <!-- Section 1 -->
+          <!-- HERO -->
           <header>
             <a href="index.html">index</a>
             <a href="dante.html">dante</a>
             <a href="conversation.html">conversation</a>
             <a href="maladie.html">maladie</a>
           </header>
-          <section class="hero_index">
-            <h1 data-animate-text>CONVERSATION</h1>
-            <p data-animate-text>William Utermohlen</p>
+          <div class="vertical-line-svg left">
+            <svg viewbox="0 0 100 800" preserveaspectratio="none">
+              <path
+                class="line-path"
+                d="M50,0 Q50,400 50,800"
+                stroke="#313131"
+                stroke-width="3"
+                fill="none"
+              ></path>
+              <path
+                class="line-hit"
+                d="M50,0 Q50,400 50,800"
+                stroke="transparent"
+                stroke-width="40"
+                fill="none"
+              ></path>
+            </svg>
+          </div>
+
+          <div class="vertical-line-svg right">
+            <svg viewbox="0 0 100 800" preserveaspectratio="none">
+              <path
+                class="line-path"
+                d="M50,0 Q50,400 50,800"
+                stroke="#313131"
+                stroke-width="3"
+                fill="none"
+              ></path>
+              <path
+                class="line-hit"
+                d="M50,0 Q50,400 50,800"
+                stroke="transparent"
+                stroke-width="40"
+                fill="none"
+              ></path>
+            </svg>
+          </div>
+
+          <section class="hero_conversation">
+            <h1 data-animate-text="">Conversation</h1>
+            <p data-animate-text="">William Utermohlen</p>
             <div class="scroll-hint">
               <span>Scroll</span>
               <div class="line"></div>
             </div>
           </section>
-          <section class="about">
-            <p data-animate-texts>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo,
-              consectetur. Sed dicta ut nesciunt dolorem quidem sequi quas vero
-              laborum minima autem non odit fugit ex aspernatur velit, deserunt
-              omnis!
-            </p>
+          <div class="ligne-h" id="ligne-h10">
+            <svg viewbox="0 0 800 400">
+              <path
+                class="line-path"
+                d="M0,200 Q400,200 800,200"
+                stroke="#313131"
+                stroke-width="1"
+                fill="none"
+              ></path>
+              <path
+                class="line-hit"
+                d="M0,200 Q400,200 800,200"
+                stroke="transparent"
+                stroke-width="30"
+                fill="none"
+              ></path>
+            </svg>
+          </div>
+
+          <section
+            id="s9"
+            data-section="section9"
+            class="container-conversation"
+          >
+            <div class="conversation-slider-container">
+              <div class="conversation-slider-track">
+                <!-- Bloc initial -->
+                <img
+                  src="image/Conversation-1989-1991/Bed.avif"
+                  data-artwork="0"
+                  alt="bed"
+                />
+                <img
+                  src="image/Conversation-1989-1991/conversation.avif"
+                  data-artwork="1"
+                  alt="conversation"
+                />
+                <img
+                  src="image/Conversation-1989-1991/Maida-Vale.avif"
+                  alt="Maida-Vale"
+                  data-artwork="2"
+                />
+                <img
+                  src="image/Conversation-1989-1991/night.avif"
+                  alt="night"
+                  data-artwork="3"
+                />
+                <img
+                  src="image/Conversation-1989-1991/Snow.avif"
+                  alt="snow"
+                  data-artwork="4"
+                />
+                <img
+                  src="image/Conversation-1989-1991/w9.avif"
+                  alt="w9"
+                  data-artwork="5"
+                />
+                <!-- Dupliquer pour continuité -->
+                <img
+                  src="image/Conversation-1989-1991/Bed.avif"
+                  data-artwork="0"
+                  alt="bed"
+                />
+                <img
+                  src="image/Conversation-1989-1991/conversation.avif"
+                  data-artwork="1"
+                  alt="conversation"
+                />
+                <img
+                  src="image/Conversation-1989-1991/Maida-Vale.avif"
+                  alt="Maida-Vale"
+                  data-artwork="2"
+                />
+                <img
+                  src="image/Conversation-1989-1991/night.avif"
+                  alt="night"
+                  data-artwork="3"
+                />
+                <img
+                  src="image/Conversation-1989-1991/Snow.avif"
+                  alt="snow"
+                  data-artwork="4"
+                />
+                <img
+                  src="image/Conversation-1989-1991/w9.avif"
+                  alt="w9"
+                  data-artwork="5"
+                />
+              </div>
+            </div>
           </section>
+
+          <!-- footer -->
+          <div class="ligne-h" id="ligne-h-footer">
+            <svg viewbox="0 0 800 400">
+              <path
+                class="line-path"
+                d="M0,200 Q400,200 800,200"
+                stroke="#313131"
+                stroke-width="1"
+                fill="none"
+              ></path>
+              <path
+                class="line-hit"
+                d="M0,200 Q400,200 800,200"
+                stroke="transparent"
+                stroke-width="30"
+                fill="none"
+              ></path>
+            </svg>
+          </div>
           <footer class="footer">
-            <div class="text_nav">
-              <h2>Page précédente</h2>
-              <h1>Prochaine page</h1>
-              <h2>Page suivante</h2>
+            <d iv="" class="container">
+              <div class="text_nav">
+                <h2>Page précédente</h2>
+                <div class="text_central">
+                  <h1>Prochaine page</h1>
+                </div>
+                <h2>Page suivante</h2>
+              </div>
+            </d>
+            <div class="footerimg">
+              <img src="/src/image/footer/fusain.png" alt="flower" />
+            </div>
+            <div class="text_footer">
+              <h3>William Utermohlen</h3>
+
+              <h3>la galerie des souvenirs</h3>
+
+              <h3>Maxime Cordy</h3>
             </div>
           </footer>
+
+          <script src="js/conversation.js"></script>
+          <script type="module" src="js/info.js"></script>
+          <script type="module" src="js/text-animation-addon.js"></script>
+          <script type="module" src="js/main.js"></script>
         </div>
       </div>
     </div>
-    <script type="module" src="js/info.js"></script>
-    <script type="module" src="js/text-animation-addon.js"></script>
-    <script type="module" src="js/main.js"></script>
   </body>
 </html>

@@ -313,6 +313,66 @@ const DATA = {
       },
     ],
   },
+  section9: {
+    titre: "Conversation",
+    audio: { src: "audio/section7.mp3", label: "Conversation, 1989–1991" },
+    oeuvres: [
+      {
+        titre: "Bed",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1991" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+          { cle: "Sujet", valeur: "William et Patricia dans le lit." },
+        ],
+      },
+      {
+        titre: "Conversation",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1991" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+          { cle: "Sujet", valeur: "Un ami et Patricia" },
+        ],
+      },
+      {
+        titre: "Maida Vale",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1990" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+          { cle: "Sujet", valeur: "Patricia et une amie" },
+        ],
+      },
+      {
+        titre: "Night",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1990-1991" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+          { cle: "Sujet", valeur: "The de nuit entre amis" },
+        ],
+      },
+      {
+        titre: "Snow",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1990" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+          { cle: "Sujet", valeur: "Repas dans une maison enneigée" },
+        ],
+      },
+      {
+        titre: "W9",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1991" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+          { cle: "Sujet", valeur: "Patricia et une amie" },
+        ],
+      },
+    ],
+  },
 };
 
 // ============================================================

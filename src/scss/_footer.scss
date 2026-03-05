@@ -30,6 +30,8 @@
   width: 211px;
   flex-direction: column;
   align-items: center;
+  overflow: visible;
+  gap: 10px;
 }
 .footer {
   display: flex;
@@ -72,7 +74,7 @@
 
 .text_footer {
   display: flex;
-  width: 100%;
+  width: 100vw;
   height: 80px;
   justify-content: center;
   align-items: center;
@@ -84,4 +86,30 @@
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+}
+
+.scroll-hint-footer {
+  position: absolute;
+  bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--bg);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 26%;
+}
+
+.scroll-hint-footer .line-footer {
+  width: 1px;
+  height: 50px;
+  background: linear-gradient(to bottom, var(--bg), transparent);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+#ligne-h-footer {
+  margin-top: -20%;
+  margin-bottom: -25%;
 }

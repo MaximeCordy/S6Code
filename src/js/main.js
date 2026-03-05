@@ -8,7 +8,6 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import { initInfoPanel } from "./info.js";
-import { initCercles } from "./cercles.js";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -743,7 +742,6 @@ barba.init({
         initFooterSlowScroll();
         initMummersImages();
         initIndexLogoFall();
-        initCercles();
 
         setTimeout(() => {
           window.addEventListener("scroll", handleScroll);
@@ -865,7 +863,6 @@ barba.init({
         initFooterSlowScroll();
         initMummersImages();
         initIndexLogoFall();
-        initCercles();
 
         isTransitioning = false;
 

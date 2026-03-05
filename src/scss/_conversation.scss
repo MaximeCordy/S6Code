@@ -1,0 +1,89 @@
+.hero_conversation h1 {
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(2.8rem, 7vw, 6rem);
+  font-weight: 900;
+  color: var(--bg);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  max-width: 800px;
+}
+.hero_conversation_content {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.hero_conversation_content h2 {
+  width: 75%;
+  color: var(--base-300);
+}
+.hero_conversation p {
+  font-family: "Poppins", sans-serif;
+  margin-top: 1.5rem;
+  color: var(--muted);
+  font-size: 1.1rem;
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+.hero_conversation {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+}
+
+/* Track unique */
+
+.container-conversation {
+  width: 88%;
+  margin-left: 6%;
+  display: flex;
+  height: 80px;
+}
+.conversation-slider-track {
+  display: flex;
+  animation: conversation-scroll 8s linear infinite;
+}
+.conversation-slider-container {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+}
+.conversation-slider-track img {
+  width: 200px;
+  height: 120px;
+  object-fit: cover;
+  margin-right: 15px;
+}
+
+@keyframes conversation-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+#ligne-h10 {
+  margin-top: -29%;
+  margin-bottom: -24%;
+}
+
+#ligne-h11 {
+  margin-top: -15%;
+  margin-bottom: -23%;
+}

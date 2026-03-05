@@ -220,6 +220,39 @@ const DATA = {
       },
     ],
   },
+  section8: {
+    titre: "Mummers Cycle — Œuvres",
+    audio: { src: "audio/section7.mp3", label: "Mummers, 1969–1970" },
+    oeuvres: [
+      {
+        titre: "Rainbow Around My Shoulder",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1969" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+          { cle: "Sujet", valeur: "Mummer au chapeau" },
+        ],
+      },
+      {
+        titre: "Red Tears",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1969" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+          { cle: "Sujet", valeur: "Clown aux larmes rouges" },
+        ],
+      },
+      {
+        titre: "An Old Man",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1970" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+          { cle: "Sujet", valeur: "Portrait d'un vieil homme" },
+        ],
+      },
+    ],
+  },
   section7: {
     titre: "Mummers Cycle",
     audio: { src: "audio/section7.mp3", label: "Mummers, 1969–1970" },
@@ -617,7 +650,10 @@ export function initInfoPanel() {
   // Toggle panneau ouvert/fermé
   const toggleHandler = () => {
     document.body.classList.toggle("panel-open");
-    setBtnText(toggle, document.body.classList.contains("panel-open") ? "✕" : "i");
+    setBtnText(
+      toggle,
+      document.body.classList.contains("panel-open") ? "✕" : "i",
+    );
   };
   toggle.addEventListener("click", toggleHandler);
   infoPanelListeners.push({

@@ -2,10 +2,10 @@
 // ÉLÉMENTS DOM
 // ============================================================
 
-const section     = document.getElementById("scrollLock");
-const stages      = document.querySelectorAll(".text-stage");
-const scrollHint  = document.getElementById("scrollHint");
-const total       = stages.length;
+const section = document.getElementById("scrollLock");
+const stages = document.querySelectorAll(".text-stage");
+const scrollHint = document.getElementById("scrollHint");
+const total = stages.length;
 
 const galleryTrack = document.getElementById("galleryTrack");
 const galleryItems = document.querySelectorAll(".gallery-item");
@@ -44,10 +44,10 @@ let ease = 0.08;
 function onScroll() {
   if (!section) return;
 
-  var rect      = section.getBoundingClientRect();
-  var scrolled  = -rect.top;
+  var rect = section.getBoundingClientRect();
+  var scrolled = -rect.top;
   var scrollable = section.offsetHeight - window.innerHeight;
-  var progress  = Math.max(0, Math.min(1, scrolled / scrollable));
+  var progress = Math.max(0, Math.min(1, scrolled / scrollable));
 
   var activeIndex = Math.min(total - 1, Math.floor(progress / (1 / total)));
   activate(activeIndex);
@@ -67,11 +67,6 @@ function animateGallery() {
     galleryTrack.style.transform = `translateY(${currentY}px)`;
   }
 
-  /* Micro parallaxe par item */
-  galleryItems.forEach((item, i) => {
-    const speed = 1 + i * 0.02;
-    item.style.transform = `translateY(${currentY * (1 - speed)}px) scale(${1 + Math.abs(currentY) * 0.00005})`;
-  });
 
   requestAnimationFrame(animateGallery);
 }
@@ -79,31 +74,3 @@ function animateGallery() {
 window.addEventListener("scroll", onScroll, { passive: true });
 onScroll();
 animateGallery();
-
-// ============================================================
-// LOGO STICKER — ANIMATION D'ENTRÉE (depuis la section avant)
-// ============================================================
-
-const sticker = document.querySelector(".scroll-lock__sticker");
-
-if (sticker && section && typeof gsap !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-
-  gsap.fromTo(
-    sticker,
-    { scale: 2.8, rotation: 0, y: -window.innerHeight, opacity: 1 },
-    {
-      scale: 1,
-      rotation: 360,
-      y: 0,
-      opacity: 1,
-      ease: "none",
-      scrollTrigger: {
-        trigger: section,
-        start: "top bottom",
-        end: "top 20%",
-        scrub: 1,
-      },
-    }
-  );
-}

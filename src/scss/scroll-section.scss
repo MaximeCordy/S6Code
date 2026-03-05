@@ -58,7 +58,7 @@ body {
 .scroll-lock {
   position: relative;
   height: 500vh; /* (nb slides + 1) × 100vh */
-  background: linear-gradient(to right, var(--sl-bg) 65%, transparent 65%);
+  background: url("../image/back_green_dante.png") 17% 0 / 65% 100% no-repeat;
 }
 
 // ============================================================
@@ -92,7 +92,7 @@ body {
 .scroll-lock__logo {
   width: 70px;
   height: auto;
-  opacity: 0.8;
+  opacity: 1;
 }
 
 .scroll-lock__label {
@@ -113,15 +113,15 @@ body {
 // ============================================================
 
 .scroll-lock__sticker {
-  position: absolute;
-  z-index: 6;
-  left: calc(7% + 4rem);
-  top: calc(50vh - 120px);
-
+  position: fixed;
+  z-index: 999999;
+  left: calc(50% - 100px);
+  top: 0;
+  visibility: hidden;
   img {
-    width: 100px;
+    width: 200px;
     height: auto;
-    opacity: 1;
+    display: block;
   }
 }
 
@@ -257,45 +257,12 @@ body {
 .horizontal-gallery {
   position: absolute;
   top: 0;
-  right: 10vw;
+  right: 7vw;
   width: 20vw;
   height: 100%;
   overflow: visible;
   z-index: 2;
   pointer-events: none;
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    black 8%,
-    black 92%,
-    transparent 100%
-  );
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    black 8%,
-    black 92%,
-    transparent 100%
-  );
-
-  /* Overlay grain */
-  &::after {
-    content: "";
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    right: -50%;
-    bottom: -50%;
-    width: 200%;
-    height: 200%;
-    background: transparent
-      url("http://assets.iceable.com/img/noise-transparent.png") repeat 0 0;
-    background-repeat: repeat;
-    animation: bg-animation 0.2s infinite;
-    opacity: 0.9;
-    z-index: 10;
-    pointer-events: none;
-  }
 }
 
 .horizontal-gallery__track {
@@ -309,13 +276,14 @@ body {
 
 .gallery-item {
   flex-shrink: 0;
-  width: fit-content;
+  width: 100%;
   transform-origin: center;
 }
 
 .gallery-item img {
   width: 100%;
-  height: 100%;
+  height: auto;
+  display: block;
   filter: contrast(1.05) saturate(1.05);
   outline: 3px solid #ffffff;
   outline-offset: -3px;

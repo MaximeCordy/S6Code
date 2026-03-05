@@ -227,7 +227,7 @@ body {
   position: sticky;
   top: 0;
   height: 100vh;
-  overflow: hidden;
+  overflow: visible;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -287,6 +287,7 @@ body.panel-open .pinned-section {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .img-card {
@@ -354,29 +355,37 @@ body.panel-open .pinned-section {
 }
 
 #ligne-h3 {
-  width: 100vw;
-  margin-left: calc(-50vw + 50%);
   margin-bottom: -40%;
   margin-top: -20%;
-  svg {
-    display: block;
-    width: 100%;
-    height: auto;
-  }
 }
-
+#ligne-h3a {
+  margin-top: -20%;
+  margin-bottom: -33%;
+}
+#ligne-h3b {
+  margin-top: -22%;
+  margin-bottom: -37%;
+}
 #ligne-h5 {
   margin-top: -25%;
   margin-bottom: -28.3%;
 }
 
 #ligne-h6 {
-  margin-top: -29%;
+  margin-top: -28%;
   margin-bottom: -28.3%;
 }
 #ligne-h7 {
-  margin-top: -29%;
+  margin-top: -25%;
   margin-bottom: -28.3%;
+}
+#ligne-h8 {
+  margin-top: -29%;
+  margin-bottom: -23%;
+}
+#ligne-h9 {
+  margin-top: -15%;
+  margin-bottom: -23%;
 }
 
 // ============================================================
@@ -421,7 +430,7 @@ body.panel-open .pinned-section {
   width: 106px;
   height: 106px;
   aspect-ratio: 1/1;
-  right: 350;
+  right: 370;
 }
 
 .containerimgmother {
@@ -632,27 +641,35 @@ body.panel-open .pinned-section {
   text-transform: none;
 }
 
+#ligne-h3 {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 .after-patricia {
   display: flex;
-  width: 1437px;
+  width: 100%;
   flex-direction: column;
   align-items: center;
   gap: 90px;
   text-align: center;
   justify-content: center;
+  overflow: visible;
+  align-items: center;
 }
 
 .after-patricia h1 {
   color: var(--bg, #313131);
   font-family: Poppins;
   font-size: 46px;
-  font-style: normal;
   font-weight: 600;
   line-height: 150%;
   letter-spacing: -1.012px;
-  max-width: 90%;
-  top: 150;
-  left: 30;
+  max-width: 80%;
+  text-align: center;
+  margin-top: 10%;
 }
 
 // ============================================================
@@ -663,6 +680,24 @@ body.panel-open .pinned-section {
   overflow: hidden;
   height: 100vh;
   position: relative;
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    transparent max(20px, 6vw),
+    black max(20px, 6vw),
+    black calc(100% - max(20px, 6vw)),
+    transparent calc(100% - max(20px, 6vw)),
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    transparent max(20px, 6vw),
+    black max(20px, 6vw),
+    black calc(100% - max(20px, 6vw)),
+    transparent calc(100% - max(20px, 6vw)),
+    transparent 100%
+  );
 }
 
 body.panel-open .slider-mask {
@@ -794,13 +829,13 @@ body .page-maladie {
   opacity: 0.9;
   visibility: visible;
 }
+
 // ============================================================
 // after-dante
 // ============================================================
 
 .after-dante {
   display: flex;
-  width: 1437px;
   flex-direction: column;
   align-items: center;
   gap: 90px;
@@ -817,6 +852,60 @@ body .page-maladie {
   line-height: 150%;
   letter-spacing: -1.012px;
   max-width: 90%;
-  top: 0;
-  left: 30;
+  top: 20;
+  left: 5;
+}
+// ============================================================
+// MUMMERS
+// ============================================================
+.text-mummers {
+  display: flex;
+  flex-direction: column;
+}
+.signature {
+  max-width: 60%;
+  top: 199;
+  left: 330;
+  display: inline-block;
+  background-color: #446e47;
+  padding: 0px 12px;
+}
+// ============================================================
+// after-mummers
+// ============================================================
+.contenu {
+  color: #000;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 29px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 150%; /* 36px */
+  letter-spacing: -0.528px;
+  text-transform: uppercase;
+  width: 50%;
+  height: 108px;
+}
+
+.after-mummers-container-contenu {
+  display: inline-flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 34px;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.placeholder {
+  color: #000;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 29px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 150%; /* 36px */
+  letter-spacing: -0.528px;
+  text-transform: uppercase;
+  width: 50%;
+  height: 108px;
 }

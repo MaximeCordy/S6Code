@@ -8,6 +8,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import { initInfoPanel } from "./info.js";
+import { initCercles } from "./cercles.js";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -25,6 +26,9 @@ const pageUrls = {
 let isTransitioning = false;
 let isGoingBack = false;
 let currentPageNamespace = null;
+let footerReady = false;
+let footerScrollAccum = 0;
+const FOOTER_SCROLL_THRESHOLD = 400;
 let shaderCleanup = null;
 
 // ============================================================
@@ -80,27 +84,33 @@ export function initScrollPin() {
   });
 
   // Images parallaxe
-  const cards = document.querySelectorAll(".img-card");
+  const isDante = !!pinnedSection.querySelector(".image-track--dante");
+  const cards = pinnedSection.querySelectorAll(".img-card");
   cards.forEach((card, i) => {
     const speed = parseFloat(card.dataset.speed) || 2;
     const endRotation = parseFloat(card.dataset.rotation) || 0;
-    const startY = window.innerHeight * (0.8 + i * 0.15);
-    const endY = -window.innerHeight * (0.3 + i * 0.1);
+
+    const startY = isDante
+      ? window.innerHeight * (1.2 + i * 0.2)
+      : window.innerHeight * (0.8 + i * 0.15);
+    const endY = isDante
+      ? -window.innerHeight * (0.15 + i * 0.08)
+      : -window.innerHeight * (0.3 + i * 0.1);
 
     gsap.fromTo(
       card,
-      { y: startY, opacity: 1, scale: 0.92, rotation: i % 2 === 0 ? -5 : 3 },
+      { y: startY, opacity: 1, scale: isDante ? 1 : 0.92, rotation: i % 2 === 0 ? -5 : 3 },
       {
         y: endY,
         opacity: 1,
         scale: 1,
         rotation: endRotation,
-        ease: "none",
+        ease: isDante ? "power2.out" : "none",
         scrollTrigger: {
           trigger: ".pinned-section",
           start: "top top",
           end: "bottom bottom",
-          scrub: 0.8 * speed,
+          scrub: isDante ? 1.8 * speed : 0.8 * speed,
         },
       },
     );
@@ -608,6 +618,60 @@ function getPreviousPage(currentNamespace) {
   return null;
 }
 
+let progressEl = null;
+let progressBarEl = null;
+
+function getOrCreateProgressBar() {
+  if (!progressEl) {
+    progressEl = document.createElement("div");
+    progressEl.className = "footer-progress";
+    progressBarEl = document.createElement("div");
+    progressBarEl.className = "footer-progress__bar";
+    progressEl.appendChild(progressBarEl);
+    document.body.appendChild(progressEl);
+  }
+  return { progressEl, progressBarEl };
+}
+
+function resetFooterProgress() {
+  footerScrollAccum = 0;
+  footerReady = false;
+  window.removeEventListener("wheel", onFooterWheel);
+  const { progressEl, progressBarEl } = getOrCreateProgressBar();
+  progressEl.classList.remove("visible");
+  progressBarEl.style.width = "0%";
+}
+
+function triggerNextPage() {
+  const nextPage = getNextPage(currentPageNamespace);
+  if (!nextPage) return;
+  isTransitioning = true;
+  resetFooterProgress();
+  window.removeEventListener("scroll", handleScroll);
+  barba.go(pageUrls[nextPage]).catch(() => {
+    isTransitioning = false;
+    window.addEventListener("scroll", handleScroll);
+  });
+}
+
+function onFooterWheel(e) {
+  if (!footerReady || isTransitioning) return;
+  const { progressBarEl } = getOrCreateProgressBar();
+
+  if (e.deltaY > 0) {
+    footerScrollAccum = Math.min(footerScrollAccum + e.deltaY, FOOTER_SCROLL_THRESHOLD);
+  } else {
+    footerScrollAccum = Math.max(footerScrollAccum + e.deltaY, 0);
+  }
+
+  const pct = (footerScrollAccum / FOOTER_SCROLL_THRESHOLD) * 100;
+  progressBarEl.style.width = pct + "%";
+
+  if (footerScrollAccum >= FOOTER_SCROLL_THRESHOLD) {
+    triggerNextPage();
+  }
+}
+
 function handleScroll() {
   if (isTransitioning) return;
 
@@ -618,13 +682,16 @@ function handleScroll() {
   // Navigation vers la page suivante (scroll en bas)
   if (scrollTop + windowHeight >= documentHeight - 10) {
     const nextPage = getNextPage(currentPageNamespace);
-    if (nextPage) {
-      isTransitioning = true;
-      window.removeEventListener("scroll", handleScroll);
-      barba.go(pageUrls[nextPage]).catch(() => {
-        isTransitioning = false;
-        window.addEventListener("scroll", handleScroll);
-      });
+    if (nextPage && !footerReady) {
+      footerReady = true;
+      footerScrollAccum = 0;
+      const { progressEl } = getOrCreateProgressBar();
+      progressEl.classList.add("visible");
+      window.addEventListener("wheel", onFooterWheel, { passive: true });
+    }
+  } else {
+    if (footerReady) {
+      resetFooterProgress();
     }
   }
 
@@ -666,11 +733,17 @@ barba.init({
         });
 
         initScrollPin();
+        initStickerAnimation();
+
         initPatriciaHangingImage();
         initAfterSectionZoom();
         initSliderAnimation();
         shaderCleanup = initShaderAnimation(container);
         initCursor(data.next.namespace);
+        initFooterSlowScroll();
+        initMummersImages();
+        initIndexLogoFall();
+        initCercles();
 
         setTimeout(() => {
           window.addEventListener("scroll", handleScroll);
@@ -779,6 +852,8 @@ barba.init({
 
         // Init animations de la nouvelle page
         initScrollPin();
+        initStickerAnimation();
+
         initPatriciaHangingImage();
         initAfterSectionZoom();
         initSliderAnimation();
@@ -786,6 +861,11 @@ barba.init({
         initCursor(data.next.namespace);
 
         setTimeout(() => initInfoPanel(), 100);
+        initLogoWiggle();
+        initFooterSlowScroll();
+        initMummersImages();
+        initIndexLogoFall();
+        initCercles();
 
         isTransitioning = false;
 
@@ -906,43 +986,190 @@ function initMummersDraggable() {
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", () => {
     initScrollPin();
+    initStickerAnimation();
     initPatriciaHangingImage();
     initAfterSectionZoom();
     initSliderAnimation();
     initMummersDraggable();
+    initLogoWiggle();
+    initFooterSlowScroll();
+    initMummersImages();
+    initIndexLogoFall();
+    initCercles();
   });
 } else {
   initScrollPin();
+  initStickerAnimation();
   initPatriciaHangingImage();
   initAfterSectionZoom();
   initSliderAnimation();
   initMummersDraggable();
+  initLogoWiggle();
+  initFooterSlowScroll();
+  initMummersImages();
+  initIndexLogoFall();
+  initCercles();
 }
 
-// ─────────────────────────────────────────
-// Animation logo au clic
-//
-// Usage :
-//   1. Ajouter id="logo" sur votre élément
-//   2. Inclure logo-animation.css
-//   3. Inclure ce fichier en bas du <body>
-// ─────────────────────────────────────────
+// ============================================================
+//  15. STICKER DANTE — entre depuis pinned-section à mi-scroll
+// ============================================================
 
-const logo = document.getElementById("logo");
+function initStickerAnimation() {
+  const sticker = document.querySelector(".scroll-lock__sticker");
+  const pinned = document.querySelector(".pinned-section");
+  if (!sticker || !pinned) return;
 
-if (logo) {
+  const LAND_Y = 230; // px from top of viewport where sticker lands
+  const START_Y = window.innerHeight + 100; // just below the viewport
+
+  // Start: fixed, off-screen bottom
+  gsap.set(sticker, {
+    position: "fixed",
+    top: 0,
+    x: 0,
+    y: START_Y,
+    zIndex: 999999,
+    transformOrigin: "50% 50%",
+  });
+
+  // Rise from bottom, overshoot up, then settle — scrubbed during pinned-section
+  const stickerTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: pinned,
+      start: "30% top",
+      end: "bottom top",
+      scrub: 1,
+      onEnter: () => gsap.set(sticker, { visibility: "visible" }),
+      onEnterBack: () => gsap.set(sticker, { visibility: "visible" }),
+      onLeaveBack: () => gsap.set(sticker, { visibility: "hidden" }),
+    },
+  });
+  // Trajectory on wrapper, rotation on img — both scrubbed in the same timeline
+  const stickerImg = sticker.querySelector("img");
+  gsap.set(stickerImg, { transformOrigin: "50% 50%", rotation: 0 });
+
+  stickerTl
+    .fromTo(
+      sticker,
+      { y: START_Y, scale: 1.8, x: 0 },
+      { y: 60, scale: 1.1, x: -160, ease: "power2.out" },
+    )
+    .to(sticker, { y: LAND_Y, scale: 0.6, x: -320, ease: "power2.in" });
+
+  // Rotation scrubbed on img during descent phase (second half of timeline)
+  stickerTl.fromTo(
+    stickerImg,
+    { rotation: 0 },
+    { rotation: 360, ease: "none" },
+    0.5,
+  );
+
+  // Exit: sticker scrolls up with the slider as after-dante enters
+  const afterSection = document.querySelector(".after-dante");
+  if (afterSection) {
+    gsap.fromTo(
+      sticker,
+      { y: LAND_Y },
+      {
+        y: -window.innerHeight,
+        ease: "none",
+        scrollTrigger: {
+          trigger: afterSection,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        },
+      },
+    );
+  }
+}
+
+// ============================================================
+//  16. STICKER CLICK — wiggle CSS au clic
+// ============================================================
+
+function initLogoWiggle() {
+  const logo = document.getElementById("logo");
+  if (!logo) return;
+
   logo.addEventListener("click", () => {
-    // Évite de relancer l'animation si elle est déjà en cours
     if (logo.classList.contains("shaking")) return;
-
     logo.classList.add("shaking");
-
     logo.addEventListener(
       "animationend",
-      () => {
-        logo.classList.remove("shaking");
-      },
+      () => logo.classList.remove("shaking"),
       { once: true },
     );
   });
+}
+
+// ============================================================
+//  17. SECTION 8 — images apparaissent une par une depuis le bas
+// ============================================================
+
+function initMummersImages() {
+  const imgs = document.querySelectorAll(".container-img-mummers img");
+  const section = document.querySelector(".images-Mummers");
+  if (!imgs.length || !section) return;
+
+  gsap.set(imgs, { opacity: 0, y: 80 });
+
+  ScrollTrigger.create({
+    trigger: section,
+    start: "top bottom",
+    once: true,
+    onEnter: () => {
+      imgs.forEach((img, i) => {
+        gsap.to(img, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power2.out",
+          delay: i * 0.2,
+        });
+      });
+    },
+  });
+}
+
+// ============================================================
+//  19. INDEX — logo suit le curseur dans after-section
+// ============================================================
+
+function initIndexLogoFall() {}
+
+// ============================================================
+//  18. FOOTER — ralentit le scroll quand le footer est visible
+// ============================================================
+
+function initFooterSlowScroll() {
+  const footer = document.querySelector(".footer");
+  if (!footer) return;
+
+  ScrollTrigger.create({
+    trigger: footer,
+    start: "top bottom",
+    end: "bottom bottom",
+    onEnter: () => { lenis.options.wheelMultiplier = 0.3; },
+    onLeaveBack: () => { lenis.options.wheelMultiplier = 1; },
+  });
+
+  const footerImg = footer.querySelector(".footerimg img");
+  if (!footerImg) return;
+
+  gsap.fromTo(
+    footerImg,
+    { y: 60 },
+    {
+      y: 0,
+      ease: "none",
+      scrollTrigger: {
+        trigger: footer,
+        start: "top bottom",
+        end: "top 30%",
+        scrub: 1.5,
+      },
+    }
+  );
 }

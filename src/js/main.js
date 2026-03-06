@@ -34,6 +34,7 @@ let shaderCleanup = null;
 //  3. LENIS (smooth scroll)
 // ============================================================
 const lenis = new Lenis();
+window.__lenis = lenis;
 
 function raf(time) {
   lenis.raf(time);
@@ -98,7 +99,12 @@ export function initScrollPin() {
 
     gsap.fromTo(
       card,
-      { y: startY, opacity: 1, scale: isDante ? 1 : 0.92, rotation: i % 2 === 0 ? -5 : 3 },
+      {
+        y: startY,
+        opacity: 1,
+        scale: isDante ? 1 : 0.92,
+        rotation: i % 2 === 0 ? -5 : 3,
+      },
       {
         y: endY,
         opacity: 1,
@@ -658,7 +664,10 @@ function onFooterWheel(e) {
   const { progressBarEl } = getOrCreateProgressBar();
 
   if (e.deltaY > 0) {
-    footerScrollAccum = Math.min(footerScrollAccum + e.deltaY, FOOTER_SCROLL_THRESHOLD);
+    footerScrollAccum = Math.min(
+      footerScrollAccum + e.deltaY,
+      FOOTER_SCROLL_THRESHOLD,
+    );
   } else {
     footerScrollAccum = Math.max(footerScrollAccum + e.deltaY, 0);
   }
@@ -693,8 +702,6 @@ function handleScroll() {
       resetFooterProgress();
     }
   }
-
-  // Navigation vers la page précédente (scroll en haut)
   if (scrollTop <= 0) {
     const prevPage = getPreviousPage(currentPageNamespace);
     if (prevPage) {
@@ -742,6 +749,7 @@ barba.init({
         initFooterSlowScroll();
         initMummersImages();
         initIndexLogoFall();
+        updateStickerVisibility(data.next.namespace);
 
         setTimeout(() => {
           window.addEventListener("scroll", handleScroll);
@@ -749,8 +757,11 @@ barba.init({
       },
 
       // --- Quitter la page ---
+
       async leave(data) {
         window.removeEventListener("scroll", handleScroll);
+
+        updateStickerVisibility(null);
 
         // Fermer le panneau info
         const toggle = document.getElementById("info-toggle");
@@ -863,6 +874,7 @@ barba.init({
         initFooterSlowScroll();
         initMummersImages();
         initIndexLogoFall();
+        updateStickerVisibility(data.next.namespace);
 
         isTransitioning = false;
 
@@ -1137,6 +1149,16 @@ function initMummersImages() {
 function initIndexLogoFall() {}
 
 // ============================================================
+//  20. STICKER — visible uniquement sur la page dante
+// ============================================================
+
+function updateStickerVisibility(namespace) {
+  const sticker = document.querySelector(".scroll-lock__sticker");
+  if (!sticker) return;
+  sticker.style.display = namespace === "dante" ? "" : "none";
+}
+
+// ============================================================
 //  18. FOOTER — ralentit le scroll quand le footer est visible
 // ============================================================
 
@@ -1148,8 +1170,12 @@ function initFooterSlowScroll() {
     trigger: footer,
     start: "top bottom",
     end: "bottom bottom",
-    onEnter: () => { lenis.options.wheelMultiplier = 0.3; },
-    onLeaveBack: () => { lenis.options.wheelMultiplier = 1; },
+    onEnter: () => {
+      lenis.options.wheelMultiplier = 0.3;
+    },
+    onLeaveBack: () => {
+      lenis.options.wheelMultiplier = 1;
+    },
   });
 
   const footerImg = footer.querySelector(".footerimg img");
@@ -1167,6 +1193,6 @@ function initFooterSlowScroll() {
         end: "top 30%",
         scrub: 1.5,
       },
-    }
+    },
   );
 }

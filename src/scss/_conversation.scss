@@ -7,6 +7,7 @@
   line-height: 1.05;
   max-width: 800px;
 }
+
 .hero_conversation_content {
   position: absolute;
   inset: 0;
@@ -20,17 +21,19 @@
 
 .hero_conversation_content h2 {
   width: 75%;
-  color: var(--base-300);
+  color: var(--bg);
 }
+
 .hero_conversation p {
   font-family: "Poppins", sans-serif;
   margin-top: 1.5rem;
-  color: var(--muted);
+  color: var(--bg);
   font-size: 1.1rem;
   font-weight: 300;
   letter-spacing: 0.15em;
   text-transform: uppercase;
 }
+
 .hero_conversation {
   height: 100vh;
   display: flex;
@@ -41,7 +44,7 @@
   position: relative;
 }
 
-/* Track unique */
+/* ── Slider images horizontal ───────────────────────── */
 
 .container-conversation {
   width: 88%;
@@ -49,10 +52,12 @@
   display: flex;
   height: 80px;
 }
+
 .conversation-slider-track {
   display: flex;
   animation: conversation-scroll 8s linear infinite;
 }
+
 .conversation-slider-container {
   position: absolute;
   left: 0;
@@ -62,6 +67,7 @@
   align-items: center;
   padding-left: 10px;
 }
+
 .conversation-slider-track img {
   width: 200px;
   height: 120px;
@@ -86,4 +92,111 @@
 #ligne-h11 {
   margin-top: -15%;
   margin-bottom: -23%;
+}
+#ligne-h12 {
+  margin-top: -20%;
+  margin-bottom: -24%;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Section scroll textes ──────────────────────────── */
+
+.container-conversation-slider {
+  position: relative;
+  width: 100%;
+  height: 1200vh;
+}
+
+.Slider-coversation {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.Slider-coversation .hero {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Conteneur des textes : couvre tout le hero */
+.about-copy {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: flex;
+}
+
+/* Groupes superposés en bas de l'écran */
+.copy-group {
+  position: absolute;
+  bottom: 4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  display: flex;
+  gap: 1%;
+  margin-left: 2%;
+}
+
+/* Chaque bloc occupe 1/3 de la largeur */
+.copy-block {
+  flex: 1;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.copy-block p {
+  color: var(--bg);
+  font-family: Poppins;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150%; /* 30px */
+  letter-spacing: -0.44px;
+  width: 350px;
+  height: 103px;
+}
+
+/* ── Images dans les copy-groups ─────────────────────── */
+
+.droite {
+  display: flex;
+  width: 278px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 17px;
+  flex-shrink: 0;
+}
+
+.image-groupe {
+  display: flex;
+
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 10%;
+  justify-content: center;
+  gap: 17px;
+  margin-left: 17%;
+}
+
+#img1-1 {
+  width: 689px;
+  height: 567px;
+  flex-shrink: 0;
+  aspect-ratio: 96/79;
+}
+#img1-2 {
+  height: 275px;
+  align-self: stretch;
+  aspect-ratio: 92/91;
+}
+#img1-3 {
+  height: 275px;
+  align-self: stretch;
+  aspect-ratio: 92/91;
 }

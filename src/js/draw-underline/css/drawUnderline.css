@@ -1,0 +1,30 @@
+.draw-word {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.draw-word__line {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 0.6em;
+  color: #e55050;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 9999;
+}
+
+.draw-word__line svg {
+  position: absolute;
+
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.draw-word__line path {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 0;
+}

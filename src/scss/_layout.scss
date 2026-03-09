@@ -396,17 +396,21 @@ body.panel-open .pinned-section {
   display: inline-flex;
   align-items: center;
   background: #943934;
+  position: relative;
+  z-index: 5;
+  margin-top: -20%;
 }
 .after-section p {
   color: #f8f6f0;
   font-family: Poppins;
-  font-size: 42px;
+  font-size: 32px;
   font-style: normal;
   font-weight: 500;
   line-height: 150%; /* 63px */
   letter-spacing: -0.924px;
-  max-width: 60%;
+  max-width: 40%;
   margin-bottom: 15%;
+  text-align: center;
 }
 .textimg {
   display: inline-flex;
@@ -426,13 +430,24 @@ body.panel-open .pinned-section {
   aspect-ratio: 37/56;
 }
 
+.after-section-logo-wrapper {
+  width: 106px;
+  height: 106px;
+  aspect-ratio: 1/1;
+  margin-top: 3%;
+}
 .logo-wrapper {
   width: 106px;
   height: 106px;
   aspect-ratio: 1/1;
-  right: 370;
+  right: 350;
+  top: 60;
 }
-
+.logo-wrapper-after {
+  width: 106px;
+  height: 106px;
+  aspect-ratio: 1/1;
+}
 .containerimgmother {
   display: flex;
   flex-direction: column;
@@ -456,7 +471,7 @@ body.panel-open .pinned-section {
 .after-section h2 {
   height: 116px;
   color: #f8f6f0;
-  text-align: left;
+  text-align: center;
   font-family: Poppins;
   font-size: 46px;
   font-style: normal;
@@ -464,8 +479,7 @@ body.panel-open .pinned-section {
   line-height: 101%;
   letter-spacing: -1.012px;
   text-transform: uppercase;
-  width: 50%;
-  right: 5%;
+  width: 40%;
 }
 
 // ============================================================
@@ -478,6 +492,7 @@ body.panel-open .pinned-section {
   transform-origin: top center;
   user-select: none;
   margin-top: -25%;
+  z-index: 6;
 
   &.no-string::before {
     opacity: 0;
@@ -639,6 +654,7 @@ body.panel-open .pinned-section {
   letter-spacing: -0.77px;
   text-align: left;
   text-transform: none;
+  overflow: visible;
 }
 
 #ligne-h3 {
@@ -658,6 +674,7 @@ body.panel-open .pinned-section {
   justify-content: center;
   overflow: visible;
   align-items: center;
+  position: relative;
 }
 
 .after-patricia h1 {

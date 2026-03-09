@@ -134,7 +134,7 @@
 /* Groupes superposés en bas de l'écran */
 .copy-group {
   position: absolute;
-  bottom: 4rem;
+  bottom: 2rem;
   left: 50%;
   transform: translateX(-50%);
   width: 80%;
@@ -167,21 +167,21 @@
 .droite {
   display: flex;
   width: 278px;
-  flex-direction: column;
   align-items: flex-start;
   gap: 17px;
   flex-shrink: 0;
+  margin-bottom: 30%;
 }
 
 .image-groupe {
   display: flex;
-
   flex-direction: row;
   align-items: center;
   margin-bottom: 10%;
   justify-content: center;
   gap: 17px;
-  margin-left: 17%;
+  max-width: 100%;
+  padding: 10%;
 }
 
 #img1-1 {
@@ -196,7 +196,8 @@
   aspect-ratio: 92/91;
 }
 #img1-3 {
-  height: 275px;
+  height: auto;
+  height: 210px;
   align-self: stretch;
   aspect-ratio: 92/91;
 }

@@ -750,10 +750,26 @@ barba.init({
         initMummersImages();
         initIndexLogoFall();
         updateStickerVisibility(data.next.namespace);
+        initS3Overlay();
 
         setTimeout(() => {
           window.addEventListener("scroll", handleScroll);
         }, 1000);
+
+        // Si on arrive depuis une transition, faire partir l'overlay
+        const transitionDir = sessionStorage.getItem("barba-transition");
+        if (transitionDir) {
+          sessionStorage.removeItem("barba-transition");
+          const overlay = document.querySelector(".transition-overlay");
+          gsap.set(overlay, { y: 0 });
+          await gsapPromise(overlay, {
+            y: transitionDir === "back" ? "100%" : "-100%",
+            duration: 1.2,
+            ease: "power3.inOut",
+            delay: 0.4,
+          });
+          gsap.set(overlay, { y: "100%" });
+        }
       },
 
       // --- Quitter la page ---
@@ -800,6 +816,14 @@ barba.init({
           duration: 1.2,
           ease: "power3.inOut",
         });
+
+        // Rechargement complet de la page suivante
+        sessionStorage.setItem(
+          "barba-transition",
+          isGoingBack ? "back" : "forward",
+        );
+        window.location.href = data.next.url.href;
+        await new Promise(() => {}); // suspend Barba indéfiniment
       },
 
       // --- Entrer sur la nouvelle page ---
@@ -875,6 +899,7 @@ barba.init({
         initMummersImages();
         initIndexLogoFall();
         updateStickerVisibility(data.next.namespace);
+        initS3Overlay();
 
         isTransitioning = false;
 
@@ -1196,3 +1221,25 @@ function initFooterSlowScroll() {
     },
   );
 }
+
+/* ── Section 3 : slide par-dessus section 2 ── */
+
+function initS3Overlay() {
+  const s3 = document.querySelector("#s3");
+  if (!s3) return;
+  gsap.fromTo(
+    s3,
+    { y: "40vh" },
+    {
+      y: 0,
+      ease: "none",
+      scrollTrigger: {
+        trigger: s3,
+        start: "top bottom",
+        end: "top top",
+        scrub: true,
+      },
+    },
+  );
+}
+

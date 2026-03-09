@@ -32,13 +32,20 @@ function initConversationSlider() {
   }
 
   // Anime les mots d'un bloc
-  function animateWords(block) {
+  function animateWords(block, delay = 0) {
     const spans = block.querySelectorAll("p span > span");
     if (!spans.length) return;
-    gsap.fromTo(spans, { y: "100%" }, { y: "0%", duration: 1.2, stagger: 0.04, ease: "power4.out" });
+    gsap.fromTo(spans, { y: "100%" }, { y: "0%", duration: 1.2, stagger: 0.04, ease: "power4.out", delay });
   }
 
   const blockVisible = new WeakMap(); // track état précédent
+
+  const imageGroupe = document.querySelector(".image-groupe");
+  const imageGroupeImgs = imageGroupe ? [...imageGroupe.querySelectorAll("img")] : [];
+  if (imageGroupe) {
+    gsap.set(imageGroupe, { autoAlpha: 0 });
+    gsap.set(imageGroupeImgs, { x: "110vw" });
+  }
 
   groups.forEach((group) => {
     group.querySelectorAll(".copy-block").forEach((block) => {
@@ -56,9 +63,9 @@ function initConversationSlider() {
       trigger: container,
       start: "top bottom",
       end: "bottom top",
-      onEnter: () => { lenis.options.wheelMultiplier = 0.15; },
+      onEnter: () => { lenis.options.wheelMultiplier = 0.06; },
       onLeave: () => { lenis.options.wheelMultiplier = 1; },
-      onEnterBack: () => { lenis.options.wheelMultiplier = 0.15; },
+      onEnterBack: () => { lenis.options.wheelMultiplier = 0.06; },
       onLeaveBack: () => { lenis.options.wheelMultiplier = 1; },
     });
   }
@@ -78,6 +85,14 @@ function initConversationSlider() {
         // Fade out du groupe entier sur les 20% finaux du segment
         const groupOpacity = groupP > 0.8 ? (1 - groupP) / 0.2 : groupP > 0 ? 1 : 0;
         const imgs = group.querySelectorAll(".copy-img");
+        if (g === 0 && imageGroupe) {
+          gsap.set(imageGroupe, { autoAlpha: groupOpacity });
+          imageGroupeImgs.forEach((img, i) => {
+            const imgStart = i * 0.15;
+            const imgP = Math.max(0, Math.min(1, (groupP - imgStart) / 0.35));
+            gsap.set(img, { x: `${(1 - imgP) * 110}vw` });
+          });
+        }
         if (groupOpacity <= 0) {
           gsap.set(blocks, { autoAlpha: 0 });
           gsap.set(imgs, { autoAlpha: 0 });
@@ -95,7 +110,9 @@ function initConversationSlider() {
 
           const wasVisible = blockVisible.get(block);
           const isNowVisible = blockOpacity * groupOpacity > 0;
-          if (!wasVisible && isNowVisible) animateWords(block);
+          if (!wasVisible && isNowVisible) {
+            animateWords(block);
+          }
           blockVisible.set(block, isNowVisible);
 
           gsap.set(block, { autoAlpha: blockOpacity * groupOpacity });

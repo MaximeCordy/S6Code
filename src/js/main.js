@@ -45,6 +45,12 @@ function raf(time) {
 requestAnimationFrame(raf);
 lenis.on("scroll", ScrollTrigger.update);
 
+// Progress bar
+const progressBar = document.getElementById("scroll-progress-bar");
+lenis.on("scroll", ({ scroll, limit }) => {
+  if (progressBar) progressBar.style.height = `${(scroll / limit) * 100}%`;
+});
+
 // ============================================================
 //  4. UTILITAIRES
 // ============================================================

@@ -447,6 +447,7 @@ body.panel-open .pinned-section {
   width: 106px;
   height: 106px;
   aspect-ratio: 1/1;
+  top: 20;
 }
 .containerimgmother {
   display: flex;
@@ -454,7 +455,7 @@ body.panel-open .pinned-section {
   justify-content: center;
   align-items: flex-start;
   gap: 15px;
-  right: 200;
+  right: 300;
   bottom: 30;
 }
 

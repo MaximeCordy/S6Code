@@ -40,12 +40,11 @@ function initConversationSlider() {
 
   const blockVisible = new WeakMap(); // track état précédent
 
-  const imageGroupe = document.querySelector(".image-groupe");
-  const imageGroupeImgs = imageGroupe ? [...imageGroupe.querySelectorAll("img")] : [];
-  if (imageGroupe) {
-    gsap.set(imageGroupe, { autoAlpha: 0 });
-    gsap.set(imageGroupeImgs, { x: "110vw" });
-  }
+  const imageGroupes = [...document.querySelectorAll(".image-groupe")];
+  imageGroupes.forEach((ig) => {
+    gsap.set(ig, { autoAlpha: 0 });
+    gsap.set(ig.querySelectorAll("img"), { x: "110vw" });
+  });
 
   groups.forEach((group) => {
     group.querySelectorAll(".copy-block").forEach((block) => {
@@ -82,23 +81,32 @@ function initConversationSlider() {
         const groupP = (p - groupStart) / GROUP_SEG; // 0→1 dans ce groupe
         const blocks = group.querySelectorAll(".copy-block");
 
-        // Fade out du groupe entier sur les 20% finaux du segment
-        const groupOpacity = groupP > 0.8 ? (1 - groupP) / 0.2 : groupP > 0 ? 1 : 0;
+        // Phase d'entrée (0→0.8) et de sortie vers la gauche (0.8→1)
+        const isLast = g === NUM_GROUPS - 1;
+        const isActive = groupP > 0 && (isLast ? true : groupP < 1);
+        const exitP = (!isLast && groupP > 0.8) ? (groupP - 0.8) / 0.2 : 0;
+        const exitX = `${-exitP * 110}vw`;
+
         const imgs = group.querySelectorAll(".copy-img");
-        if (g === 0 && imageGroupe) {
-          gsap.set(imageGroupe, { autoAlpha: groupOpacity });
-          imageGroupeImgs.forEach((img, i) => {
-            const imgStart = i * 0.15;
-            const imgP = Math.max(0, Math.min(1, (groupP - imgStart) / 0.35));
-            gsap.set(img, { x: `${(1 - imgP) * 110}vw` });
-          });
+        const ig = imageGroupes[g];
+        if (ig) {
+          if (!isActive) {
+            gsap.set(ig, { autoAlpha: 0, display: "none" });
+          } else {
+            gsap.set(ig, { autoAlpha: 1, display: "flex", x: exitX });
+            [...ig.querySelectorAll("img")].forEach((img, i) => {
+              const imgStart = i * 0.15;
+              const imgP = Math.max(0, Math.min(1, (groupP - imgStart) / 0.35));
+              gsap.set(img, { x: `${(1 - imgP) * 110}vw` });
+            });
+          }
         }
-        if (groupOpacity <= 0) {
-          gsap.set(blocks, { autoAlpha: 0 });
+        if (!isActive) {
+          gsap.set(blocks, { autoAlpha: 0, x: 0 });
           gsap.set(imgs, { autoAlpha: 0 });
           return;
         }
-        gsap.set(imgs, { autoAlpha: groupOpacity });
+        gsap.set(imgs, { autoAlpha: 1, x: exitX });
 
         // Chaque bloc apparaît à son tour (stagger de STAGGER_RATIO)
         blocks.forEach((block, b) => {
@@ -109,13 +117,13 @@ function initConversationSlider() {
           else if (localP > 0) blockOpacity = localP;
 
           const wasVisible = blockVisible.get(block);
-          const isNowVisible = blockOpacity * groupOpacity > 0;
+          const isNowVisible = blockOpacity > 0;
           if (!wasVisible && isNowVisible) {
             animateWords(block);
           }
           blockVisible.set(block, isNowVisible);
 
-          gsap.set(block, { autoAlpha: blockOpacity * groupOpacity });
+          gsap.set(block, { autoAlpha: blockOpacity, x: exitX });
         });
       });
     },

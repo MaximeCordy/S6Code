@@ -10,7 +10,7 @@
 /* ── Lignes ───────────────────────────────────────────── */
 
 [data-barba-namespace="autoportrait"] .line-path {
-  stroke: var(--autoportrait);
+  stroke: var(--auto-titre);
 }
 
 .hero_autoportrait h1 {
@@ -102,6 +102,6 @@
 }
 
 [data-barba-namespace="autoportrait"] .text_footer {
-  background: var(--autoportrait);
-  color: #f8f6f0;
+  background: var(--auto-titre);
+  color: var(--auto-text);
 }

@@ -495,6 +495,50 @@ const DATA = {
       },
     ],
   },
+
+  section12: {
+    titre: "Alzheimer",
+    audio: { src: "audio/section12.mp3", label: "Diagnostic, 1995" },
+    oeuvres: [],
+  },
+
+  section13: {
+    titre: "Blue Skies",
+    audio: { src: "audio/section13.mp3", label: "Blue Skies, 1995" },
+    oeuvres: [],
+  },
+
+  section14: {
+    titre: "Blue Skies",
+    audio: { src: "audio/section14.mp3", label: "Blue Skies, 1995" },
+    oeuvres: [
+      {
+        titre: "Blue Skies",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1995" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+          { cle: "Sujet", valeur: "William agrippée à une table" },
+        ],
+      },
+    ],
+  },
+
+  section15: {
+    titre: "Patricia",
+    audio: { src: "audio/section15.mp3", label: "Patricia, 1994" },
+    oeuvres: [
+      {
+        titre: "Pat (portrait)",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1994" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+          { cle: "Sujet", valeur: "Patricia Utermohlen" },
+        ],
+      },
+    ],
+  },
 };
 
 // ============================================================

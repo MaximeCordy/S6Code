@@ -1,0 +1,107 @@
+/* ══════════════════════════════════════════════════════
+   PAGE AUTOPORTRAIT
+   ══════════════════════════════════════════════════════ */
+
+:root {
+  --auto-text: #505050;
+  --auto-titre: #272727;
+}
+
+/* ── Lignes ───────────────────────────────────────────── */
+
+[data-barba-namespace="autoportrait"] .line-path {
+  stroke: var(--autoportrait);
+}
+
+.hero_autoportrait h1 {
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(2.8rem, 7vw, 6rem);
+  font-weight: 900;
+  color: var(--auto-titre);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  max-width: 800px;
+}
+
+.hero_autoportrait p {
+  font-family: "Poppins", sans-serif;
+  margin-top: 1.5rem;
+  color: var(--auto-text);
+  font-size: 1.1rem;
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.hero_autoportrait {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+}
+
+.scroll-hint-autoportrait {
+  position: absolute;
+  bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--autoportrait);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.scroll-hint-autoportrait .line {
+  width: 1px;
+  height: 50px;
+  background: linear-gradient(to bottom, var(--autoportrait), transparent);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+#ligne-h1-autoportrait {
+  margin-top: -20%;
+  margin-bottom: -34%;
+}
+
+/* ── Contenu ──────────────────────────────────────────── */
+
+.autoportrait-content {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.autoportrait-text-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 20px;
+
+  p {
+    color: var(--autoportrait);
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 150%;
+    letter-spacing: -0.528px;
+  }
+}
+
+/* ── Footer autoportrait ──────────────────────────────── */
+
+[data-barba-namespace="autoportrait"] .text_nav h1,
+[data-barba-namespace="autoportrait"] .text_nav h2 {
+  color: var(--auto-titre);
+}
+
+[data-barba-namespace="autoportrait"] .text_footer {
+  background: var(--autoportrait);
+  color: #f8f6f0;
+}

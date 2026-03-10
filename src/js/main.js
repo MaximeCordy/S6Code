@@ -8,19 +8,21 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import { initInfoPanel } from "./info.js";
-import { initMaladieSlider, initMaladieTitle } from "./maladie.js";
+import { initMaladieSlider, initMaladieTitle, initBlueSkiesScroll } from "./maladie.js";
+import { initAutoportrait } from "./autoportrait.js";
 
 gsap.registerPlugin(ScrollTrigger);
 
 // ============================================================
 //  2. CONFIG & VARIABLES GLOBALES
 // ============================================================
-const pageOrder = ["index", "dante", "conversation", "maladie", "index"];
+const pageOrder = ["index", "dante", "conversation", "maladie", "autoportrait", "index"];
 const pageUrls = {
   index: "/index.html",
   dante: "/dante.html",
   conversation: "/conversation.html",
   maladie: "/maladie.html",
+  autoportrait: "/autoportrait.html",
 };
 
 let isTransitioning = false;
@@ -500,6 +502,13 @@ const cursorConfigs = {
     friction: 0.15,
     strokeStyle: "#555555",
   },
+  autoportrait: {
+    pointsNumber: 5,
+    widthFactor: 0.5,
+    spring: 0.4,
+    friction: 0.3,
+    strokeStyle: "#c4a882",
+  },
 };
 
 let cursorAnimationId = null;
@@ -760,6 +769,8 @@ barba.init({
         initS3Overlay();
         initMaladieSlider();
         initMaladieTitle();
+        initBlueSkiesScroll();
+        initAutoportrait();
 
         setTimeout(() => {
           window.addEventListener("scroll", handleScroll);
@@ -911,6 +922,8 @@ barba.init({
         initS3Overlay();
         initMaladieSlider();
         initMaladieTitle();
+        initBlueSkiesScroll();
+        initAutoportrait();
 
         isTransitioning = false;
 

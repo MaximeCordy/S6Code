@@ -183,6 +183,11 @@ svg {
   gap: 100px;
 }
 
+.page-autoportrait {
+  background: rgb(23, 23, 23);
+  gap: 100px;
+}
+
 .page-maladie .image-block.large {
   max-width: 900px;
   height: 600px;
@@ -504,4 +509,3 @@ canvas {
     transform: translate(0px, 0px) rotate(0deg) scale(1);
   }
 }
-

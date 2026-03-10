@@ -51,12 +51,11 @@ export function initMaladieSlider() {
   });
 }
 
-export function initMaladieTitle() {
-  const h1 = document.getElementById("titre");
-  if (!h1) return;
-
-  const texte = "Alzheimer";
+function initLetterHover(el, texte) {
+  if (!el) return;
+  el.innerHTML = "";
   const letters = [];
+  const easeVal = 0.05;
 
   texte.split("").forEach((char) => {
     const span = document.createElement("span");
@@ -70,52 +69,62 @@ export function initMaladieTitle() {
       const state = {
         opacity: 1, blur: 0, brightness: 1, tx: 0, ty: 0, scale: 1,
         targetOpacity: 1, targetBlur: 0, targetBrightness: 1,
-        targetTx: 0, targetTy: 0, targetScale: 1, hovered: false,
+        targetTx: 0, targetTy: 0, targetScale: 1,
       };
       span._state = state;
 
       span.addEventListener("mousemove", () => {
-        state.hovered = true;
         state.targetOpacity = 0;
         state.targetBlur = 10;
         state.targetBrightness = 2;
-        state.targetTx = 0;
-        state.targetTy = 0;
-        state.targetScale = 1;
       });
-
       span.addEventListener("mouseleave", () => {
-        state.hovered = false;
         state.targetOpacity = 1;
         state.targetBlur = 0;
         state.targetBrightness = 1;
-        state.targetTx = 0;
-        state.targetTy = 0;
-        state.targetScale = 1;
       });
     }
-    h1.appendChild(span);
+    el.appendChild(span);
   });
 
-  const ease = 0.05;
   function lerp(a, b, t) { return a + (b - a) * t; }
-
   function animate() {
     letters.forEach((span) => {
       const s = span._state;
-      s.opacity = lerp(s.opacity, s.targetOpacity, ease);
-      s.blur = lerp(s.blur, s.targetBlur, ease);
-      s.brightness = lerp(s.brightness, s.targetBrightness, ease);
-      s.tx = lerp(s.tx, s.targetTx, ease);
-      s.ty = lerp(s.ty, s.targetTy, ease);
-      s.scale = lerp(s.scale, s.targetScale, ease);
+      s.opacity = lerp(s.opacity, s.targetOpacity, easeVal);
+      s.blur = lerp(s.blur, s.targetBlur, easeVal);
+      s.brightness = lerp(s.brightness, s.targetBrightness, easeVal);
       span.style.opacity = s.opacity;
       span.style.filter = `blur(${s.blur}px) brightness(${s.brightness})`;
-      span.style.transform = `translate(${s.tx}px, ${s.ty}px) scale(${s.scale})`;
     });
     requestAnimationFrame(animate);
   }
-
   animate();
+}
+
+export function initMaladieTitle() {
+  initLetterHover(document.getElementById("titre"), "Alzheimer");
+
+  const patriciaH1 = document.querySelector(".text-pat-maladie h1");
+  if (patriciaH1) initLetterHover(patriciaH1, "Patricia");
+}
+
+export function initBlueSkiesScroll() {
+  const img = document.querySelector(".blue-skyes img");
+  if (!img) return;
+
+  gsap.set(img, { scale: 0.7, filter: "brightness(0.2)" });
+
+  gsap.to(img, {
+    scale: 1,
+    filter: "brightness(1)",
+    ease: "none",
+    scrollTrigger: {
+      trigger: img,
+      start: "top 90%",
+      end: "center center",
+      scrub: 1.5,
+    },
+  });
 }
 

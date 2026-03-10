@@ -16,28 +16,10 @@
     <script src="https://cdn.jsdelivr.net/npm/@barba/core@2.9.7/dist/barba.umd.js"></script>
   </head>
   <body>
-    <div class="bg2"></div>
+    <canvas></canvas>
     <a href="index.html" class="site-logo">
       <img src="image/logo_sticker.png" alt="Logo" />
     </a>
-    <div class="transition-overlay overlay-left">
-      <div class="logo-placeholder"></div>
-    </div>
-    <div class="transition-overlay overlay-right">
-      <div class="logo-placeholder"></div>
-    </div>
-    <!-- Traits verticaux permanents -->
-    <div class="vertical-line left"></div>
-    <div class="vertical-line right"></div>
-
-    <!-- Overlays de transition -->
-    <div class="transition-overlay overlay-left">
-      <div class="logo-placeholder"></div>
-    </div>
-    <div class="transition-overlay overlay-right">
-      <div class="logo-placeholder"></div>
-    </div>
-
     <div id="scroll-progress"><div id="scroll-progress-bar"></div></div>
     <button id="audio-toggle" class="hidden" aria-label="Audio">♪</button>
     <button id="info-toggle">i</button>
@@ -50,26 +32,321 @@
       <div class="ip-body" id="ip-body"></div>
     </aside>
 
+    <div class="transition-overlay">
+      <div class="logo-placeholder">
+        <img src="image/logo_sticker.png" alt="Logo" />
+      </div>
+    </div>
+
     <!-- Barba Wrapper -->
     <div data-barba="wrapper">
       <div data-barba="container" data-barba-namespace="maladie">
-        <header>
-          <a href="index.html">index</a>
-          <a href="dante.html">dante</a>
-          <a href="conversation.html">conversation</a>
-          <a href="maladie.html">maladie</a>
-        </header>
-
         <div class="page page-maladie">
-          <h2 class="page-title">Maladie</h2>
-          <div class="image-block large"></div>
-          <div class="image-block"></div>
-          <div class="image-block"></div>
+          <header>
+            <a href="index.html">index</a>
+            <a href="dante.html">dante</a>
+            <a href="conversation.html">conversation</a>
+            <a href="maladie.html">maladie</a>
+          </header>
+          <div class="bg"></div>
+
+          <div class="vertical-line-svg left">
+            <svg viewBox="0 0 100 800" preserveAspectRatio="none">
+              <path
+                class="line-path"
+                d="M50,0 Q50,400 50,800"
+                stroke="#313131"
+                stroke-width="3"
+                fill="none"
+              />
+              <path
+                class="line-hit"
+                d="M50,0 Q50,400 50,800"
+                stroke="transparent"
+                stroke-width="40"
+                fill="none"
+              />
+            </svg>
+          </div>
+          <div class="vertical-line-svg right">
+            <svg viewBox="0 0 100 800" preserveAspectRatio="none">
+              <path
+                class="line-path"
+                d="M50,0 Q50,400 50,800"
+                stroke="#313131"
+                stroke-width="3"
+                fill="none"
+              />
+              <path
+                class="line-hit"
+                d="M50,0 Q50,400 50,800"
+                stroke="transparent"
+                stroke-width="40"
+                fill="none"
+              />
+            </svg>
+          </div>
+
+          <section class="hero_maladie">
+            <h1 data-animate-text="">Maladie</h1>
+            <p data-animate-text="">William Utermohlen</p>
+            <div class="scroll-hint-maladie">
+              <span>Scroll</span>
+              <div class="line"></div>
+            </div>
+          </section>
+          <div class="ligne-h" id="ligne-h1-maladie">
+            <svg viewBox="0 0 800 400">
+              <path
+                class="line-path"
+                d="M0,200 Q400,200 800,200"
+                stroke="#313131"
+                stroke-width="1"
+                fill="none"
+              />
+              <path
+                class="line-hit"
+                d="M0,200 Q400,200 800,200"
+                stroke="transparent"
+                stroke-width="30"
+                fill="none"
+              />
+            </svg>
+          </div>
+          <section class="maladie-slider-section" data-section="section11">
+            <div class="maladie-slider-container">
+              <div class="maladie-slider-track">
+                <div class="maladie-slide-item">
+                  <img
+                    src="image/Maladie-1994-1996/Mask-black-marks.avif"
+                    alt="Mask black marks"
+                    data-artwork="0"
+                    data-section="section11"
+                  />
+                </div>
+                <div class="maladie-slide-item">
+                  <img
+                    src="image/Maladie-1994-1996/Imaginary-Portrait-of-Francis-Bacon.avif"
+                    alt="Imaginary Portrait of Francis Bacon"
+                    data-artwork="1"
+                    data-section="section11"
+                  />
+                </div>
+                <div class="maladie-slide-item">
+                  <img
+                    src="image/Maladie-1994-1996/Mask-red-spots.avif"
+                    alt="Mask red spots"
+                    data-artwork="2"
+                    data-section="section11"
+                  />
+                </div>
+                <div class="maladie-slide-item">
+                  <img
+                    src="image/Maladie-1994-1996/Mask.avif"
+                    alt="Mask"
+                    data-artwork="3"
+                    data-section="section11"
+                  />
+                </div>
+                <div class="maladie-slide-item">
+                  <img
+                    src="image/Maladie-1994-1996/Untitled.avif"
+                    alt="Untitled"
+                    data-artwork="4"
+                    data-section="section11"
+                  />
+                </div>
+                <div class="maladie-slide-item">
+                  <img
+                    src="image/Maladie-1994-1996/pat.avif"
+                    alt="Pat"
+                    data-artwork="5"
+                    data-section="section11"
+                  />
+                </div>
+                <!-- Duplicate for seamless loop -->
+                <div class="maladie-slide-item">
+                  <img
+                    src="image/Maladie-1994-1996/Mask-black-marks.avif"
+                    alt="Mask black marks"
+                    data-artwork="0"
+                    data-section="section11"
+                  />
+                </div>
+                <div class="maladie-slide-item">
+                  <img
+                    src="image/Maladie-1994-1996/Imaginary-Portrait-of-Francis-Bacon.avif"
+                    alt="Imaginary Portrait of Francis Bacon"
+                    data-artwork="1"
+                    data-section="section11"
+                  />
+                </div>
+                <div class="maladie-slide-item">
+                  <img
+                    src="image/Maladie-1994-1996/Mask-red-spots.avif"
+                    alt="Mask red spots"
+                    data-artwork="2"
+                    data-section="section11"
+                  />
+                </div>
+                <div class="maladie-slide-item">
+                  <img
+                    src="image/Maladie-1994-1996/Mask.avif"
+                    alt="Mask"
+                    data-artwork="3"
+                    data-section="section11"
+                  />
+                </div>
+                <div class="maladie-slide-item">
+                  <img
+                    src="image/Maladie-1994-1996/Untitled.avif"
+                    alt="Untitled"
+                    data-artwork="4"
+                    data-section="section11"
+                  />
+                </div>
+                <div class="maladie-slide-item">
+                  <img
+                    src="image/Maladie-1994-1996/pat.avif"
+                    alt="Pat"
+                    data-artwork="5"
+                    data-section="section11"
+                  />
+                </div>
+              </div>
+            </div>
+          </section>
+          <div class="ligne-h" id="ligne-h2-maladie">
+            <svg viewbox="0 0 800 400">
+              <path
+                class="line-path"
+                d="M0,200 Q400,200 800,200"
+                stroke="#313131"
+                stroke-width="1"
+                fill="none"
+              ></path>
+              <path
+                class="line-hit"
+                d="M0,200 Q400,200 800,200"
+                stroke="transparent"
+                stroke-width="30"
+                fill="none"
+              ></path>
+            </svg>
+          </div>
+          <section class="maladie-section" data-section="section12">
+            <div class="maladie-text-container">
+              <p>En 1995, William reçoit son diagnostic</p>
+              <h1 id="titre"></h1>
+              <h2>
+                Chaque portrait qu’il peindra deviendra le témoin silencieux de
+                sa mémoire qui se dissout.
+              </h2>
+            </div>
+          </section>
+          <div class="ligne-h" id="ligne-h3-maladie">
+            <svg viewbox="0 0 800 400">
+              <path
+                class="line-path"
+                d="M0,200 Q400,200 800,200"
+                stroke="#313131"
+                stroke-width="1"
+                fill="none"
+              ></path>
+              <path
+                class="line-hit"
+                d="M0,200 Q400,200 800,200"
+                stroke="transparent"
+                stroke-width="30"
+                fill="none"
+              ></path>
+            </svg>
+          </div>
+          <section id="s13" data-section="section13" class="Before-image-Sky">
+            <h1 data-animate-text>
+              Après cette annonce, il peint sa dernière grande toile, Blue Skies
+              (1995). On y voit une figure agrippée à une table, perdue dans un
+              espace vide. Une image brute du choc qui vient de bouleverser sa
+              vie.
+            </h1>
+
+            <div class="ligne-h" id="ligne-h4-maladie">
+              <svg viewBox="0 0 800 400">
+                <path
+                  class="line-path"
+                  d="M0,200 Q400,200 800,200"
+                  stroke="#313131"
+                  stroke-width="1"
+                  fill="none"
+                />
+                <path
+                  class="line-hit"
+                  d="M0,200 Q400,200 800,200"
+                  stroke="transparent"
+                  stroke-width="30"
+                  fill="none"
+                />
+              </svg>
+            </div>
+          </section>
+
+          <section id="s14" data-section="section14" class="Blue-Sky">
+            <div class="blue-skyes">
+              <img
+                src="image/Maladie-1994-1996/Blue-Skies.avif"
+                alt="Blue-skies"
+              />
+            </div>
+          </section>
+          <div class="ligne-h" id="ligne-h5-maladie">
+            <svg viewBox="0 0 800 400">
+              <path
+                class="line-path"
+                d="M0,200 Q400,200 800,200"
+                stroke="#313131"
+                stroke-width="1"
+                fill="none"
+              />
+              <path
+                class="line-hit"
+                d="M0,200 Q400,200 800,200"
+                stroke="transparent"
+                stroke-width="30"
+                fill="none"
+              />
+            </svg>
+          </div>
+          <section id="s15" data-section="section15" class="Maladie-Pat">
+            <div class="container-pat-maladie">
+              <img src="image/Maladie-1994-1996/Pat2.avif" alt="Patricia" />
+              <div class="text-pat-maladie">
+                <h1>Patricia</h1>
+                <p>
+                  Il peint aussi ce portrait, le dernier de Patricia. Les traits
+                  deviennent de moins en moins sûrs. La couleur de ses cheveux
+                  ne reflète plus la réalité, et son visage apparaît aux
+                  proportions démesurées.
+                </p>
+              </div>
+            </div>
+          </section>
           <footer class="footer">
-            <div class="text_nav">
-              <h2>Page précédente</h2>
-              <h1>Prochaine page</h1>
-              <h2>Page suivante</h2>
+            <d iv="" class="container">
+              <div class="text_nav">
+                <h2>Page précédente</h2>
+                <div class="text_central">
+                  <h1>Prochaine page</h1>
+                </div>
+                <h2>Page suivante</h2>
+              </div>
+            </d>
+            <div class="footerimg">
+              <img src="image/footer/fusain.png" alt="flower" />
+            </div>
+            <div class="text_footer">
+              <h3>William Utermohlen</h3>
+              <h3>la galerie des souvenirs</h3>
+              <h3>Maxime Cordy</h3>
             </div>
           </footer>
         </div>

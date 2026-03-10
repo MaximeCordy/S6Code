@@ -373,6 +373,128 @@ const DATA = {
       },
     ],
   },
+  section10: {
+    titre: "Conversation",
+    audio: { src: "audio/section10.mp3", label: "Conversation, 1989–1991" },
+    oeuvres: [
+      {
+        titre: "Maida Vale",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1990" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+          { cle: "Sujet", valeur: "Patricia et une amie" },
+        ],
+      },
+      {
+        titre: "Night",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1990-1991" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+          { cle: "Sujet", valeur: "The de nuit entre amis" },
+        ],
+      },
+      {
+        titre: "W9",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1991" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+          { cle: "Sujet", valeur: "Patricia et une amie" },
+        ],
+      },
+      {
+        titre: "Conversation",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1991" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+          { cle: "Sujet", valeur: "Un ami et Patricia" },
+        ],
+      },
+
+      {
+        titre: "Snow",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1990" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+          { cle: "Sujet", valeur: "Repas dans une maison enneigée" },
+        ],
+      },
+      {
+        titre: "Bed",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1991" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+          { cle: "Sujet", valeur: "William et Patricia dans le lit." },
+        ],
+      },
+    ],
+  },
+  section11: {
+    titre: "Maladie",
+    audio: { src: "audio/section11.mp3", label: "Maladie, 1994–1996" },
+    oeuvres: [
+      {
+        titre: "Mask (black marks)",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1996" },
+          { cle: "Technique", valeur: "Aquarel sur papier" },
+          { cle: "Sujet", valeur: "Masque de Mummuers" },
+        ],
+      },
+      {
+        titre: "NightImaginary Portrait of Francis Bacon",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1994" },
+          { cle: "Technique", valeur: "Aquarel sur papier" },
+          { cle: "Sujet", valeur: "Francis Bacon" },
+        ],
+      },
+      {
+        titre: "Mask (red spots) ",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1996" },
+          { cle: "Technique", valeur: "Aquarel sur papier" },
+          { cle: "Sujet", valeur: "Masque de Mummuers" },
+        ],
+      },
+      {
+        titre: "Mask (with necklace)",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1996" },
+          { cle: "Technique", valeur: "Aquarel sur papier" },
+          { cle: "Sujet", valeur: "Masque de Mummers" },
+        ],
+      },
+
+      {
+        titre: "Untitled (mask)",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1992" },
+          { cle: "Technique", valeur: "Aquarel sur papier" },
+          { cle: "Sujet", valeur: "Masque de Mummers" },
+        ],
+      },
+      {
+        titre: "Black Stripes (Pat)",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1994" },
+          { cle: "Technique", valeur: "Aquarel sur papier" },
+          { cle: "Sujet", valeur: "Patricia" },
+        ],
+      },
+    ],
+  },
 };
 
 // ============================================================

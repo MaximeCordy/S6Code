@@ -8,6 +8,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import { initInfoPanel } from "./info.js";
+import { initMaladieSlider, initMaladieTitle } from "./maladie.js";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -497,7 +498,7 @@ const cursorConfigs = {
     widthFactor: 0.5,
     spring: 0.4,
     friction: 0.15,
-    strokeStyle: "rgb(255, 255, 255)",
+    strokeStyle: "#555555",
   },
 };
 
@@ -757,6 +758,8 @@ barba.init({
         initIndexLogoFall();
         updateStickerVisibility(data.next.namespace);
         initS3Overlay();
+        initMaladieSlider();
+        initMaladieTitle();
 
         setTimeout(() => {
           window.addEventListener("scroll", handleScroll);
@@ -906,6 +909,8 @@ barba.init({
         initIndexLogoFall();
         updateStickerVisibility(data.next.namespace);
         initS3Overlay();
+        initMaladieSlider();
+        initMaladieTitle();
 
         isTransitioning = false;
 
@@ -1248,4 +1253,3 @@ function initS3Overlay() {
     },
   );
 }
-

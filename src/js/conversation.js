@@ -211,3 +211,10 @@ function initConversationSlider() {
 }
 
 initConversationSlider();
+
+// Refresh ScrollTrigger quand le panel info se ferme
+new MutationObserver(() => {
+  if (!document.body.classList.contains("panel-open")) {
+    ScrollTrigger.refresh();
+  }
+}).observe(document.body, { attributes: true, attributeFilter: ["class"] });

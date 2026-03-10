@@ -20,9 +20,14 @@ section * {
 // PANNEAU OUVERT — SECTIONS AU-DESSUS DU BACKDROP
 // ============================================================
 
-body.panel-open section {
+body.panel-open section:not(.Slider-coversation) {
   z-index: 99997;
   position: relative;
+}
+
+body.panel-open .container-conversation-slider {
+  position: relative;
+  z-index: 99998;
 }
 
 // ============================================================

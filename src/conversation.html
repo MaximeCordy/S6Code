@@ -17,7 +17,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@barba/core@2.9.7/dist/barba.umd.js"></script>
   </head>
 
-  <body>
+  <body data-page="2">
     <canvas></canvas>
     <a href="index.html" class="site-logo">
       <img src="image/logo_sticker.png" alt="Logo" />
@@ -26,7 +26,7 @@
     <div class="vertical-line right"></div> -->
     <div id="scroll-progress"><div id="scroll-progress-bar"></div></div>
     <button id="audio-toggle" class="hidden" aria-label="Audio">♪</button>
-    <button id="info-toggle">i</button>
+    <button id="info-toggle" class="hidden">i</button>
     <div class="panel-backdrop"></div>
     <aside id="info-panel">
       <div class="ip-head">
@@ -47,60 +47,103 @@
       <div data-barba="container" data-barba-namespace="conversation">
         <div class="page">
           <!-- HERO -->
-          <header>
-            <a href="index.html">index</a>
-            <a href="dante.html">dante</a>
-            <a href="conversation.html">conversation</a>
-            <a href="maladie.html">maladie</a>
-            <a href="autoportrait.html">autoportrait</a>
-          </header>
-          <div class="vertical-line-svg left">
-            <svg viewbox="0 0 100 800" preserveaspectratio="none">
-              <path
-                class="line-path"
-                d="M50,0 Q50,400 50,800"
-                stroke="#313131"
-                stroke-width="3"
-                fill="none"
-              ></path>
-              <path
-                class="line-hit"
-                d="M50,0 Q50,400 50,800"
-                stroke="transparent"
-                stroke-width="40"
-                fill="none"
-              ></path>
-            </svg>
+          <div class="header-index">
+            <div class="text-ligne">
+              <p data-animate-text="">Maxime Cordy</p>
+              <h1 data-animate-text>William Utermohlen</h1>
+              <p data-animate-text="">2026</p>
+            </div>
           </div>
-
-          <div class="vertical-line-svg right">
-            <svg viewbox="0 0 100 800" preserveaspectratio="none">
+          <div class="ligne-h" id="ligne-h0">
+            <svg viewBox="0 0 800 400">
               <path
                 class="line-path"
-                d="M50,0 Q50,400 50,800"
+                d="M0,200 Q400,200 800,200"
                 stroke="#313131"
-                stroke-width="3"
+                stroke-width="1"
                 fill="none"
-              ></path>
+              />
               <path
                 class="line-hit"
-                d="M50,0 Q50,400 50,800"
+                d="M0,200 Q400,200 800,200"
                 stroke="transparent"
-                stroke-width="40"
+                stroke-width="30"
                 fill="none"
-              ></path>
+              />
             </svg>
           </div>
 
           <section class="hero_conversation">
-            <h1 data-animate-text="">Conversation</h1>
-            <p data-animate-text="">William Utermohlen</p>
+            <h1>
+              Conversation
+              <span class="bubble" id="bubble">
+                <img
+                  class="layer-bg"
+                  id="layerBg"
+                  src="image/plaine-conversation.png"
+                  alt=""
+                />
+                <img
+                  class="layer-fg"
+                  id="layerFg"
+                  src="image/maisonplaine-conversation.png"
+                  alt=""
+                />
+              </span>
+              - Patricia
+            </h1>
+            <h2>
+              Peu à peu, William se sent en retrait des personnes qu’il aime ou
+              qu’il connaît. Il préfère les peindre.
+            </h2>
+
             <div class="scroll-hint">
               <span>Scroll</span>
               <div class="line"></div>
             </div>
           </section>
-          <section id="s4-5" data-section="section8-9" class="before-Conversation">
+          <div class="vertical-line-svg left">
+            <svg viewBox="0 0 100 800" preserveAspectRatio="none">
+              <path
+                class="line-path"
+                d="M50,0 Q50,400 50,800"
+                stroke="#313131"
+                stroke-width="3"
+                fill="none"
+              />
+              <path
+                class="line-hit"
+                d="M50,0 Q50,400 50,800"
+                stroke="transparent"
+                stroke-width="40"
+                fill="none"
+              />
+            </svg>
+          </div>
+
+          <div class="vertical-line-svg right">
+            <svg viewBox="0 0 100 800" preserveAspectRatio="none">
+              <path
+                class="line-path"
+                d="M50,0 Q50,400 50,800"
+                stroke="#313131"
+                stroke-width="3"
+                fill="none"
+              />
+              <path
+                class="line-hit"
+                d="M50,0 Q50,400 50,800"
+                stroke="transparent"
+                stroke-width="40"
+                fill="none"
+              />
+            </svg>
+          </div>
+          <section
+            id="s4-5"
+            data-section="section8-9"
+            class="before-Conversation"
+          >
             <div class="ligne-h" id="ligne-h6">
               <svg viewBox="0 0 800 400">
                 <path
@@ -119,9 +162,16 @@
                 />
               </svg>
             </div>
-            <h1 data-animate-text>
-        Entre 1989 et 1991, une série d’œuvres montre des intérieurs chaleureux où des amis se retrouvent. Tout semble calme et rassurant… jusqu’au moment où l’inattendu s’invite, venant troubler doucement cette apparente tranquillité.
-            </h1>
+            <h2 class="artiste-conv" data-animate-text>Interieur chaleureux</h2>
+            <div class="text-layer">
+              <div class="label" data-animate-text>Londre 1989–1991</div>
+              <h2 data-animate-text>
+                Entre 1989 et 1991, une série d’œuvres montre des intérieurs
+                chaleureux où des amis se retrouvent. Tout semble calme et
+                rassurant… jusqu’au moment où l’inattendu s’invite, venant
+                troubler doucement cette apparente tranquillité.
+              </h2>
+            </div>
 
             <div class="ligne-h" id="ligne-h10">
               <svg viewBox="0 0 800 400">
@@ -142,7 +192,6 @@
               </svg>
             </div>
           </section>
-          
 
           <section
             id="s9"
@@ -270,17 +319,20 @@
                   <div class="copy-group">
                     <div class="copy-block">
                       <p>
-                      William nous invite à entrer dans son domicile de pour y partager des moments de vie.
+                        William nous invite à entrer dans son domicile de pour y
+                        partager des moments de vie.
                       </p>
                     </div>
                     <div class="copy-block">
                       <p>
-                       Dans la plupart des tableaux apparaît Patricia, qui, malgré les années, reste présente auprès de William.
+                        Dans la plupart des tableaux apparaît Patricia, qui,
+                        malgré les années, reste présente auprès de William.
                       </p>
                     </div>
                     <div class="copy-block">
                       <p>
-                       Elle est accompagnée d’une de ses amies, venue partager un verre et discuter.
+                        Elle est accompagnée d’une de ses amies, venue partager
+                        un verre et discuter.
                       </p>
                     </div>
                   </div>
@@ -312,7 +364,9 @@
                   <div class="copy-group">
                     <div class="copy-block">
                       <p>
-                      Les intérieurs de William et Patricia reflètent un univers vif et coloré, où les perspectives se mêlent et se confondent.
+                        Les intérieurs de William et Patricia reflètent un
+                        univers vif et coloré, où les perspectives se mêlent et
+                        se confondent.
                       </p>
                     </div>
                     <div class="copy-block">
@@ -324,7 +378,8 @@
                     </div>
                     <div class="copy-block">
                       <p>
-                       Les reflets et les couleurs sont variés, tandis que l’extérieur demeure sombre.
+                        Les reflets et les couleurs sont variés, tandis que
+                        l’extérieur demeure sombre.
                       </p>
                     </div>
                   </div>
@@ -356,17 +411,21 @@
                   <div class="copy-group">
                     <div class="copy-block">
                       <p>
-                       Alors qu’une veste posée sur la chaise nous fait remarquer que William n’est plus présent dans la discussion.
+                        Alors qu’une veste posée sur la chaise nous fait
+                        remarquer que William n’est plus présent dans la
+                        discussion.
                       </p>
                     </div>
                     <div class="copy-block">
                       <p>
-                       Patricia, elle, continue de dialoguer avec ses amies à table, la scène étant sublimée par des canards en arrière-plan.
+                        Patricia, elle, continue de dialoguer avec ses amies à
+                        table, la scène étant sublimée par des canards en
+                        arrière-plan.
                       </p>
                     </div>
                     <div class="copy-block">
                       <p>
-                              Cette série puise directement dans les souvenirs de
+                        Cette série puise directement dans les souvenirs de
                         William. Il va y placer plein de références à sa vie
                         passée.
                       </p>
@@ -438,12 +497,15 @@
                     </div>
                     <div class="copy-block">
                       <p>
-                     William apparaît enfin. On le retrouve sur le canapé, son chat blotti contre lui. Toujours à l’écart, perdu dans ses pensées...
+                        William apparaît enfin. On le retrouve sur le canapé,
+                        son chat blotti contre lui. Toujours à l’écart, perdu
+                        dans ses pensées...
                       </p>
                     </div>
                     <div class="copy-block">
                       <p>
-dans cette maison où l’extérieur semble se fondre à l’intérieur.
+                        dans cette maison où l’extérieur semble se fondre à
+                        l’intérieur.
                       </p>
                     </div>
                   </div>
@@ -475,17 +537,21 @@ dans cette maison où l’extérieur semble se fondre à l’intérieur.
                   <div class="copy-group">
                     <div class="copy-block">
                       <p>
-                       Dans le lit, les chats se reposent et Patricia lit. William est épuisé, il  s’est déjà endormi.  
+                        Dans le lit, les chats se reposent et Patricia lit.
+                        William est épuisé, il s’est déjà endormi.
                       </p>
                     </div>
                     <div class="copy-block">
                       <p>
-                     Le reflet dans le miroir est déformé. La porte est ouverte, mais rien n’apparaît derrière.À présent, la perspective penche entièrement vers la gauche.
+                        Le reflet dans le miroir est déformé. La porte est
+                        ouverte, mais rien n’apparaît derrière.À présent, la
+                        perspective penche entièrement vers la gauche.
                       </p>
                     </div>
                     <div class="copy-block">
                       <p>
-                        Pour Patricia, tous ces petits signes ne trompent plus : le corps de William commence à lui faire défaut.
+                        Pour Patricia, tous ces petits signes ne trompent plus :
+                        le corps de William commence à lui faire défaut.
                       </p>
                     </div>
                   </div>
@@ -512,59 +578,119 @@ dans cette maison où l’extérieur semble se fondre à l’intérieur.
             </svg>
           </div>
           <section id="s4-5" data-section="section4-5" class="after-patricia">
-            <h1 data-animate-text>
-           La porte verte revient sans cesse, comme un message silencieux que William n’ose pas prononcer. Dans ses tableaux, on semble lire son invisibilité face aux autres. Les perspectives qui se dérobent, la quête de représentation des souvenirs, et son isolement trahissent peu à peu les premiers signes d’une maladie grave.
-            </h1>
+            <div class="text-layer2">
+              <h2 data-animate-text>
+                La porte verte revient sans cesse, comme un message silencieux
+                que William n’ose pas prononcer. Dans ses tableaux, on semble
+                lire son invisibilité face aux autres. Les perspectives qui se
+                dérobent, la quête de représentation des souvenirs, et son
+                isolement trahissent peu à peu les premiers signes d’une maladie
+                grave.
+              </h2>
+            </div>
           </section>
-          
+        </div>
+        <!-- footer -->
+        <div class="ligne-h" id="ligne-h5">
+          <svg viewBox="0 0 800 400">
+            <path
+              class="line-path"
+              d="M0,200 Q400,200 800,200"
+              stroke="#313131"
+              stroke-width="1"
+              fill="none"
+            />
+            <path
+              class="line-hit"
+              d="M0,200 Q400,200 800,200"
+              stroke="transparent"
+              stroke-width="30"
+              fill="none"
+            />
+          </svg>
+        </div>
+        <footer class="footer">
+          <div class="scroll-hint-footer">
+            <span>Scroll</span>
+            <div class="line-footer"></div>
           </div>
-          <!-- footer -->
-          <div class="ligne-h" id="ligne-h-footer">
-            <svg viewbox="0 0 800 400">
-              <path
-                class="line-path"
-                d="M0,200 Q400,200 800,200"
-                stroke="#313131"
-                stroke-width="1"
-                fill="none"
-              ></path>
-              <path
-                class="line-hit"
-                d="M0,200 Q400,200 800,200"
-                stroke="transparent"
-                stroke-width="30"
-                fill="none"
-              ></path>
-            </svg>
-          </div>
-          <footer class="footer">
-            <d iv="" class="container">
-              <div class="text_nav">
-                <h2>Page précédente</h2>
-                <div class="text_central">
-                  <h1>Prochaine page</h1>
-                </div>
-                <h2>Page suivante</h2>
+          <div class="container">
+            <div class="text_nav">
+              <div class="text_central">
+                <h1>Découvrir la suite</h1>
               </div>
-            </d>
-            <div class="footerimg">
-              <img src="/src/image/footer/fusain.png" alt="flower" />
             </div>
-            <div class="text_footer">
-              <h3>William Utermohlen</h3>
+          </div>
+          <div class="footerimg">
+            <img src="image/footer/fusain.png" alt="flower" />
+          </div>
+          <div class="text_footer">
+            <h3>William Utermohlen</h3>
 
-              <h3>la galerie des souvenirs</h3>
+            <h3>la galerie des souvenirs</h3>
 
-              <h3>Maxime Cordy</h3>
-            </div>
-          </footer>
-          <a href="dante.html" style="display: none"></a>
-          <a href="conversation.html" style="display: none"></a>
-          <a href="maladie.html" style="display: none"></a>
-          <script src="js/conversation.js"></script>
-          <script type="module" src="js/info.js"></script>
-          <script type="module" src="js/text-animation-addon.js"></script>
-          <script type="module" src="js/main.js"></script>
+            <h3>Maxime Cordy</h3>
+          </div>
+        </footer>
+        <a href="dante.html" style="display: none"></a>
+        <a href="conversation.html" style="display: none"></a>
+        <a href="maladie.html" style="display: none"></a>
+        <script src="js/conversation.js"></script>
+        <script type="module" src="js/info.js"></script>
+        <script type="module" src="js/text-animation-addon.js"></script>
+        <script type="module" src="js/main.js"></script>
+      </div>
+    </div>
+
+    <!-- ════ TIMELINE NAV ════ -->
+    <div id="tl-nav" class="hidden">
+      <div id="tl-nav__pill">
+        <div id="tl-nav__track"><div id="tl-nav__fill"></div></div>
+        <div id="tl-nav__nodes">
+          <a href="index.html" class="tl-nav-node tl-nav-visited"
+            ><span class="tl-nav-dot"></span
+          ></a>
+          <a href="dante.html" class="tl-nav-node tl-nav-visited"
+            ><span class="tl-nav-dot"></span
+          ></a>
+          <a href="conversation.html" class="tl-nav-node tl-nav-active"
+            ><span class="tl-nav-dot"></span
+          ></a>
+          <a href="maladie.html" class="tl-nav-node"
+            ><span class="tl-nav-dot"></span
+          ></a>
+          <a href="autoportrait.html" class="tl-nav-node"
+            ><span class="tl-nav-dot"></span
+          ></a>
+        </div>
+        <div id="tl-nav__cursor">
+          <div id="tl-nav__thumb">
+            <img
+              class="tl-nav-img"
+              src="image/logo/MAISON_LOGO_INDEX.webp"
+              alt=""
+            />
+            <img
+              class="tl-nav-img"
+              src="image/logo/MAISON_LOGO_DANTE.webp"
+              alt=""
+            />
+            <img
+              class="tl-nav-img tl-nav-on"
+              src="image/logo/MAISON_LOGO_CONV.webp"
+              alt=""
+            />
+            <img
+              class="tl-nav-img"
+              src="image/logo/MAISON_LOGO_MALADIE.webp"
+              alt=""
+            />
+            <img
+              class="tl-nav-img"
+              src="image/logo/MAISON_LOGO_AUTO.webp"
+              alt=""
+            />
+          </div>
         </div>
       </div>
     </div>

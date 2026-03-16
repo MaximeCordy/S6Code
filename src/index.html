@@ -11,21 +11,19 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
       rel="stylesheet"
     />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@barba/core@2.9.7/dist/barba.umd.js"></script>
   </head>
 
-  <body>
+  <body data-page="0">
     <canvas></canvas>
     <a href="index.html" class="site-logo">
-      <img src="image/MAISON_LOGO_NOIR.png" alt="Logo" />
+      <img src="image/logo_sticker.png?aswebp" alt="Logo" />
     </a>
     <!-- <div class="vertical-line left"></div>
     <div class="vertical-line right"></div> -->
     <div id="scroll-progress"><div id="scroll-progress-bar"></div></div>
     <button id="audio-toggle" class="hidden" aria-label="Audio">♪</button>
-    <button id="info-toggle">i</button>
+    <button id="info-toggle" class="hidden">i</button>
     <div class="panel-backdrop"></div>
     <aside id="info-panel">
       <div class="ip-head">
@@ -46,21 +44,66 @@
       <div data-barba="container" data-barba-namespace="index">
         <div class="page">
           <!-- HERO -->
-          <header>
-            <a href="index.html">index</a>
-            <a href="dante.html">dante</a>
-            <a href="conversation.html">conversation</a>
-            <a href="maladie.html">maladie</a>
-            <a href="autoportrait.html">autoportrait</a>
-          </header>
+          <div class="header-index">
+            <div class="text-ligne">
+              <p data-animate-text="">Maxime Cordy</p>
+              <h1 data-animate-text>William Utermohlen</h1>
+              <p data-animate-text="">2026</p>
+            </div>
+          </div>
+          <div class="ligne-h" id="ligne-h0">
+            <svg viewBox="0 0 800 400">
+              <path
+                class="line-path"
+                d="M0,200 Q400,200 800,200"
+                stroke="#313131"
+                stroke-width="1"
+                fill="none"
+              />
+              <path
+                class="line-hit"
+                d="M0,200 Q400,200 800,200"
+                stroke="transparent"
+                stroke-width="30"
+                fill="none"
+              />
+            </svg>
+          </div>
+
           <section class="hero_index">
-            <h1 data-animate-text>La Galerie des souvenirs</h1>
-            <p data-animate-text>William Utermohlen</p>
+            <h1>
+              La Galerie
+              <span class="bubble" id="bubble">
+                <img
+                  class="layer-bg"
+                  id="layerBg"
+                  src="image/plaine.png"
+                  alt=""
+                />
+                <img
+                  class="layer-fg"
+                  id="layerFg"
+                  src="image/maisonplaine.png"
+                  alt=""
+                />
+              </span>
+              des souvenirs
+            </h1>
+            <h2>
+              Bienvenue dans la Galerie des Souvenirs, un musée immersif, où
+              chaque salle raconte une histoire et chaque œuvre devient un
+              indice, et où l'art de William révèle peu à peu un destin
+              tragique.
+            </h2>
+
             <div class="scroll-hint">
               <span>Scroll</span>
               <div class="line"></div>
             </div>
           </section>
+     
+        
+          </div>
           <div class="vertical-line-svg left">
             <svg viewBox="0 0 100 800" preserveAspectRatio="none">
               <path
@@ -302,8 +345,8 @@
                       <strong>BRITANNIQUE</strong>
                     </div>
                     <div>
-                      <span class="pat-label">STATUE</span>
-                      <strong>FEMME DE WILLIAM</strong>
+                      <span class="pat-label">PARTENAIRE</span>
+                      <strong>William</strong>
                     </div>
                   </div>
 
@@ -449,15 +492,17 @@
             </svg>
           </div>
           <footer class="footer">
-            <d iv class="container">
+            <div class="scroll-hint-footer">
+              <span>Scroll</span>
+              <div class="line-footer"></div>
+            </div>
+            <div class="container">
               <div class="text_nav">
-                <h2>Page précédente</h2>
                 <div class="text_central">
-                  <h1>Prochaine page</h1>
+                  <h1>Découvrir la suite</h1>
                 </div>
-                <h2>Page suivante</h2>
               </div>
-            </d>
+            </div>
             <div class="footerimg">
               <img src="image/footer/fusain.png" alt="flower" />
             </div>
@@ -472,6 +517,59 @@
           <a href="dante.html" style="display: none"></a>
           <a href="conversation.html" style="display: none"></a>
           <a href="maladie.html" style="display: none"></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ TIMELINE NAV ════ -->
+    <div id="tl-nav" class="hidden">
+      <div id="tl-nav__pill">
+        <div id="tl-nav__track"><div id="tl-nav__fill"></div></div>
+        <div id="tl-nav__nodes">
+          <a href="index.html" class="tl-nav-node tl-nav-active"
+            ><span class="tl-nav-dot"></span
+          ></a>
+          <a href="dante.html" class="tl-nav-node"
+            ><span class="tl-nav-dot"></span
+          ></a>
+          <a href="conversation.html" class="tl-nav-node"
+            ><span class="tl-nav-dot"></span
+          ></a>
+          <a href="maladie.html" class="tl-nav-node"
+            ><span class="tl-nav-dot"></span
+          ></a>
+          <a href="autoportrait.html" class="tl-nav-node"
+            ><span class="tl-nav-dot"></span
+          ></a>
+        </div>
+        <div id="tl-nav__cursor">
+          <div id="tl-nav__thumb">
+            <img
+              class="tl-nav-img tl-nav-on"
+              src="image/logo/MAISON_LOGO_INDEX.webp"
+              alt=""
+            />
+            <img
+              class="tl-nav-img"
+              src="image/logo/MAISON_LOGO_DANTE.webp"
+              alt=""
+            />
+            <img
+              class="tl-nav-img"
+              src="image/logo/MAISON_LOGO_CONV.webp"
+              alt=""
+            />
+            <img
+              class="tl-nav-img"
+              src="image/logo/MAISON_LOGO_MALADIE.webp"
+              alt=""
+            />
+            <img
+              class="tl-nav-img"
+              src="image/logo/MAISON_LOGO_AUTO.webp"
+              alt=""
+            />
+          </div>
         </div>
       </div>
     </div>

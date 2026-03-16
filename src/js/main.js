@@ -2,21 +2,32 @@
 //  1. IMPORTS
 // ============================================================
 import barba from "@barba/core";
-import { vertexShader, fragmentShader } from "./shaders.js";
-import * as THREE from "three";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Draggable } from "gsap/draggable";
 import Lenis from "lenis";
 import { initInfoPanel } from "./info.js";
-import { initMaladieSlider, initMaladieTitle, initBlueSkiesScroll } from "./maladie.js";
+import {
+  initMaladieSlider,
+  initMaladieTitle,
+  initBlueSkiesScroll,
+} from "./maladie.js";
 import { initAutoportrait } from "./autoportrait.js";
+import { showTimelineNav } from "./timeline.js";
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, Draggable);
 
 // ============================================================
 //  2. CONFIG & VARIABLES GLOBALES
 // ============================================================
-const pageOrder = ["index", "dante", "conversation", "maladie", "autoportrait", "index"];
+const pageOrder = [
+  "index",
+  "dante",
+  "conversation",
+  "maladie",
+  "autoportrait",
+  "index",
+];
 const pageUrls = {
   index: "/index.html",
   dante: "/dante.html",
@@ -31,8 +42,57 @@ let currentPageNamespace = null;
 let footerReady = false;
 let footerScrollAccum = 0;
 const FOOTER_SCROLL_THRESHOLD = 400;
-let shaderCleanup = null;
+let headerReady = false;
+let headerScrollAccum = 0;
+const HEADER_SCROLL_THRESHOLD = 400;
+let headerProgressEl = null;
+let headerProgressBarEl = null;
+const layerBg = document.getElementById("layerBg");
+const layerFg = document.getElementById("layerFg");
 
+const SPEED_BG = 10,
+  SPEED_FG = 22,
+  LERP = 0.07;
+let tBgX = 0,
+  tBgY = 0,
+  tFgX = 0,
+  tFgY = 0;
+let cBgX = 0,
+  cBgY = 0,
+  cFgX = 0,
+  cFgY = 0;
+
+function lerp(a, b, t) {
+  return a + (b - a) * t;
+}
+
+if (layerBg && layerFg) {
+  (function animate() {
+    cBgX = lerp(cBgX, tBgX, LERP);
+    cBgY = lerp(cBgY, tBgY, LERP);
+    cFgX = lerp(cFgX, tFgX, LERP);
+    cFgY = lerp(cFgY, tFgY, LERP);
+    layerBg.style.transform = `translate(${cBgX}px,${cBgY}px)`;
+    layerFg.style.transform = `translate(${cFgX}px,${cFgY}px)`;
+    requestAnimationFrame(animate);
+  })();
+}
+
+document.addEventListener("mousemove", (e) => {
+  const nx = (e.clientX / window.innerWidth - 0.5) * 2;
+  const ny = (e.clientY / window.innerHeight - 0.5) * 2;
+  tBgX = -nx * SPEED_BG;
+  tBgY = -ny * SPEED_BG;
+  tFgX = -nx * SPEED_FG;
+  tFgY = -ny * SPEED_FG;
+});
+
+document.addEventListener("mouseleave", () => {
+  tBgX = 0;
+  tBgY = 0;
+  tFgX = 0;
+  tFgY = 0;
+});
 // ============================================================
 //  3. LENIS (smooth scroll)
 // ============================================================
@@ -63,22 +123,13 @@ function gsapPromise(target, vars) {
   });
 }
 
-function hexToRgb(hex) {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  return result
-    ? {
-        r: parseInt(result[1], 16) / 255,
-        g: parseInt(result[2], 16) / 255,
-        b: parseInt(result[3], 16) / 255,
-      }
-    : { r: 0.89, g: 0.89, b: 0.89 };
-}
-
 // ============================================================
 //  5. SCROLL PIN (section pinned avec images parallaxe)
 // ============================================================
 export function initScrollPin() {
-  ScrollTrigger.getAll().forEach((st) => st.kill());
+  ScrollTrigger.getAll()
+    .filter((st) => st.vars?.id !== "text-anim")
+    .forEach((st) => st.kill());
 
   const pinnedSection = document.querySelector(".pinned-section");
   if (!pinnedSection) return;
@@ -162,6 +213,11 @@ export function initScrollPin() {
 
   ScrollTrigger.refresh();
 }
+
+// ============================================================
+//  6a. SCROLL TEXT REVEAL (autoportrait)
+// ============================================================
+function initScrollTextReveal() {}
 
 // ============================================================
 //  6b. ZOOM SCROLL IMAGES MOTHER & FATHER
@@ -335,7 +391,6 @@ function initSliderAnimation() {
       end: "500%",
       scrub: true,
       pin: true,
-      markers: true,
     },
   });
 
@@ -362,113 +417,6 @@ function initSliderAnimation() {
     });
   });
 }
-
-// ============================================================
-//  9. THREE.JS SHADER
-// ============================================================
-function initShaderAnimation(scope = document) {
-  const canvas = scope.querySelector(".hero-canvas");
-  const hero = scope.querySelector(".hero");
-
-  if (!canvas || !hero) return;
-
-  const CONFIG = { color: "#ffffff", spread: 0.5, speed: 2 };
-
-  const scene = new THREE.Scene();
-  const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-  const renderer = new THREE.WebGLRenderer({
-    canvas,
-    alpha: true,
-    antialias: false,
-  });
-
-  function resize() {
-    const width = hero.offsetWidth;
-    const height = hero.offsetHeight;
-    renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  }
-  resize();
-
-  const resizeHandler = () => {
-    resize();
-    if (material) {
-      material.uniforms.uResolution.value.set(
-        hero.offsetWidth,
-        hero.offsetHeight,
-      );
-    }
-  };
-  window.addEventListener("resize", resizeHandler);
-
-  const rgb = hexToRgb(CONFIG.color);
-  const geometry = new THREE.PlaneGeometry(2, 2);
-  const material = new THREE.ShaderMaterial({
-    vertexShader,
-    fragmentShader,
-    uniforms: {
-      uProgress: { value: 0 },
-      uResolution: {
-        value: new THREE.Vector2(hero.offsetWidth, hero.offsetHeight),
-      },
-      uColor: { value: new THREE.Vector3(rgb.r, rgb.g, rgb.b) },
-      uSpread: { value: CONFIG.spread },
-    },
-    transparent: true,
-  });
-
-  const mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
-
-  let scrollProgress = 0;
-  let animationId;
-
-  function animate() {
-    material.uniforms.uProgress.value = scrollProgress;
-    renderer.render(scene, camera);
-    animationId = requestAnimationFrame(animate);
-  }
-
-  const scrollHandler = ({ scroll }) => {
-    const heroHeight = hero.offsetHeight;
-    const windowHeight = window.innerHeight;
-    const maxScroll = heroHeight - windowHeight;
-    scrollProgress = Math.min((scroll / maxScroll) * CONFIG.speed, 1.1);
-  };
-
-  lenis.on("scroll", scrollHandler);
-
-  return () => {
-    cancelAnimationFrame(animationId);
-    window.removeEventListener("resize", resizeHandler);
-    lenis.off("scroll", scrollHandler);
-    geometry.dispose();
-    material.dispose();
-    renderer.dispose();
-  };
-}
-
-// Shader material pour l'animation au chargement
-const loadMaterial = new THREE.ShaderMaterial({
-  vertexShader: vertexShader,
-  fragmentShader: fragmentShader,
-  uniforms: {
-    uProgress: { value: 0 },
-    uResolution: {
-      value: new THREE.Vector2(window.innerWidth, window.innerHeight),
-    },
-    uColor: { value: new THREE.Color(0x000000) },
-    uSpread: { value: 0.3 },
-  },
-  transparent: true,
-});
-
-gsap.to(loadMaterial.uniforms.uProgress, {
-  value: 1,
-  duration: 5.5,
-  ease: "power2.inOut",
-  delay: 0.5,
-});
 
 // ============================================================
 //  10. CURSOR (trail animé)
@@ -505,9 +453,9 @@ const cursorConfigs = {
   autoportrait: {
     pointsNumber: 5,
     widthFactor: 0.5,
-    spring: 0.4,
-    friction: 0.3,
-    strokeStyle: "#c4a882",
+    spring: 0.3,
+    friction: 0.14,
+    strokeStyle: "#272727",
   },
 };
 
@@ -663,6 +611,62 @@ function resetFooterProgress() {
   progressBarEl.style.width = "0%";
 }
 
+function getOrCreateHeaderProgressBar() {
+  if (!headerProgressEl) {
+    headerProgressEl = document.createElement("div");
+    headerProgressEl.className = "header-progress";
+    headerProgressBarEl = document.createElement("div");
+    headerProgressBarEl.className = "header-progress__bar";
+    headerProgressEl.appendChild(headerProgressBarEl);
+    document.body.appendChild(headerProgressEl);
+  }
+  return { progressEl: headerProgressEl, progressBarEl: headerProgressBarEl };
+}
+
+function resetHeaderProgress() {
+  headerScrollAccum = 0;
+  headerReady = false;
+  window.removeEventListener("wheel", onHeaderWheel);
+  const { progressEl, progressBarEl } = getOrCreateHeaderProgressBar();
+  progressEl.classList.remove("visible");
+  progressBarEl.style.width = "0%";
+}
+
+function triggerPrevPage() {
+  const prevPage = getPreviousPage(currentPageNamespace);
+  if (!prevPage) return;
+  isTransitioning = true;
+  isGoingBack = true;
+  resetHeaderProgress();
+  window.removeEventListener("scroll", handleScroll);
+  barba.go(pageUrls[prevPage]).catch(() => {
+    isTransitioning = false;
+    isGoingBack = false;
+    window.addEventListener("scroll", handleScroll);
+  });
+}
+
+function onHeaderWheel(e) {
+  if (!headerReady || isTransitioning) return;
+  const { progressBarEl } = getOrCreateHeaderProgressBar();
+
+  if (e.deltaY < 0) {
+    headerScrollAccum = Math.min(
+      headerScrollAccum + Math.abs(e.deltaY),
+      HEADER_SCROLL_THRESHOLD,
+    );
+  } else {
+    headerScrollAccum = Math.max(headerScrollAccum - e.deltaY, 0);
+  }
+
+  const pct = (headerScrollAccum / HEADER_SCROLL_THRESHOLD) * 100;
+  progressBarEl.style.width = pct + "%";
+
+  if (headerScrollAccum >= HEADER_SCROLL_THRESHOLD) {
+    triggerPrevPage();
+  }
+}
+
 function triggerNextPage() {
   const nextPage = getNextPage(currentPageNamespace);
   if (!nextPage) return;
@@ -720,15 +724,16 @@ function handleScroll() {
   }
   if (scrollTop <= 0) {
     const prevPage = getPreviousPage(currentPageNamespace);
-    if (prevPage) {
-      isTransitioning = true;
-      isGoingBack = true;
-      window.removeEventListener("scroll", handleScroll);
-      barba.go(pageUrls[prevPage]).catch(() => {
-        isTransitioning = false;
-        isGoingBack = false;
-        window.addEventListener("scroll", handleScroll);
-      });
+    if (prevPage && !headerReady) {
+      headerReady = true;
+      headerScrollAccum = 0;
+      const { progressEl } = getOrCreateHeaderProgressBar();
+      progressEl.classList.add("visible");
+      window.addEventListener("wheel", onHeaderWheel, { passive: true });
+    }
+  } else {
+    if (headerReady) {
+      resetHeaderProgress();
     }
   }
 }
@@ -760,17 +765,19 @@ barba.init({
         initPatriciaHangingImage();
         initAfterSectionZoom();
         initSliderAnimation();
-        shaderCleanup = initShaderAnimation(container);
+
         initCursor(data.next.namespace);
         initFooterSlowScroll();
         initMummersImages();
-        initIndexLogoFall();
         updateStickerVisibility(data.next.namespace);
+        setScrollSpeed(data.next.namespace);
         initS3Overlay();
         initMaladieSlider();
         initMaladieTitle();
         initBlueSkiesScroll();
+
         initAutoportrait();
+        initScrollTextReveal();
 
         setTimeout(() => {
           window.addEventListener("scroll", handleScroll);
@@ -790,12 +797,26 @@ barba.init({
           });
           gsap.set(overlay, { y: "100%" });
         }
+
+        showTimelineNav();
+        initInfoPanel();
+
+        const infoToggle = document.getElementById("info-toggle");
+        if (infoToggle) infoToggle.classList.remove("hidden");
       },
 
       // --- Quitter la page ---
 
       async leave(data) {
         window.removeEventListener("scroll", handleScroll);
+
+        const tlNav = document.getElementById("tl-nav");
+        if (tlNav) tlNav.classList.add("hidden");
+
+        const infoToggle = document.getElementById("info-toggle");
+        if (infoToggle) infoToggle.classList.add("hidden");
+        const audioToggle = document.getElementById("audio-toggle");
+        if (audioToggle) audioToggle.classList.add("hidden");
 
         updateStickerVisibility(null);
 
@@ -809,11 +830,6 @@ barba.init({
         // Nettoyer les animations
         ScrollTrigger.getAll().forEach((st) => st.kill());
         gsap.killTweensOf("*");
-
-        if (shaderCleanup) {
-          shaderCleanup();
-          shaderCleanup = null;
-        }
 
         const overlay = document.querySelector(".transition-overlay");
         const currentContainer = data.current.container;
@@ -910,20 +926,22 @@ barba.init({
         initPatriciaHangingImage();
         initAfterSectionZoom();
         initSliderAnimation();
-        shaderCleanup = initShaderAnimation(container);
+
         initCursor(data.next.namespace);
 
         setTimeout(() => initInfoPanel(), 100);
         initLogoWiggle();
         initFooterSlowScroll();
         initMummersImages();
-        initIndexLogoFall();
         updateStickerVisibility(data.next.namespace);
+        setScrollSpeed(data.next.namespace);
         initS3Overlay();
         initMaladieSlider();
         initMaladieTitle();
         initBlueSkiesScroll();
+
         initAutoportrait();
+        initScrollTextReveal();
 
         isTransitioning = false;
 
@@ -994,7 +1012,7 @@ document
 
 function initMummersDraggable() {
   const pics = document.querySelectorAll(".Section-mummers .pic");
-  if (!pics.length || typeof Draggable === "undefined") return;
+  if (!pics.length) return;
   let zCounter = 10;
 
   pics.forEach((pic) => {
@@ -1052,8 +1070,7 @@ if (document.readyState === "loading") {
     initLogoWiggle();
     initFooterSlowScroll();
     initMummersImages();
-    initIndexLogoFall();
-    initCercles();
+    initScrollTextReveal();
   });
 } else {
   initScrollPin();
@@ -1066,7 +1083,7 @@ if (document.readyState === "loading") {
   initFooterSlowScroll();
   initMummersImages();
   initIndexLogoFall();
-  initCercles();
+  initScrollTextReveal();
 }
 
 // ============================================================
@@ -1192,12 +1209,6 @@ function initMummersImages() {
 }
 
 // ============================================================
-//  19. INDEX — logo suit le curseur dans after-section
-// ============================================================
-
-function initIndexLogoFall() {}
-
-// ============================================================
 //  20. STICKER — visible uniquement sur la page dante
 // ============================================================
 
@@ -1205,6 +1216,14 @@ function updateStickerVisibility(namespace) {
   const sticker = document.querySelector(".scroll-lock__sticker");
   if (!sticker) return;
   sticker.style.display = namespace === "dante" ? "" : "none";
+}
+
+function setScrollSpeed(namespace) {
+  const speeds = {
+    maladie: 0.45,
+    autoportrait: 0.3,
+  };
+  lenis.options.wheelMultiplier = speeds[namespace] ?? 1;
 }
 
 // ============================================================

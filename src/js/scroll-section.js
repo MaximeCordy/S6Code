@@ -1,7 +1,6 @@
 // ============================================================
 // ÉLÉMENTS DOM
 // ============================================================
-
 const section = document.getElementById("scrollLock");
 const stages = document.querySelectorAll(".text-stage");
 const scrollHint = document.getElementById("scrollHint");
@@ -66,7 +65,6 @@ function animateGallery() {
   if (galleryTrack) {
     galleryTrack.style.transform = `translateY(${currentY}px)`;
   }
-
 
   requestAnimationFrame(animateGallery);
 }

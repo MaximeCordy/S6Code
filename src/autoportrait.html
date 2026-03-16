@@ -15,14 +15,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@barba/core@2.9.7/dist/barba.umd.js"></script>
   </head>
-  <body>
+  <body data-page="4">
     <canvas></canvas>
     <a href="index.html" class="site-logo">
       <img src="image/logo_sticker.png" alt="Logo" />
     </a>
     <div id="scroll-progress"><div id="scroll-progress-bar"></div></div>
     <button id="audio-toggle" class="hidden" aria-label="Audio">♪</button>
-    <button id="info-toggle">i</button>
+    <button id="info-toggle" class="hidden">i</button>
     <div class="panel-backdrop"></div>
     <aside id="info-panel">
       <div class="ip-head">
@@ -42,15 +42,61 @@
     <div data-barba="wrapper">
       <div data-barba="container" data-barba-namespace="autoportrait">
         <div class="page page-autoportrait">
-          <header>
-            <a href="index.html">index</a>
-            <a href="dante.html">dante</a>
-            <a href="conversation.html">conversation</a>
-            <a href="maladie.html">maladie</a>
-            <a href="autoportrait.html">autoportrait</a>
-          </header>
-          <div class="bg"></div>
+          <div class="header-index">
+            <div class="text-ligne">
+              <p data-animate-text="">Maxime Cordy</p>
+              <h1 data-animate-text>William Utermohlen</h1>
+              <p data-animate-text="">2026</p>
+            </div>
+          </div>
+          <div class="ligne-h" id="ligne-h0">
+            <svg viewBox="0 0 800 400">
+              <path
+                class="line-path"
+                d="M0,200 Q400,200 800,200"
+                stroke="#313131"
+                stroke-width="1"
+                fill="none"
+              />
+              <path
+                class="line-hit"
+                d="M0,200 Q400,200 800,200"
+                stroke="transparent"
+                stroke-width="30"
+                fill="none"
+              />
+            </svg>
+          </div>
 
+          <section class="hero_conversation">
+            <h1>
+              Conversation
+              <span class="bubble" id="bubble">
+                <img
+                  class="layer-bg"
+                  id="layerBg"
+                  src="image/plaine-conversation.png"
+                  alt=""
+                />
+                <img
+                  class="layer-fg"
+                  id="layerFg"
+                  src="image/maisonplaine-conversation.png"
+                  alt=""
+                />
+              </span>
+              - Patricia
+            </h1>
+            <h2>
+              Peu à peu, William se sent en retrait des personnes qu’il aime ou
+              qu’il connaît. Il préfère les peindre.
+            </h2>
+
+            <div class="scroll-hint">
+              <span>Scroll</span>
+              <div class="line"></div>
+            </div>
+          </section>
           <div class="vertical-line-svg left">
             <svg viewBox="0 0 100 800" preserveAspectRatio="none">
               <path
@@ -69,6 +115,7 @@
               />
             </svg>
           </div>
+
           <div class="vertical-line-svg right">
             <svg viewBox="0 0 100 800" preserveAspectRatio="none">
               <path
@@ -87,15 +134,6 @@
               />
             </svg>
           </div>
-
-          <section class="hero_autoportrait">
-            <h1 data-animate-text="">Autoportrait</h1>
-            <p data-animate-text="">William Utermohlen</p>
-            <div class="scroll-hint-autoportrait">
-              <span>Scroll</span>
-              <div class="line"></div>
-            </div>
-          </section>
           <section class="text-start-auto">
             <div class="text-start">
               <p data-animate-text="">
@@ -520,5 +558,58 @@
     <script type="module" src="js/info.js"></script>
     <script type="module" src="js/text-animation-addon.js"></script>
     <script type="module" src="js/main.js"></script>
+
+    <!-- ════ TIMELINE NAV ════ -->
+    <div id="tl-nav" class="hidden">
+      <div id="tl-nav__pill">
+        <div id="tl-nav__track"><div id="tl-nav__fill"></div></div>
+        <div id="tl-nav__nodes">
+          <a href="index.html" class="tl-nav-node tl-nav-visited"
+            ><span class="tl-nav-dot"></span
+          ></a>
+          <a href="dante.html" class="tl-nav-node tl-nav-visited"
+            ><span class="tl-nav-dot"></span
+          ></a>
+          <a href="conversation.html" class="tl-nav-node tl-nav-visited"
+            ><span class="tl-nav-dot"></span
+          ></a>
+          <a href="maladie.html" class="tl-nav-node tl-nav-visited"
+            ><span class="tl-nav-dot"></span
+          ></a>
+          <a href="autoportrait.html" class="tl-nav-node tl-nav-active"
+            ><span class="tl-nav-dot"></span
+          ></a>
+        </div>
+        <div id="tl-nav__cursor">
+          <div id="tl-nav__thumb">
+            <img
+              class="tl-nav-img"
+              src="image/logo/MAISON_LOGO_INDEX.webp"
+              alt=""
+            />
+            <img
+              class="tl-nav-img"
+              src="image/logo/MAISON_LOGO_DANTE.webp"
+              alt=""
+            />
+            <img
+              class="tl-nav-img"
+              src="image/logo/MAISON_LOGO_CONV.webp"
+              alt=""
+            />
+            <img
+              class="tl-nav-img"
+              src="image/logo/MAISON_LOGO_MALADIE.webp"
+              alt=""
+            />
+            <img
+              class="tl-nav-img tl-nav-on"
+              src="image/logo/MAISON_LOGO_AUTO.webp"
+              alt=""
+            />
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

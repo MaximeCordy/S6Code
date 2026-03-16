@@ -7,39 +7,16 @@
   --sombre-maladie: #5f5f5f;
 }
 
+/* ── Bruit ────────────────────────────────────────────── */
+
+[data-barba-namespace="maladie"] .bg {
+  opacity: 1;
+}
+
 /* ── Lignes ───────────────────────────────────────────── */
 
 [data-barba-namespace="maladie"] .line-path {
   stroke: var(--maladie);
-}
-.hero_maladie h1 {
-  font-family: "Poppins", sans-serif;
-  font-size: clamp(2.8rem, 7vw, 6rem);
-  font-weight: 900;
-  color: var(--maladie);
-  letter-spacing: -0.02em;
-  line-height: 1.05;
-  max-width: 800px;
-}
-
-.hero_maladie p {
-  font-family: "Poppins", sans-serif;
-  margin-top: 1.5rem;
-  color: var(--maladie);
-  font-size: 1.1rem;
-  font-weight: 300;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-}
-
-.hero_maladie {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  position: relative;
 }
 
 .scroll-hint-maladie {
@@ -164,9 +141,12 @@
     letter-spacing: -0.528px;
   }
 }
-
+#ligne-h0-maladie {
+  margin-top: -32%;
+  margin-bottom: -34%;
+}
 #ligne-h1-maladie {
-  margin-top: -20%;
+  margin-top: -35%;
   margin-bottom: -34%;
 }
 #ligne-h2-maladie {
@@ -303,4 +283,74 @@
 [data-barba-namespace="maladie"] .text_footer {
   background: var(--maladie);
   color: #f8f6f0;
+}
+.text-ligne-maladie {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 400px;
+  margin-top: 1%;
+}
+.text-ligne-maladie p {
+  color: var(--sombre-maladie);
+  font-family: Poppins;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.text-ligne-maladie h1 {
+  color: var(--sombre-maladie);
+  font-family: poppins;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 104%; /* 24.96px */
+  letter-spacing: -0.528px;
+}
+.hero_maladie {
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  gap: 5;
+  margin-top: 10;
+}
+
+.hero_maladie h1 {
+  color: var(--maladie);
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 120px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 104%; /* 133.12px */
+  letter-spacing: -2.816px;
+  max-width: 60%;
+  @media (min-width: 1540px) {
+    max-width: 50%;
+  }
+}
+
+.hero_maladie h2 {
+  color: var(--maladie);
+  text-align: center;
+  font-family: Poppins;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 104%; /* 24.96px */
+  letter-spacing: -0.528px;
+  width: 60%;
+  margin-top: 5;
+  text-transform: none;
+  @media (min-width: 1540px) {
+    max-width: 50%;
+  }
 }

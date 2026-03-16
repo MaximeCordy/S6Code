@@ -45,10 +45,10 @@ function initConversationSlider() {
     gsap.to(spans, { y: "100%", duration: 0.8, stagger: 0.03, ease: "power4.in" });
   }
 
-  const blockVisible   = new WeakMap(); // bloc déjà apparu dans son groupe
-  const blockCrossed   = new WeakMap(); // bloc entré via crossfade du groupe précédent
+  const blockVisible   = new WeakMap();
+  const blockCrossed   = new WeakMap();
   const igFaded        = new WeakMap();
-  const groupXFired    = new Map();     // group → [bool, bool, bool] crossfades déclenchés
+  const groupXFired    = new Map();
 
   const imageGroupes = [...document.querySelectorAll(".image-groupe")];
   imageGroupes.forEach((ig, i) => {
@@ -131,7 +131,6 @@ function initConversationSlider() {
         if (!isActive) {
           gsap.killTweensOf(blocks);
           blocks.forEach((block) => {
-            // Ne reset que les blocs qui n'ont pas été crossfadés par ce groupe
             if (!blockCrossed.get(block)) {
               gsap.set(block, { autoAlpha: 0 });
               gsap.set(block.querySelectorAll("p span > span"), { y: "100%" });
@@ -145,9 +144,8 @@ function initConversationSlider() {
 
         gsap.set(imgs, { autoAlpha: 1, x: exitX });
 
-        // ── Stagger d'apparition des blocs (texte statique, pas de exitX) ──
+        // ── Stagger d'apparition des blocs ──
         blocks.forEach((block, b) => {
-          // Bloc pré-chargé par un crossfade du groupe précédent → ne pas toucher
           if (blockCrossed.get(block)) return;
 
           const blockStart   = b * STAGGER_RATIO;
@@ -175,10 +173,8 @@ function initConversationSlider() {
             if (groupP >= threshold && !fired[b]) {
               fired[b] = true;
 
-              // Sortie du bloc b du groupe courant
               if (blocks[b]) animateWordsOut(blocks[b]);
 
-              // Entrée du bloc b du groupe suivant (avec délai)
               if (nextBlocks[b]) {
                 gsap.set(nextBlocks[b], { autoAlpha: 1 });
                 gsap.delayedCall(0.5, () => animateWords(nextBlocks[b]));
@@ -187,7 +183,6 @@ function initConversationSlider() {
               }
 
             } else if (groupP < threshold && fired[b]) {
-              // Scroll arrière : reset instantané
               fired[b] = false;
 
               if (nextBlocks[b]) {

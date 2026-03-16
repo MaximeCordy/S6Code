@@ -1,6 +1,6 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
+gsap.registerPlugin(ScrollTrigger);
 export function initMaladieSlider() {
   const track = document.querySelector(".maladie-slider-track");
   if (!track) return;
@@ -67,9 +67,18 @@ function initLetterHover(el, texte) {
       letters.push(span);
 
       const state = {
-        opacity: 1, blur: 0, brightness: 1, tx: 0, ty: 0, scale: 1,
-        targetOpacity: 1, targetBlur: 0, targetBrightness: 1,
-        targetTx: 0, targetTy: 0, targetScale: 1,
+        opacity: 1,
+        blur: 0,
+        brightness: 1,
+        tx: 0,
+        ty: 0,
+        scale: 1,
+        targetOpacity: 1,
+        targetBlur: 0,
+        targetBrightness: 1,
+        targetTx: 0,
+        targetTy: 0,
+        targetScale: 1,
       };
       span._state = state;
 
@@ -87,7 +96,9 @@ function initLetterHover(el, texte) {
     el.appendChild(span);
   });
 
-  function lerp(a, b, t) { return a + (b - a) * t; }
+  function lerp(a, b, t) {
+    return a + (b - a) * t;
+  }
   function animate() {
     letters.forEach((span) => {
       const s = span._state;
@@ -107,24 +118,20 @@ export function initMaladieTitle() {
 
   const patriciaH1 = document.querySelector(".text-pat-maladie h1");
   if (patriciaH1) initLetterHover(patriciaH1, "Patricia");
-}
 
-export function initBlueSkiesScroll() {
-  const img = document.querySelector(".blue-skyes img");
-  if (!img) return;
-
-  gsap.set(img, { scale: 0.7, filter: "brightness(0.2)" });
-
-  gsap.to(img, {
-    scale: 1,
-    filter: "brightness(1)",
-    ease: "none",
-    scrollTrigger: {
-      trigger: img,
-      start: "top 90%",
-      end: "center center",
-      scrub: 1.5,
-    },
+  const textSelectors = [
+    "#maladie-hero-text",
+    ".hero_maladie p",
+    ".maladie-text-container p",
+    ".maladie-text-container h2",
+    ".Before-image-Sky h1",
+    ".text-pat-maladie p",
+    ".After-Patricia-Maladie h1",
+  ];
+  textSelectors.forEach((sel) => {
+    const el = document.querySelector(sel);
+    if (el) initLetterHover(el, el.textContent.trim().replace(/\s+/g, " "));
   });
 }
 
+export function initBlueSkiesScroll() {}

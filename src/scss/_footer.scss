@@ -8,26 +8,19 @@
   margin-bottom: -10%;
 }
 
-.text_nav h2 {
-  color: #313131;
-  font-family: Poppins;
-  font-size: 13px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-}
 .text_nav h1 {
   color: #313131;
   font-family: Poppins;
-  font-size: 24px;
+  font-size: 30px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+  max-width: 100%;
 }
 
 .text_central {
   display: flex;
-  width: 211px;
+
   flex-direction: column;
   align-items: center;
   overflow: visible;
@@ -40,9 +33,12 @@
   flex-direction: column;
   width: 100%;
   margin-top: auto;
+  position: relative;
 }
 
 .footerimg {
+  position: relative;
+  z-index: 0;
   width: 748px;
   height: 529px;
   aspect-ratio: 222/157;
@@ -72,7 +68,33 @@
   }
 }
 
+.header-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: rgba(49, 49, 49, 0.15);
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+
+  &.visible {
+    opacity: 1;
+  }
+
+  &__bar {
+    height: 100%;
+    width: 0%;
+    background: #313131;
+    transition: width 0.1s linear;
+  }
+}
+
 .text_footer {
+  position: relative;
+  z-index: 1;
   display: flex;
   width: 100vw;
   height: 80px;
@@ -90,7 +112,7 @@
 
 .scroll-hint-footer {
   position: absolute;
-  bottom: 3rem;
+  margin-top: -14%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -99,7 +121,6 @@
   font-size: 0.75rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  margin-bottom: 26%;
 }
 
 .scroll-hint-footer .line-footer {
@@ -112,4 +133,5 @@
 #ligne-h-footer {
   margin-top: -20%;
   margin-bottom: -25%;
+  pointer-events: none;
 }

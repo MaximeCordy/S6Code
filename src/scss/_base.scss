@@ -388,7 +388,6 @@ canvas {
   pointer-events: none;
 }
 
-/* Positions individuelles des images */
 .row-big .pic:nth-child(1) {
   width: 320px;
   top: 400px;
@@ -404,7 +403,7 @@ canvas {
 .row-small .pic:nth-child(1) {
   width: 380px;
   top: 1000px;
-  left: 870px;
+  left: 50px;
   transform: rotate(-5deg);
 }
 .row-small .pic:nth-child(2) {
@@ -414,16 +413,16 @@ canvas {
   transform: rotate(10deg);
 }
 .row-small .pic:nth-child(3) {
-  width: 400px;
-  top: 760px;
-  left: 440px;
-  transform: rotate(-10deg);
+  width: 500px;
+  top: 860px;
+  left: 65%;
+  transform: rotate(10deg);
 }
 .row-small .pic:nth-child(4) {
   width: 345px;
   top: 650px;
   left: 850px;
-  transform: rotate(17deg);
+  transform: rotate(320deg);
 }
 
 .After-mummers .subtitle p {

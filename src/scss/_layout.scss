@@ -89,7 +89,47 @@ body {
 // ============================================================
 // INTRO INDEX — SECTION 1 (biographie)
 // ============================================================
+/* ── Oval parallax dans le h1 ── */
 
+.bubble {
+  width: 209px;
+  height: 92px;
+  margin-top: -20;
+  border-radius: 56px;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+.bubble .layer-bg {
+  position: absolute;
+  width: 100%;
+  height: auto;
+  will-change: transform;
+  pointer-events: none;
+  margin-top: -20%;
+}
+
+.bubble .layer-fg {
+  position: absolute;
+  width: 80%;
+  height: auto;
+  will-change: transform;
+  pointer-events: none;
+  margin-top: 3%;
+}
+
+.bubble::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 56px;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.15);
+  pointer-events: none;
+  z-index: 2;
+}
 .info {
   display: flex;
   width: 100%;
@@ -99,7 +139,7 @@ body {
 }
 
 .intro_index {
-  margin-top: -20%;
+  margin-top: -22%;
   display: flex;
   align-items: center;
 }
@@ -146,35 +186,171 @@ body {
 // ============================================================
 // HERO INDEX
 // ============================================================
+#ligne-h0 {
+  margin-top: -26%;
+  margin-bottom: -30%;
+}
+#ligne-h01 {
+  margin-top: -20%;
+  margin-bottom: -32%;
+}
+.text-ligne {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 400px;
+  margin-top: 1%;
+}
+.text-ligne p {
+  color: var(--bg);
+  font-family: Poppins;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.text-ligne h1 {
+  color: #313131;
+  font-family: poppins;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 104%; /* 24.96px */
+  letter-spacing: -0.528px;
+}
+.header-index {
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
 
 .hero_index {
-  height: 100vh;
+  height: 70vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
   position: relative;
+  gap: 5;
 }
 
 .hero_index h1 {
-  font-family: "Poppins", sans-serif;
-  font-size: clamp(2.8rem, 7vw, 6rem);
-  font-weight: 900;
   color: var(--bg);
-  letter-spacing: -0.02em;
-  line-height: 1.05;
-  max-width: 800px;
+  text-align: left;
+  font-family: Poppins;
+  font-size: 120px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 104%; /* 133.12px */
+  letter-spacing: -2.816px;
+  max-width: 60%;
+  @media (min-width: 1540px) {
+    max-width: 50%;
+  }
 }
 
-.hero_index p {
-  font-family: "Poppins", sans-serif;
-  margin-top: 1.5rem;
+.hero_index h2 {
+  color: var(--bg);
+  text-align: center;
+  font-family: Poppins;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 104%; /* 24.96px */
+  letter-spacing: -0.528px;
+  width: 60%;
+  margin-top: 5;
+  text-transform: none;
+  @media (min-width: 1540px) {
+    max-width: 50%;
+  }
+}
+
+.hero_dante {
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  gap: 5;
+  margin-top: 10;
+}
+
+.hero_dante h1 {
+  color: var(--bg);
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 120px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 104%; /* 133.12px */
+  letter-spacing: -2.816px;
+  max-width: 60%;
+  @media (min-width: 1540px) {
+    max-width: 50%;
+  }
+}
+
+.hero_dante p {
+  color: var(--bg);
+  text-align: center;
+  font-family: Poppins;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 104%; /* 24.96px */
+  letter-spacing: -0.528px;
+}
+
+.hero_dante h2 {
+  color: var(--bg);
+  text-align: center;
+  font-family: Poppins;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 104%; /* 24.96px */
+  letter-spacing: -0.528px;
+  width: 40%;
+  margin-top: 5;
+  text-transform: none;
+  @media (min-width: 1540px) {
+    max-width: 30%;
+  }
+}
+
+.h-text-bouton {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 6%;
+  margin-left: 7%;
+}
+.h-text-bouton h1 {
+  color: var(--bg);
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 104%; /* 33.28px */
+  letter-spacing: -0.704px;
+}
+.h-bouton-p p {
   color: var(--muted);
-  font-size: 1.1rem;
+  font-family: poppins;
+  font-size: 14px;
+  font-style: normal;
   font-weight: 300;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
+  line-height: 112%; /* 22.4px */
+  letter-spacing: -0.44px;
+  max-width: 90%;
 }
 
 // ============================================================
@@ -183,7 +359,6 @@ body {
 
 .scroll-hint {
   position: absolute;
-  bottom: 3rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -191,7 +366,6 @@ body {
   color: var(--bg);
   font-size: 0.75rem;
   letter-spacing: 0.2em;
-  text-transform: uppercase;
 }
 
 .scroll-hint .line {
@@ -201,6 +375,15 @@ body {
   animation: pulse 2s ease-in-out infinite;
 }
 
+.scroll-hint span {
+  color: var(--bg);
+  text-align: center;
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
 @keyframes pulse {
   0%,
   100% {
@@ -289,6 +472,18 @@ body.panel-open .pinned-section {
   justify-content: center;
   overflow: hidden;
 }
+.artiste {
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 1.5rem;
+  max-width: 100%;
+  color: var(--bg);
+  margin-top: -20%;
+  text-align: center;
+  gap: 20px;
+}
 
 .img-card {
   position: absolute;
@@ -320,12 +515,12 @@ body.panel-open .pinned-section {
 .img-card:nth-child(3) {
   width: clamp(140px, 16vw, 240px);
   height: clamp(200px, 24vw, 340px);
-  right: 34%;
+  right: 32%;
   top: 40%;
 }
 .img-card:nth-child(4) {
-  width: clamp(170px, 19vw, 280px);
-  height: clamp(230px, 35vw, 870px);
+  width: clamp(170px, 20vw, 280px);
+  height: clamp(230px, 30vw, 870px);
   right: 10%;
   top: 10%;
 }
@@ -347,11 +542,11 @@ body.panel-open .pinned-section {
 // ============================================================
 
 #ligne-h1 {
-  margin-top: 30%;
+  margin-top: -35%;
 }
 
 #ligne-h2 {
-  margin-top: -19%;
+  margin-top: -22%;
 }
 
 #ligne-h3 {
@@ -366,13 +561,16 @@ body.panel-open .pinned-section {
   margin-top: -22%;
   margin-bottom: -37%;
 }
+#ligne-h4 {
+  margin-top: -25%;
+}
 #ligne-h5 {
   margin-top: -25%;
   margin-bottom: -28.3%;
 }
 
 #ligne-h6 {
-  margin-top: -28%;
+  margin-top: -27.5%;
   margin-bottom: -28.3%;
 }
 #ligne-h7 {

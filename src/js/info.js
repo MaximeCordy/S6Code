@@ -5,7 +5,7 @@
 const DATA = {
   section1: {
     titre: "William Utermohlen",
-    audio: { src: "audio/section1.mp3", label: "William, 1953" },
+    audio: { src: "audio/Interview_part_1.mp3", label: "William, 1953" },
     oeuvres: [
       {
         titre: "Autoportrait",
@@ -539,6 +539,215 @@ const DATA = {
       },
     ],
   },
+
+  section16: {
+    titre: "Autoportraits",
+    audio: null,
+    oeuvres: [
+      {
+        titre: "Self portrait",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1995" },
+          { cle: "Technique", valeur: "crayon sur papier" },
+        ],
+      },
+      {
+        titre: "Desperate figure",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1995" },
+          { cle: "Technique", valeur: "crayon sur papier" },
+        ],
+      },
+      {
+        titre: "Self Portrait (scowling)",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1996" },
+          { cle: "Technique", valeur: "crayon sur papier" },
+        ],
+      },
+      {
+        titre: "Self Portrait with Red Shirt,",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1996" },
+          { cle: "Technique", valeur: "mixed media on paper" },
+        ],
+      },
+      {
+        titre: "Self Portrait (Red)",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1996" },
+          { cle: "Technique", valeur: "mixed media on paper" },
+        ],
+      },
+      {
+        titre: "Self Portrait (Sad)",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1996" },
+          { cle: "Technique", valeur: "crayon sur papier" },
+        ],
+      },
+      {
+        titre: "Self Portrait (with Easel Yellow and Green)",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1996" },
+          { cle: "Technique", valeur: "Huile et crayon sur papier" },
+        ],
+      },
+      {
+        titre: "Self Portrait (three-quarter)",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1996" },
+          { cle: "Technique", valeur: "crayon sur papier" },
+        ],
+      },
+      {
+        titre: "Self Portrait",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1996" },
+          { cle: "Technique", valeur: "crayon sur papier" },
+        ],
+      },
+      {
+        titre: "Double Self Portrait",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1996" },
+          { cle: "Technique", valeur: "crayon sur papier" },
+        ],
+      },
+      {
+        titre: "Self Portrait (in the Studio)",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1996" },
+          { cle: "Technique", valeur: "mixed techniques" },
+        ],
+      },
+      {
+        titre: "Self Portrait (yellow)",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1997" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+        ],
+      },
+      {
+        titre: "Self Portrait (Green)",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1997" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+        ],
+      },
+      {
+        titre: "Self Portrait (with Saw)",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1997" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+        ],
+      },
+      {
+        titre: "Self Portrait (2 Skulls)",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1998" },
+          { cle: "Technique", valeur: "charbon sur papier" },
+        ],
+      },
+      {
+        titre: "Self Portrait (shut eye)",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1998" },
+          { cle: "Technique", valeur: "crayon sur papier" },
+        ],
+      },
+      {
+        titre: "Self Portrait (with Easel)",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1998" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+        ],
+      },
+      {
+        titre: "Erased Self Portrait",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "1999" },
+          { cle: "Technique", valeur: "Huile sur toile" },
+        ],
+      },
+      {
+        titre: "Head I ",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "2001" },
+          { cle: "Technique", valeur: "crayon sur papier" },
+        ],
+      },
+      {
+        titre: "Head",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "2001" },
+          { cle: "Technique", valeur: "crayon sur papier" },
+        ],
+      },
+      {
+        titre: "Head (with coffee stain)",
+        artiste: "William Utermohlen",
+        infos: [
+          { cle: "Date", valeur: "2001" },
+          { cle: "Technique", valeur: "crayon sur papier" },
+        ],
+      },
+    ],
+  },
+
+  section17: {
+    titre: "William Utermohlen",
+    audio: null,
+    oeuvres: [],
+  },
+};
+
+// Audio unique par page (namespace Barba)
+// new URL() permet à Parcel de bundler les fichiers et les servir correctement
+const PAGE_AUDIO = {
+  index: {
+    src: new URL("../audio/Interview_part_1.mp3", import.meta.url).href,
+    label: "William, 1933–2007",
+  },
+  dante: {
+    src: new URL("../audio/Interview_part_2_dante.mp3", import.meta.url).href,
+    label: "Dante, 1964–1966",
+  },
+  conversation: {
+    src: new URL("../audio/Interview_part_4_conversation.mp3", import.meta.url)
+      .href,
+    label: "Conversation, 1989–1991",
+  },
+  maladie: {
+    src: new URL("../audio/Interview_part_7_maladie_end.mp3", import.meta.url)
+      .href,
+    label: "Maladie, 1994–1996",
+  },
+  autoportrait: {
+    src: new URL("../audio/Interview_part_9_autoportrait.mp3", import.meta.url)
+      .href,
+    label: "Autoportrait",
+  },
 };
 
 // ============================================================
@@ -844,9 +1053,18 @@ export function initInfoPanel() {
 
   if (!toggle || !ipTitle || !ipBody) return;
 
+  // Empêche Lenis d'intercepter le scroll à l'intérieur du panneau
+  ipBody.setAttribute("data-lenis-prevent", "");
+
   const fadeEls = [ipTitle.closest(".ip-head"), ipBody];
   const sections = [...document.querySelectorAll("section[data-section]")];
   let currentSection = null;
+
+  // Audio unique pour toute la page
+  const namespace =
+    document.querySelector("[data-barba-namespace]")?.dataset.barbaNamespace ||
+    "";
+  setupAudioButton(PAGE_AUDIO[namespace] || null);
 
   // Toggle audio = ouvre/ferme le popup
   const audioBtn = document.getElementById("audio-toggle");
@@ -862,7 +1080,7 @@ export function initInfoPanel() {
         hidePopup();
       } else {
         showPopup();
-        audioEl.play();
+        audioEl.play().catch((err) => console.error("Audio play error:", err));
       }
     };
     audioBtn.addEventListener("click", audioHandler);
@@ -1034,7 +1252,6 @@ export function initInfoPanel() {
           </div>`,
         )
         .join("");
-      setupAudioButton(d.audio || null);
       fadeEls.forEach((el) => el.classList.remove("fading"));
     }, 220);
   }
@@ -1066,12 +1283,4 @@ export function initInfoPanel() {
   if (init) updatePanel(init.dataset.section);
 }
 
-// ============================================================
-// AUTO-INIT AU PREMIER CHARGEMENT
-// ============================================================
-
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initInfoPanel);
-} else {
-  initInfoPanel();
-}
+// Auto-init handled by main.js after page transition overlay

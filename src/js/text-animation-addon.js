@@ -3,6 +3,8 @@
 // Compatible Barba — ne touche pas aux autres animations
 // ============================================================
 
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 // ============================================================
@@ -74,22 +76,12 @@ function animateTextByWords(selector = "[data-animate-text]", options = {}) {
           trigger: element,
           start: scrollTriggerStart,
           once: true,
+          id: "text-anim",
         },
       });
     } else {
       gsap.to(wordSpans, animationProps);
     }
-  });
-}
-
-// ============================================================
-// CLEANUP — POUR BARBA (appeler dans beforeLeave)
-// ============================================================
-
-function cleanupTextAnimations() {
-  const animatedElements = document.querySelectorAll("[data-text-animated]");
-  animatedElements.forEach((el) => {
-    el.removeAttribute("data-text-animated");
   });
 }
 
@@ -101,5 +93,6 @@ document.addEventListener("DOMContentLoaded", () => {
   animateTextByWords("[data-animate-text]", {
     animateOnScroll: true,
     delay: 0.2,
+    scrollTriggerStart: "top 95%",
   });
 });

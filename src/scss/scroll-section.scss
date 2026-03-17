@@ -123,6 +123,10 @@ body {
     height: auto;
     display: block;
   }
+  @media (min-width: 1540px) {
+    left: 680;
+    bottom: 500;
+  }
 }
 
 // ============================================================

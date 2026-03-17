@@ -51,7 +51,7 @@ export function initMaladieSlider() {
   });
 }
 
-function initLetterHover(el, texte) {
+export function initLetterHover(el, texte) {
   if (!el) return;
   el.innerHTML = "";
   const letters = [];

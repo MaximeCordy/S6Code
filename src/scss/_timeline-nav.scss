@@ -20,10 +20,6 @@
   --text: #f8f6f0;
   --accent: #c8a45a;
   --muted: #6b6572;
-  --auto-text: #505050;
-  --auto-titre: #272727;
-  --maladie: #a2a2a2;
-  --sombre-maladie: #5f5f5f;
 }
 #tl-nav__pill {
   position: relative;
@@ -73,6 +69,31 @@
   width: 16px;
   height: 16px;
   text-decoration: none;
+  position: relative;
+
+  &::after {
+    content: attr(data-label);
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 0.65rem;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    white-space: nowrap;
+    padding: 4px 8px;
+    border-radius: 4px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  &:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
 }
 
 .tl-nav-dot {

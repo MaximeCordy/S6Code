@@ -39,6 +39,7 @@
     </div>
 
     <!-- Barba Wrapper -->
+    <div class="bg"></div>
     <div data-barba="wrapper">
       <div data-barba="container" data-barba-namespace="autoportrait">
         <div class="page page-autoportrait">
@@ -49,7 +50,7 @@
               <p data-animate-text="">2026</p>
             </div>
           </div>
-          <div class="ligne-h" id="ligne-h0-auto">
+          <div class="ligne-h" id="ligne-h00">
             <svg viewBox="0 0 800 400">
               <path
                 class="line-path"
@@ -70,7 +71,7 @@
 
           <section class="hero_conversation">
             <h1>
-              Auto -
+              <span class="hero-text-part">Auto -</span>
               <span class="bubble" id="bubble">
                 <img
                   class="layer-bg"
@@ -85,7 +86,7 @@
                   alt=""
                 />
               </span>
-              Portrait
+              <span class="hero-text-part">Portrait</span>
             </h1>
             <h2>...</h2>
 
@@ -392,7 +393,7 @@
 
           <section class="scroll-text-reveal">
             <div class="str-inner">
-              <p class="str-text" data-animate-text="">
+              <p class="str-text">
                 Chaque année, la maladie d’Alzheimer compte plus de 34 000
                 nouveaux cas en Suisse et environ 10 millions dans le monde.
                 Avec le vieillissement de la population, ces chiffres devraient
@@ -423,9 +424,10 @@
             </svg>
           </div>
           <section class="info-avant-footer">
-            <h1 data-animate-text="">
+            <h1>
               meme si vous oubliez, on ne vous oublie pas.
             </h1>
+            <p>Merci pour votre Visite</p>
             <div class="container-link">
               <div class="link">
                 <h2>Assosiations</h2>
@@ -507,6 +509,11 @@
                 </div>
               </div>
             </div>
+            <h3 class="fin">
+              Ce site a été conçu et réalisé dans le cadre de l’examen du S6 à
+              Eikon, sur une durée d’un mois et demi. Ceci est un travail
+              autonome réalisé par Maxime Cordy en février–mars 2026.
+            </h3>
           </section>
           <div class="ligne-h" id="ligne-h-footer">
             <svg viewBox="0 0 800 400">
@@ -561,19 +568,34 @@
       <div id="tl-nav__pill">
         <div id="tl-nav__track"><div id="tl-nav__fill"></div></div>
         <div id="tl-nav__nodes">
-          <a href="index.html" class="tl-nav-node tl-nav-visited"
+          <a
+            href="index.html"
+            data-label="La Galerie"
+            class="tl-nav-node tl-nav-visited"
             ><span class="tl-nav-dot"></span
           ></a>
-          <a href="dante.html" class="tl-nav-node tl-nav-visited"
+          <a
+            href="dante.html"
+            data-label="Dante"
+            class="tl-nav-node tl-nav-visited"
             ><span class="tl-nav-dot"></span
           ></a>
-          <a href="conversation.html" class="tl-nav-node tl-nav-visited"
+          <a
+            href="conversation.html"
+            data-label="Conversation"
+            class="tl-nav-node tl-nav-visited"
             ><span class="tl-nav-dot"></span
           ></a>
-          <a href="maladie.html" class="tl-nav-node tl-nav-visited"
+          <a
+            href="maladie.html"
+            data-label="Maladie"
+            class="tl-nav-node tl-nav-visited"
             ><span class="tl-nav-dot"></span
           ></a>
-          <a href="autoportrait.html" class="tl-nav-node tl-nav-active"
+          <a
+            href="autoportrait.html"
+            data-label="Autoportrait"
+            class="tl-nav-node tl-nav-active"
             ><span class="tl-nav-dot"></span
           ></a>
         </div>

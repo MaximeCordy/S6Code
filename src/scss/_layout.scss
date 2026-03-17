@@ -48,6 +48,8 @@ body {
   animation: bg-animation 0.2s infinite;
   opacity: 0.9;
   visibility: visible;
+  z-index: 100;
+  pointer-events: none;
 }
 
 @keyframes bg-animation {
@@ -150,15 +152,6 @@ body {
   align-self: stretch;
 }
 
-#titrage {
-  color: #313131;
-  text-align: center;
-  font-family: Poppins;
-  text-transform: uppercase;
-  line-height: 150%;
-  letter-spacing: -0.276px;
-}
-
 .layout_img_index {
   display: flex;
   flex-direction: row;
@@ -186,9 +179,14 @@ body {
 // ============================================================
 // HERO INDEX
 // ============================================================
+#ligne-h00,
 #ligne-h0 {
-  margin-top: -26%;
+  margin-top: -26.5%;
   margin-bottom: -30%;
+}
+#ligne-h00 {
+  margin-top: calc(-26.5% - 100px);
+  margin-bottom: calc(-30% - 100px);
 }
 #ligne-h01 {
   margin-top: -20%;
@@ -204,14 +202,14 @@ body {
 .text-ligne p {
   color: var(--bg);
   font-family: Poppins;
-  font-size: 18px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
 }
 
 .text-ligne h1 {
-  color: #313131;
+  color: var(--bg);
   font-family: poppins;
   font-size: 24px;
   font-style: normal;
@@ -226,7 +224,7 @@ body {
 }
 
 .hero_index {
-  height: 70vh;
+  height: 85vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -542,7 +540,7 @@ body.panel-open .pinned-section {
 // ============================================================
 
 #ligne-h1 {
-  margin-top: -30%;
+  margin-top: -33%;
 }
 
 #ligne-h2 {
@@ -570,8 +568,11 @@ body.panel-open .pinned-section {
 }
 
 #ligne-h6 {
-  margin-top: -27.5%;
+  margin-top: -27.6%;
   margin-bottom: -28.3%;
+  @media (min-width: 1540px) {
+    margin-top: -27%;
+  }
 }
 #ligne-h7 {
   margin-top: -25%;
@@ -599,9 +600,9 @@ body.panel-open .pinned-section {
   margin-top: -20%;
 }
 .after-section p {
-  color: #f8f6f0;
+  color: var(--text);
   font-family: Poppins;
-  font-size: 32px;
+  font-size: 35px;
   font-style: normal;
   font-weight: 500;
   line-height: 150%; /* 63px */
@@ -669,7 +670,7 @@ body.panel-open .pinned-section {
 
 .after-section h2 {
   height: 116px;
-  color: #f8f6f0;
+  color: var(--text);
   text-align: center;
   font-family: Poppins;
   font-size: 46px;
@@ -794,7 +795,7 @@ body.panel-open .pinned-section {
 }
 
 .patricia h1 {
-  color: #313131;
+  color: var(--bg);
   text-align: center;
   font-family: Poppins;
   font-size: 130px;
@@ -819,10 +820,15 @@ body.panel-open .pinned-section {
 }
 
 .pat-label {
-  font-size: 0.65rem;
-  letter-spacing: 0.15em;
+  color: var(--muted);
+  text-align: center;
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150%; /* 18px */
+  letter-spacing: -0.276px;
   text-transform: uppercase;
-  color: #666;
 }
 
 .pat-grid strong {
@@ -830,7 +836,7 @@ body.panel-open .pinned-section {
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.02em;
-  color: var(--bg, #313131);
+  color: var(--bg);
 }
 
 .container-text-pat {
@@ -844,7 +850,7 @@ body.panel-open .pinned-section {
 }
 
 .patricia h2 {
-  color: var(--bg, #313131);
+  color: var(--bg);
   font-family: Poppins;
   font-size: 35px;
   font-style: normal;
@@ -877,7 +883,7 @@ body.panel-open .pinned-section {
 }
 
 .after-patricia h1 {
-  color: var(--bg, #313131);
+  color: var(--bg);
   font-family: Poppins;
   font-size: 46px;
   font-weight: 600;
@@ -992,6 +998,9 @@ body.panel-open .slider-item {
   width: 20%;
   top: 5%;
   left: 61%;
+  @media (min-width: 1540px) {
+    top: -10;
+  }
 }
 .slider-item#item-6 {
   left: 500px;
@@ -1070,6 +1079,9 @@ body .page-maladie {
   max-width: 90%;
   top: 20;
   left: 5;
+  @media (min-width: 1540px) {
+    max-width: 70%;
+  }
 }
 // ============================================================
 // MUMMERS
@@ -1078,19 +1090,11 @@ body .page-maladie {
   display: flex;
   flex-direction: column;
 }
-.signature {
-  max-width: 60%;
-  top: 199;
-  left: 330;
-  display: inline-block;
-  background-color: #446e47;
-  padding: 0px 12px;
-}
 // ============================================================
 // after-mummers
 // ============================================================
 .contenu {
-  color: #000;
+  color: var(--bg);
   text-align: center;
   font-family: Poppins;
   font-size: 29px;
@@ -1113,7 +1117,7 @@ body .page-maladie {
 }
 
 .placeholder {
-  color: #000;
+  color: var(--bg);
   text-align: center;
   font-family: Poppins;
   font-size: 29px;

@@ -205,6 +205,9 @@
   padding: 10%;
   margin-left: 5%;
   margin-top: -3%;
+  @media (min-width: 1540px) {
+    left: 170;
+  }
 }
 .text-layer2 h2 {
   font-family: "Poppins", sans-serif;

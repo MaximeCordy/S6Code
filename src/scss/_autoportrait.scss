@@ -22,10 +22,7 @@
   line-height: 1.05;
   max-width: 800px;
 }
-#ligne-h0-auto {
-  margin-top: -32%;
-  margin-bottom: -34%;
-}
+
 #ligne-h1-auto {
   margin-top: -35%;
   margin-bottom: -34%;
@@ -82,7 +79,7 @@
 
 #ligne-h-footer-auto {
   margin-top: -40%;
-  margin-bottom: -15%;
+  margin-bottom: -25%;
   pointer-events: none;
 }
 
@@ -332,7 +329,7 @@
 }
 
 .link-text a {
-  color: var(--bg);
+  color: var(--auto-text);
   font-family: Poppins;
   font-size: 15px;
   font-weight: 600;
@@ -390,13 +387,23 @@
   text-align: center;
 }
 .info-avant-footer h1 {
-  color: var(--auto-titre);
+  color: var(--auto-text);
   font-family: Poppins;
   font-size: 40px;
   font-style: normal;
   font-weight: 600;
   letter-spacing: -1.012px;
   margin-bottom: 10%;
+}
+.info-avant-footer p {
+  color: var(--auto-text);
+  font-family: Poppins;
+  font-size: 25px;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: -1.012px;
+  margin-top: -10%;
+  margin-bottom: 5%;
 }
 
 /* ── Scroll text reveal ───────────────────────────────── */
@@ -423,4 +430,28 @@
   letter-spacing: -1.012px;
   margin-bottom: 10%;
   max-width: 70%;
+}
+
+.hero_autoportrait h1,
+.g-tl-yr,
+.text-end p,
+.info-avant-footer h1,
+.str-text {
+  transition: color 0.3s ease;
+  &:hover {
+    color: var(--auto-text);
+  }
+}
+
+.fin {
+  max-width: 70%;
+  align-items: center;
+  justify-content: center;
+  bottom: 1;
+  margin-right: auto;
+  margin-left: auto;
+  top: 100;
+  font-weight: 300;
+  font-size: 20px;
+  color: var(--auto-text);
 }

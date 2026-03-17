@@ -127,6 +127,33 @@ body.panel-open img[data-artwork]:hover {
   transition: right 0.4s ease;
 }
 
+#audio-toggle::after {
+  content: "Le bouton AUDIO vous guide dans la visite grâce au récit de la femme de William.";
+  position: absolute;
+  right: calc(100% + 12px);
+  bottom: 0;
+  width: 220px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.72rem;
+  font-weight: 400;
+  line-height: 1.5;
+  padding: 8px 12px;
+  border-radius: 8px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(6px);
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+  white-space: normal;
+}
+
+#audio-toggle:hover::after {
+  opacity: 1;
+  transform: translateX(0);
+}
+
 #audio-toggle:hover {
   transform: none;
 }
@@ -171,6 +198,33 @@ body.panel-open img[data-artwork]:hover {
 
 #info-toggle.hidden {
   display: none;
+}
+
+#info-toggle::after {
+  content: "Le bouton INFO vous permet de découvrir des informations sur les œuvres d’art et leur époque.";
+  position: absolute;
+  right: calc(100% + 12px);
+  bottom: 0;
+  width: 220px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.72rem;
+  font-weight: 400;
+  line-height: 1.5;
+  padding: 8px 12px;
+  border-radius: 8px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(6px);
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+  white-space: normal;
+}
+
+#info-toggle:hover::after {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 #info-toggle::before {

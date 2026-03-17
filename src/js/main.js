@@ -12,7 +12,7 @@ import {
   initMaladieTitle,
   initBlueSkiesScroll,
 } from "./maladie.js";
-import { initAutoportrait } from "./autoportrait.js";
+import { initAutoportrait, initAutoportraitTitles } from "./autoportrait.js";
 import { showTimelineNav } from "./timeline.js";
 
 gsap.registerPlugin(ScrollTrigger, Draggable);
@@ -777,6 +777,7 @@ barba.init({
         initBlueSkiesScroll();
 
         initAutoportrait();
+        initAutoportraitTitles();
         initScrollTextReveal();
         initBubbleClick();
 
@@ -935,6 +936,7 @@ barba.init({
         initBlueSkiesScroll();
 
         initAutoportrait();
+        initAutoportraitTitles();
         initScrollTextReveal();
         initBubbleClick();
 

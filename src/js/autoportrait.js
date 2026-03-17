@@ -1,3 +1,23 @@
+import { initLetterHover } from "./maladie.js";
+
+export function initAutoportraitTitles() {
+  document.querySelectorAll(".hero_conversation h1 .hero-text-part").forEach((el) => {
+    initLetterHover(el, el.textContent.trim().replace(/\s+/g, " "));
+  });
+
+  const selectors = [
+    ".hero_conversation h2",
+    ".info-avant-footer h1",
+    ".info-avant-footer > p",
+    ".info-avant-footer h2",
+  ];
+  selectors.forEach((sel) => {
+    document.querySelectorAll(sel).forEach((el) => {
+      initLetterHover(el, el.textContent.trim().replace(/\s+/g, " "));
+    });
+  });
+}
+
 export function initAutoportrait() {
   const trackEl = document.getElementById("gallery-track");
   if (!trackEl) return;

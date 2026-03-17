@@ -1,9 +1,11 @@
 import { initLetterHover } from "./maladie.js";
 
 export function initAutoportraitTitles() {
-  document.querySelectorAll(".hero_conversation h1 .hero-text-part").forEach((el) => {
-    initLetterHover(el, el.textContent.trim().replace(/\s+/g, " "));
-  });
+  document
+    .querySelectorAll(".hero_conversation h1 .hero-text-part")
+    .forEach((el) => {
+      initLetterHover(el, el.textContent.trim().replace(/\s+/g, " "));
+    });
 
   const selectors = [
     ".hero_conversation h2",

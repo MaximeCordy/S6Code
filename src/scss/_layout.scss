@@ -202,10 +202,12 @@ body {
 .text-ligne p {
   color: var(--bg);
   font-family: Poppins;
-  font-size: 16px;
+  font-family: Poppins;
+  font-size: 18px;
   font-style: normal;
-  font-weight: 400;
-  line-height: normal;
+  font-weight: 500;
+  line-height: 104%; /* 24.96px */
+  letter-spacing: -0.528px;
 }
 
 .text-ligne h1 {

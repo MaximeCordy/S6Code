@@ -244,6 +244,9 @@
     line-height: 150%; /* 36px */
     letter-spacing: -0.528px;
   }
+  @media (min-width: 1540px) {
+    top: 120;
+  }
 }
 
 .container-pat-maladie {
@@ -294,10 +297,12 @@
 .text-ligne-maladie p {
   color: var(--sombre-maladie);
   font-family: Poppins;
-  font-size: 16px;
+  color: var(--maladie);
+  font-size: 18px;
   font-style: normal;
-  font-weight: 400;
-  line-height: normal;
+  font-weight: 500;
+  line-height: 104%; /* 24.96px */
+  letter-spacing: -0.528px;
 }
 
 .text-ligne-maladie h1 {
@@ -347,10 +352,10 @@
   font-weight: 500;
   line-height: 104%; /* 24.96px */
   letter-spacing: -0.528px;
-  width: 60%;
+  width: 50%;
   margin-top: 5;
   text-transform: none;
   @media (min-width: 1540px) {
-    max-width: 50%;
+    max-width: 40%;
   }
 }

@@ -37,6 +37,14 @@
   letter-spacing: -0.528px;
 }
 
+.h2-repeat {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 24px;
+  margin-top: 12px;
+}
+
 .hero_conversation h2 {
   color: var(--bg);
   text-align: center;

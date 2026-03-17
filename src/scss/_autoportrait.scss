@@ -12,7 +12,33 @@
 [data-barba-namespace="autoportrait"] .line-path {
   stroke: var(--auto-titre);
 }
+.text-ligne-auto p {
+  color: var(--sombre-maladie);
+  font-family: Poppins;
+  color: var(--auto-text);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 104%; /* 24.96px */
+  letter-spacing: -0.528px;
+}
 
+.text-ligne-auto h1 {
+  color: var(--auto-text);
+  font-family: poppins;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 104%; /* 24.96px */
+  letter-spacing: -0.528px;
+}
+.text-ligne-auto {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 400px;
+  margin-top: 1%;
+}
 .hero_autoportrait h1 {
   font-family: "Poppins", sans-serif;
   font-size: clamp(2.8rem, 7vw, 6rem);

@@ -778,6 +778,7 @@ barba.init({
 
         initAutoportrait();
         initScrollTextReveal();
+        initBubbleClick();
 
         setTimeout(() => {
           window.addEventListener("scroll", handleScroll);
@@ -801,8 +802,6 @@ barba.init({
         showTimelineNav();
         initInfoPanel();
 
-        const infoToggle = document.getElementById("info-toggle");
-        if (infoToggle) infoToggle.classList.remove("hidden");
       },
 
       // --- Quitter la page ---
@@ -812,11 +811,6 @@ barba.init({
 
         const tlNav = document.getElementById("tl-nav");
         if (tlNav) tlNav.classList.add("hidden");
-
-        const infoToggle = document.getElementById("info-toggle");
-        if (infoToggle) infoToggle.classList.add("hidden");
-        const audioToggle = document.getElementById("audio-toggle");
-        if (audioToggle) audioToggle.classList.add("hidden");
 
         updateStickerVisibility(null);
 
@@ -942,6 +936,7 @@ barba.init({
 
         initAutoportrait();
         initScrollTextReveal();
+        initBubbleClick();
 
         isTransitioning = false;
 
@@ -1176,6 +1171,26 @@ function initLogoWiggle() {
       () => logo.classList.remove("shaking"),
       { once: true },
     );
+  });
+}
+
+// ============================================================
+//  16b. BUBBLE — grandit et rétrécit au clic
+// ============================================================
+
+function initBubbleClick() {
+  const bubble = document.getElementById("bubble");
+  if (!bubble) return;
+
+  let animating = false;
+  bubble.style.cursor = "pointer";
+
+  bubble.addEventListener("click", () => {
+    if (animating) return;
+    animating = true;
+    gsap.timeline({ onComplete: () => (animating = false) })
+      .to(bubble, { scale: 1.25, duration: 0.25, ease: "power2.out" })
+      .to(bubble, { scale: 1, duration: 0.5, ease: "elastic.out(1, 0.4)" });
   });
 }
 

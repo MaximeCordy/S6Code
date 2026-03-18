@@ -1,3 +1,6 @@
+// ============================================================
+// MAIN - IMPORTS
+// ============================================================
 import barba from "@barba/core";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -18,6 +21,9 @@ import { initScrollSection } from "./scroll-section.js";
 
 gsap.registerPlugin(ScrollTrigger, Draggable);
 
+// ============================================================
+// MAIN - CONFIG PAGES ET NAVIGATION
+// ============================================================
 const pageOrder = [
   "index",
   "dante",
@@ -34,6 +40,9 @@ const pageUrls = {
   autoportrait: "/autoportrait.html",
 };
 
+// ============================================================
+// MAIN - ÉTAT GLOBAL
+// ============================================================
 let isTransitioning = false;
 let isGoingBack = false;
 let currentPageNamespace = null;
@@ -48,6 +57,9 @@ let headerProgressBarEl = null;
 const layerBg = document.getElementById("layerBg");
 const layerFg = document.getElementById("layerFg");
 
+// ============================================================
+// MAIN - PARALLAXE SOURIS (image header)
+// ============================================================
 const SPEED_BG = 10,
   SPEED_FG = 22,
   LERP = 0.07;
@@ -92,6 +104,9 @@ document.addEventListener("mouseleave", () => {
   tFgY = 0;
 });
 
+// ============================================================
+// MAIN - LENIS + SCROLL
+// ============================================================
 const lenis = new Lenis();
 window.__lenis = lenis;
 
@@ -109,12 +124,18 @@ lenis.on("scroll", ({ scroll, limit }) => {
   if (progressBar) progressBar.style.height = `${(scroll / limit) * 100}%`;
 });
 
+// ============================================================
+// MAIN - UTILITAIRE GSAP
+// ============================================================
 function gsapPromise(target, vars) {
   return new Promise((resolve) => {
     gsap.to(target, { ...vars, onComplete: resolve });
   });
 }
 
+// ============================================================
+// MAIN - SCROLL PIN (section pinned + cartes)
+// ============================================================
 export function initScrollPin() {
   ScrollTrigger.getAll()
     .filter((st) => st.vars?.id !== "text-anim")
@@ -199,6 +220,9 @@ export function initScrollPin() {
   ScrollTrigger.refresh();
 }
 
+// ============================================================
+// MAIN - ZOOM SCROLL (section after)
+// ============================================================
 function initAfterSectionZoom() {
   const imgs = document.querySelectorAll(".mother img, .father img");
   if (!imgs.length) return;
@@ -221,6 +245,9 @@ function initAfterSectionZoom() {
   });
 }
 
+// ============================================================
+// MAIN - IMAGE PATRICIA (pendaison + chute)
+// ============================================================
 function initPatriciaHangingImage() {
   const section = document.querySelector(".patricia");
   const wrapper = document.getElementById("hanging-pat-wrapper");
@@ -272,6 +299,9 @@ function initPatriciaHangingImage() {
   });
 }
 
+// ============================================================
+// MAIN - LIGNES SVG INTERACTIVES
+// ============================================================
 function initSVGLine(scope, axis = "y", strength = 0.5) {
   const svg = scope.querySelector("svg");
   const path = scope.querySelector(".line-path");
@@ -346,6 +376,9 @@ function initSVGLine(scope, axis = "y", strength = 0.5) {
   render();
 }
 
+// ============================================================
+// MAIN - SLIDER ANIMATION (index)
+// ============================================================
 function initSliderAnimation() {
   const sliderMask = document.querySelector(".slider-mask");
   if (!sliderMask) return;
@@ -385,6 +418,9 @@ function initSliderAnimation() {
   });
 }
 
+// ============================================================
+// MAIN - CURSEUR PERSONNALISÉ
+// ============================================================
 const cursorConfigs = {
   index: {
     pointsNumber: 5,
@@ -531,6 +567,9 @@ function initCursor(namespace) {
   cursorAnimationId = window.requestAnimationFrame(update);
 }
 
+// ============================================================
+// MAIN - NAVIGATION ENTRE PAGES
+// ============================================================
 function getNextPage(currentNamespace) {
   const currentIndex = pageOrder.indexOf(currentNamespace);
   if (currentIndex !== -1 && currentIndex < pageOrder.length - 1) {
@@ -547,6 +586,9 @@ function getPreviousPage(currentNamespace) {
   return null;
 }
 
+// ============================================================
+// MAIN - BARRE DE PROGRESSION FOOTER / HEADER
+// ============================================================
 let progressEl = null;
 let progressBarEl = null;
 
@@ -660,6 +702,9 @@ function onFooterWheel(e) {
   }
 }
 
+// ============================================================
+// MAIN - DÉTECTION SCROLL (haut/bas de page)
+// ============================================================
 function handleScroll() {
   if (isTransitioning) return;
 
@@ -697,6 +742,9 @@ function handleScroll() {
   }
 }
 
+// ============================================================
+// MAIN - BARBA (transitions de pages)
+// ============================================================
 barba.init({
   debug: false,
   preventRunning: true,
@@ -883,6 +931,9 @@ barba.init({
   ],
 });
 
+// ============================================================
+// MAIN - BOUTONS MAGNÉTIQUES
+// ============================================================
 function initMagneticButtons() {
   const buttons = document.querySelectorAll("#info-toggle, #audio-toggle");
   const radius = 80;
@@ -929,11 +980,17 @@ function initMagneticButtons() {
 
 initMagneticButtons();
 
+// ============================================================
+// MAIN - INIT LIGNES SVG AU CHARGEMENT
+// ============================================================
 document.querySelectorAll(".ligne-h").forEach((el) => initSVGLine(el, "y"));
 document
   .querySelectorAll(".vertical-line-svg")
   .forEach((el) => initSVGLine(el, "x"));
 
+// ============================================================
+// MAIN - INIT AU CHARGEMENT (DOMContentLoaded)
+// ============================================================
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", () => {
     initScrollPin();
@@ -963,6 +1020,9 @@ if (document.readyState === "loading") {
   initScrollSection();
 }
 
+// ============================================================
+// MAIN - LOGO WIGGLE
+// ============================================================
 function initLogoWiggle() {
   const logo = document.getElementById("logo");
   if (!logo) return;
@@ -978,6 +1038,9 @@ function initLogoWiggle() {
   });
 }
 
+// ============================================================
+// MAIN - BUBBLE CLICK
+// ============================================================
 function initBubbleClick() {
   const bubble = document.getElementById("bubble");
   if (!bubble) return;
@@ -995,6 +1058,9 @@ function initBubbleClick() {
   });
 }
 
+// ============================================================
+// MAIN - VITESSE DE SCROLL PAR PAGE
+// ============================================================
 function setScrollSpeed(namespace) {
   const speeds = {
     maladie: 0.45,
@@ -1003,6 +1069,9 @@ function setScrollSpeed(namespace) {
   lenis.options.wheelMultiplier = speeds[namespace] ?? 1;
 }
 
+// ============================================================
+// MAIN - FOOTER SLOW SCROLL + PARALLAXE IMAGE
+// ============================================================
 function initFooterSlowScroll() {
   const footer = document.querySelector(".footer");
   if (!footer) return;
@@ -1038,6 +1107,9 @@ function initFooterSlowScroll() {
   );
 }
 
+// ============================================================
+// MAIN - S3 OVERLAY SCROLL
+// ============================================================
 function initS3Overlay() {
   const s3 = document.querySelector("#s3");
   if (!s3) return;
@@ -1057,6 +1129,9 @@ function initS3Overlay() {
   );
 }
 
+// ============================================================
+// MAIN - CADRES SVG HERO (créés dynamiquement)
+// ============================================================
 function initCadre() {
   const r = 27;
   const cs = getComputedStyle(document.documentElement);
@@ -1064,8 +1139,13 @@ function initCadre() {
   const colorMaladie = cs.getPropertyValue("--sombre-maladie").trim();
   const colorAuto = cs.getPropertyValue("--auto-text").trim();
 
-  function setupCadre(el, svgEl, pathEl, color) {
-    if (!el || !svgEl || !pathEl) return;
+  function setupCadre(el, svgEl, color) {
+    if (!el || !svgEl) return;
+    let pathEl = svgEl.querySelector("path");
+    if (!pathEl) {
+      pathEl = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      svgEl.appendChild(pathEl);
+    }
     pathEl.style.fill = "none";
     pathEl.style.stroke = color || "#fff";
     pathEl.style.strokeWidth = "2";
@@ -1093,15 +1173,15 @@ function initCadre() {
   }
 
   [
-    ["heroIndex", "heroIndexSvg", "heroIndexPath", colorBg],
-    ["monCadre", "cadreSvg", "cadrePath", colorBg],
-    [null, "heroSvgDante", "heroPathDante", colorBg],
-    [null, "heroSvgConversation", "heroPathConversation", colorBg],
-    [null, "heroSvgMaladie", "heroPathMaladie", colorMaladie],
-    [null, "heroSvgAutoportrait", "heroPathAutoportrait", colorAuto],
-  ].forEach(([elId, svgId, pathId, color]) => {
+    ["heroIndex", "heroIndexSvg", colorBg],
+    ["monCadre", "cadreSvg", colorBg],
+    [null, "heroSvgDante", colorBg],
+    [null, "heroSvgConversation", colorBg],
+    [null, "heroSvgMaladie", colorMaladie],
+    [null, "heroSvgAutoportrait", colorAuto],
+  ].forEach(([elId, svgId, color]) => {
     const svgEl = document.getElementById(svgId);
     const el = elId ? document.getElementById(elId) : svgEl?.parentElement;
-    setupCadre(el, svgEl, document.getElementById(pathId), color);
+    setupCadre(el, svgEl, color);
   });
 }

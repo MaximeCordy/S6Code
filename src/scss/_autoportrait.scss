@@ -1,35 +1,33 @@
-/* ══════════════════════════════════════════════════════
-   PAGE AUTOPORTRAIT
-   ══════════════════════════════════════════════════════ */
-
 :root {
-  --auto-text: #505050;
-  --auto-titre: #272727;
+  --auto-text: #585858;
+  --auto-titre: #363636;
 }
-
-/* ── Lignes ───────────────────────────────────────────── */
 
 [data-barba-namespace="autoportrait"] .line-path {
-  stroke: var(--auto-titre);
+  stroke: var(--auto-text);
+}
+[data-barba-namespace="autoportrait"] .scroll-hint span {
+  color: var(--auto-text);
+}
+[data-barba-namespace="autoportrait"] .scroll-hint .line {
+  background: linear-gradient(to bottom, var(--auto-text), transparent);
 }
 .text-ligne-auto p {
-  color: var(--sombre-maladie);
   font-family: Poppins;
   color: var(--auto-text);
   font-size: 18px;
   font-style: normal;
   font-weight: 500;
-  line-height: 104%; /* 24.96px */
+  line-height: 104%;
   letter-spacing: -0.528px;
 }
-
 .text-ligne-auto h1 {
   color: var(--auto-text);
   font-family: poppins;
   font-size: 24px;
   font-style: normal;
   font-weight: 700;
-  line-height: 104%; /* 24.96px */
+  line-height: 104%;
   letter-spacing: -0.528px;
 }
 .text-ligne-auto {
@@ -43,7 +41,7 @@
   font-family: "Poppins", sans-serif;
   font-size: clamp(2.8rem, 7vw, 6rem);
   font-weight: 900;
-  color: var(--auto-titre);
+  color: var(--auto-text);
   letter-spacing: -0.02em;
   line-height: 1.05;
   max-width: 800px;
@@ -73,7 +71,69 @@
   text-align: center;
   position: relative;
 }
+.hero_autoportrait {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
 
+  &-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+  }
+
+  &-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  &-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  &-title {
+    font-size: clamp(3rem, 12vw, 8rem);
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  &-subtitle {
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    font-weight: 300;
+    color: var(--text);
+    letter-spacing: 0.02em;
+  }
+}
 .scroll-hint-autoportrait {
   position: absolute;
   bottom: 3rem;
@@ -109,7 +169,6 @@
   pointer-events: none;
 }
 
-/* ── Contenu ──────────────────────────────────────────── */
 .text-start p {
   color: var(--auto-text);
   font-family: Poppins;
@@ -145,7 +204,7 @@
   gap: 20px;
 
   p {
-    color: var(--autoportrait);
+    color: var(--auto-text);
     font-size: 24px;
     font-weight: 500;
     line-height: 150%;
@@ -203,6 +262,11 @@
   transform-origin: 0 0;
   will-change: transform;
 }
+
+// ============================================================
+// AUTO - GALLERIE
+// ============================================================
+
 .g-card {
   position: absolute;
   border-radius: 3px;
@@ -215,7 +279,6 @@
   object-fit: cover;
 }
 
-/* --- UI --- */
 .g-hdr {
   position: absolute;
   top: 0;
@@ -326,7 +389,9 @@
   cursor: default;
   pointer-events: none;
 }
-
+// ============================================================
+// AUTO - TEXT DE FIN
+// ============================================================
 .text-end p {
   color: var(--auto-titre);
   font-family: Poppins;
@@ -389,6 +454,9 @@
   align-items: flex-start;
   gap: 21px;
 }
+.h2-repeat h2 {
+  color: var(--auto-text);
+}
 
 .link h2 {
   color: var(--bg);
@@ -396,7 +464,7 @@
   font-size: 15px;
   font-style: normal;
   font-weight: 700;
-  line-height: 150%; /* 22.5px */
+  line-height: 150%;
   letter-spacing: -0.33px;
 }
 
@@ -431,8 +499,6 @@
   margin-top: -10%;
   margin-bottom: 5%;
 }
-
-/* ── Scroll text reveal ───────────────────────────────── */
 
 .scroll-text-reveal {
   height: 100vh;

@@ -17,9 +17,7 @@
   </head>
   <body data-page="4">
     <canvas></canvas>
-    <a href="index.html" class="site-logo">
-      <img src="image/logo_sticker.png" alt="Logo" />
-    </a>
+
     <div id="scroll-progress"><div id="scroll-progress-bar"></div></div>
     <button id="audio-toggle" aria-label="Audio">♪</button>
     <button id="info-toggle">i</button>
@@ -38,7 +36,6 @@
       </div>
     </div>
 
-    <!-- Barba Wrapper -->
     <div class="bg"></div>
     <div data-barba="wrapper">
       <div data-barba="container" data-barba-namespace="autoportrait">
@@ -70,6 +67,23 @@
           </div>
 
           <section class="hero_conversation">
+            <svg
+              id="heroSvgAutoportrait"
+              xmlns="http://www.w3.org/2000/svg"
+              style="
+                position: absolute;
+                top: clamp(8%, 3vw, 40px);
+                bottom: clamp(20px, 3vw, 40px);
+                left: 100%;
+                transform: translateX(-50%);
+                width: 80%;
+                overflow: visible;
+                pointer-events: none;
+                z-index: 0;
+              "
+            >
+              <path id="heroPathAutoportrait" />
+            </svg>
             <h1>
               <span class="hero-text-part">Auto -</span>
               <span class="bubble" id="bubble">
@@ -89,12 +103,12 @@
               <span class="hero-text-part">Portrait</span>
             </h1>
             <div class="h2-repeat">
-              <h2 style="opacity: 1;">Auto-portrait</h2>
-              <h2 style="opacity: 0.8;">Auto-portrait</h2>
-              <h2 style="opacity: 0.6;">Auto-portrait</h2>
-              <h2 style="opacity: 0.4;">Auto-portrait</h2>
-              <h2 style="opacity: 0.2;">Auto-portrait</h2>
-              <h2 style="opacity: 0.08;">Auto-portrait</h2>
+              <h2 style="opacity: 1">Autoportrait</h2>
+              <h2 style="opacity: 0.8">Autoportrait</h2>
+              <h2 style="opacity: 0.6">Autoportrait</h2>
+              <h2 style="opacity: 0.4">Autoportrait</h2>
+              <h2 style="opacity: 0.2">Autoportrait</h2>
+              <h2 style="opacity: 0.08">Autoportrait</h2>
             </div>
 
             <div class="scroll-hint">
@@ -175,7 +189,6 @@
 
           <section id="gallery-track" data-section="section16">
             <div id="gallery-images" hidden>
-              <!-- 1995 -->
               <img
                 src="image/autoportraits-1995-2001/1995-2.avif"
                 data-year="1995"
@@ -192,7 +205,6 @@
                 data-w="300px"
                 data-h="442px"
               />
-              <!-- 1996 -->
               <img
                 src="image/autoportraits-1995-2001/1996-1.avif"
                 data-year="1996"
@@ -265,7 +277,6 @@
                 data-w="350px"
                 data-h="500px"
               />
-              <!-- 1997 -->
               <img
                 src="image/autoportraits-1995-2001/1997.avif"
                 data-year="1997"
@@ -290,7 +301,6 @@
                 data-w="350px"
                 data-h="500px"
               />
-              <!-- 1998 -->
               <img
                 src="image/autoportraits-1995-2001/1998.avif"
                 data-year="1998"
@@ -315,7 +325,6 @@
                 data-w="450px"
                 data-h="600px"
               />
-              <!-- 1999 -->
               <img
                 src="image/autoportraits-1995-2001/1999.avif"
                 data-year="1999"
@@ -324,7 +333,6 @@
                 data-w="450px"
                 data-h="600px"
               />
-              <!-- 2001 -->
               <img
                 src="image/autoportraits-1995-2001/2001.avif"
                 data-year="2001"
@@ -410,8 +418,6 @@
             </div>
           </section>
 
-          <!-- footer -->
-
           <div class="ligne-h" id="ligne-h-footer-auto">
             <svg viewBox="0 0 800 400">
               <path
@@ -431,11 +437,11 @@
             </svg>
           </div>
           <section class="info-avant-footer">
-            <h1>meme si vous oubliez, on ne vous oublie pas.</h1>
-            <p>Merci pour votre Visite</p>
+            <h1>même si vous oubliez, on ne vous oublie pas.</h1>
+            <p>Merci pour votre visite</p>
             <div class="container-link">
               <div class="link">
-                <h2>Assosiations</h2>
+                <h2>Associations</h2>
                 <div class="link-text">
                   <a
                     href="https://clearalzheimers.ca/donate/?gad_source=1&gad_campaignid=21983041861&gbraid=0AAAAApVjIaqCGR5wtuDRVa71UnsVM77Jn&gclid=CjwKCAjwpcTNBhA5EiwAdO1S9sH4J17TPuxxfLDm_1mfD9KE2c94vxS7ra9hbBxoBU2ruV-7Yix-AxoCQz0QAvD_BwE"
@@ -451,7 +457,7 @@
                     Francealzheimer
                   </a>
                   <a href="https://www.memoire-fribourg.ch/">
-                    Memoire-fribourg
+                    Mémoire-fribourg
                   </a>
                 </div>
               </div>
@@ -498,7 +504,7 @@
                 </div>
               </div>
               <div class="link">
-                <h2>Musés</h2>
+                <h2>Musées</h2>
                 <div class="link-text">
                   <a href="https://www.williamutermohlen.com/publications">
                     Publications de William
@@ -506,7 +512,7 @@
                   <a
                     href="https://www.mutualart.com/Exhibition/Everything-Forgotten/F8BDC8FB4FA0311B"
                   >
-                    mutualart
+                    Mutualart
                   </a>
                   <a href="https://www.williamutermohlen.com/portfolio">
                     Expositions
@@ -556,7 +562,7 @@
             <div class="text_footer">
               <h3>William Utermohlen</h3>
 
-              <h3>la galerie des souvenirs</h3>
+              <h3>La Galerie des Souvenirs</h3>
 
               <h3>Maxime Cordy</h3>
             </div>
@@ -568,7 +574,6 @@
     <script type="module" src="js/text-animation-addon.js"></script>
     <script type="module" src="js/main.js"></script>
 
-    <!-- ════ TIMELINE NAV ════ -->
     <div id="tl-nav" class="hidden">
       <div id="tl-nav__pill">
         <div id="tl-nav__track"><div id="tl-nav__fill"></div></div>
@@ -609,27 +614,27 @@
             <img
               class="tl-nav-img"
               src="image/logo/MAISON_LOGO_INDEX.webp"
-              alt=""
+              alt="Logo La Galerie des Souvenirs"
             />
             <img
               class="tl-nav-img"
               src="image/logo/MAISON_LOGO_DANTE.webp"
-              alt=""
+              alt="Logo Dante"
             />
             <img
               class="tl-nav-img"
               src="image/logo/MAISON_LOGO_CONV.webp"
-              alt=""
+              alt="Logo Conversation"
             />
             <img
               class="tl-nav-img"
               src="image/logo/MAISON_LOGO_MALADIE.webp"
-              alt=""
+              alt="Logo Maladie"
             />
             <img
               class="tl-nav-img tl-nav-on"
               src="image/logo/MAISON_LOGO_AUTO.webp"
-              alt=""
+              alt="Logo Autoportrait"
             />
           </div>
         </div>

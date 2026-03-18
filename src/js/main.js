@@ -1,25 +1,23 @@
-// ============================================================
-//  1. IMPORTS
-// ============================================================
 import barba from "@barba/core";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Draggable } from "gsap/draggable";
 import Lenis from "lenis";
 import { initInfoPanel } from "./info.js";
-import {
-  initMaladieSlider,
-  initMaladieTitle,
-  initBlueSkiesScroll,
-} from "./maladie.js";
+import { initMaladieSlider, initMaladieTitle } from "./maladie.js";
 import { initAutoportrait, initAutoportraitTitles } from "./autoportrait.js";
 import { showTimelineNav } from "./timeline.js";
+import {
+  initStickerAnimation,
+  updateStickerVisibility,
+  initMummersDraggable,
+  initMummersImages,
+} from "./dante.js";
+import { initConversationSlider } from "./conversation.js";
+import { initScrollSection } from "./scroll-section.js";
 
 gsap.registerPlugin(ScrollTrigger, Draggable);
 
-// ============================================================
-//  2. CONFIG & VARIABLES GLOBALES
-// ============================================================
 const pageOrder = [
   "index",
   "dante",
@@ -93,9 +91,7 @@ document.addEventListener("mouseleave", () => {
   tFgX = 0;
   tFgY = 0;
 });
-// ============================================================
-//  3. LENIS (smooth scroll)
-// ============================================================
+
 const lenis = new Lenis();
 window.__lenis = lenis;
 
@@ -108,24 +104,17 @@ function raf(time) {
 requestAnimationFrame(raf);
 lenis.on("scroll", ScrollTrigger.update);
 
-// Progress bar
 const progressBar = document.getElementById("scroll-progress-bar");
 lenis.on("scroll", ({ scroll, limit }) => {
   if (progressBar) progressBar.style.height = `${(scroll / limit) * 100}%`;
 });
 
-// ============================================================
-//  4. UTILITAIRES
-// ============================================================
 function gsapPromise(target, vars) {
   return new Promise((resolve) => {
     gsap.to(target, { ...vars, onComplete: resolve });
   });
 }
 
-// ============================================================
-//  5. SCROLL PIN (section pinned avec images parallaxe)
-// ============================================================
 export function initScrollPin() {
   ScrollTrigger.getAll()
     .filter((st) => st.vars?.id !== "text-anim")
@@ -134,7 +123,6 @@ export function initScrollPin() {
   const pinnedSection = document.querySelector(".pinned-section");
   if (!pinnedSection) return;
 
-  // Pin du wrapper
   ScrollTrigger.create({
     trigger: ".pinned-section",
     start: "top top",
@@ -143,7 +131,6 @@ export function initScrollPin() {
     pinSpacing: false,
   });
 
-  // Images parallaxe
   const isDante = !!pinnedSection.querySelector(".image-track--dante");
   const cards = pinnedSection.querySelectorAll(".img-card");
   cards.forEach((card, i) => {
@@ -181,7 +168,6 @@ export function initScrollPin() {
     );
   });
 
-  // Fade in du texte
   gsap.fromTo(
     ".text-layer",
     { opacity: 0, y: 40 },
@@ -198,7 +184,6 @@ export function initScrollPin() {
     },
   );
 
-  // Barre de progression
   const progressBar = document.getElementById("progressBar");
   if (progressBar) {
     ScrollTrigger.create({
@@ -214,14 +199,6 @@ export function initScrollPin() {
   ScrollTrigger.refresh();
 }
 
-// ============================================================
-//  6a. SCROLL TEXT REVEAL (autoportrait)
-// ============================================================
-function initScrollTextReveal() {}
-
-// ============================================================
-//  6b. ZOOM SCROLL IMAGES MOTHER & FATHER
-// ============================================================
 function initAfterSectionZoom() {
   const imgs = document.querySelectorAll(".mother img, .father img");
   if (!imgs.length) return;
@@ -244,15 +221,11 @@ function initAfterSectionZoom() {
   });
 }
 
-// ============================================================
-//  6. ANIMATION IMAGE PATRICIA (accrochée + chute)
-// ============================================================
 function initPatriciaHangingImage() {
   const section = document.querySelector(".patricia");
   const wrapper = document.getElementById("hanging-pat-wrapper");
   if (!section || !wrapper) return;
 
-  // Reset de l'état du wrapper
   wrapper.classList.remove("falling", "fallen", "no-string");
   wrapper.classList.add("swinging");
   wrapper.style.transform = "";
@@ -299,9 +272,6 @@ function initPatriciaHangingImage() {
   });
 }
 
-// ============================================================
-//  7. LIGNES SVG INTERACTIVES
-// ============================================================
 function initSVGLine(scope, axis = "y", strength = 0.5) {
   const svg = scope.querySelector("svg");
   const path = scope.querySelector(".line-path");
@@ -376,9 +346,6 @@ function initSVGLine(scope, axis = "y", strength = 0.5) {
   render();
 }
 
-// ============================================================
-//  8. SLIDER HORIZONTAL
-// ============================================================
 function initSliderAnimation() {
   const sliderMask = document.querySelector(".slider-mask");
   if (!sliderMask) return;
@@ -418,9 +385,6 @@ function initSliderAnimation() {
   });
 }
 
-// ============================================================
-//  10. CURSOR (trail animé)
-// ============================================================
 const cursorConfigs = {
   index: {
     pointsNumber: 5,
@@ -524,7 +488,6 @@ function initCursor(namespace) {
   window.addEventListener("resize", setupCanvas);
 
   function update(t) {
-    // Animation auto quand la souris est inactive
     if (!cursorMouseMoved) {
       cursorPointer.x =
         (0.5 + 0.3 * Math.cos(0.0008 * t) * Math.sin(0.002 * t)) *
@@ -568,9 +531,6 @@ function initCursor(namespace) {
   cursorAnimationId = window.requestAnimationFrame(update);
 }
 
-// ============================================================
-//  11. NAVIGATION (changement de page au scroll)
-// ============================================================
 function getNextPage(currentNamespace) {
   const currentIndex = pageOrder.indexOf(currentNamespace);
   if (currentIndex !== -1 && currentIndex < pageOrder.length - 1) {
@@ -707,7 +667,6 @@ function handleScroll() {
   const windowHeight = window.innerHeight;
   const documentHeight = document.documentElement.scrollHeight;
 
-  // Navigation vers la page suivante (scroll en bas)
   if (scrollTop + windowHeight >= documentHeight - 10) {
     const nextPage = getNextPage(currentPageNamespace);
     if (nextPage && !footerReady) {
@@ -738,18 +697,14 @@ function handleScroll() {
   }
 }
 
-// ============================================================
-//  12. BARBA (transitions entre pages)
-// ============================================================
 barba.init({
-  debug: true,
+  debug: false,
   preventRunning: true,
 
   transitions: [
     {
       name: "slide-transition",
 
-      // --- Premier chargement ---
       async once(data) {
         currentPageNamespace = data.next.namespace;
         const container = data.next.container;
@@ -761,11 +716,9 @@ barba.init({
 
         initScrollPin();
         initStickerAnimation();
-
         initPatriciaHangingImage();
         initAfterSectionZoom();
         initSliderAnimation();
-
         initCursor(data.next.namespace);
         initFooterSlowScroll();
         initMummersImages();
@@ -774,18 +727,16 @@ barba.init({
         initS3Overlay();
         initMaladieSlider();
         initMaladieTitle();
-        initBlueSkiesScroll();
-
         initAutoportrait();
         initAutoportraitTitles();
-        initScrollTextReveal();
+        initConversationSlider();
+        initScrollSection();
         initBubbleClick();
-
+        requestAnimationFrame(initCadre);
         setTimeout(() => {
           window.addEventListener("scroll", handleScroll);
         }, 1000);
 
-        // Si on arrive depuis une transition, faire partir l'overlay
         const transitionDir = sessionStorage.getItem("barba-transition");
         if (transitionDir) {
           sessionStorage.removeItem("barba-transition");
@@ -802,10 +753,7 @@ barba.init({
 
         showTimelineNav();
         initInfoPanel();
-
       },
-
-      // --- Quitter la page ---
 
       async leave(data) {
         window.removeEventListener("scroll", handleScroll);
@@ -815,21 +763,18 @@ barba.init({
 
         updateStickerVisibility(null);
 
-        // Fermer le panneau info
         const toggle = document.getElementById("info-toggle");
         if (toggle) {
           document.body.classList.remove("panel-open");
           toggle.textContent = "i";
         }
 
-        // Nettoyer les animations
         ScrollTrigger.getAll().forEach((st) => st.kill());
         gsap.killTweensOf("*");
 
         const overlay = document.querySelector(".transition-overlay");
         const currentContainer = data.current.container;
 
-        // Fade out du contenu
         await gsapPromise(currentContainer, { opacity: 0, duration: 0.3 });
 
         gsap.set(currentContainer, {
@@ -837,7 +782,6 @@ barba.init({
           position: "absolute",
         });
 
-        // L'overlay arrive : du bas (avant) ou du haut (arrière)
         if (isGoingBack) {
           gsap.set(overlay, { y: "-100%" });
         }
@@ -848,34 +792,29 @@ barba.init({
           ease: "power3.inOut",
         });
 
-        // Rechargement complet de la page suivante
         sessionStorage.setItem(
           "barba-transition",
           isGoingBack ? "back" : "forward",
         );
         window.location.href = data.next.url.href;
-        await new Promise(() => {}); // suspend Barba indéfiniment
+        await new Promise(() => {});
       },
 
-      // --- Entrer sur la nouvelle page ---
       async enter(data) {
         currentPageNamespace = data.next.namespace;
 
-        // Reset du scroll
         window.scrollTo(0, 0);
         lenis.scrollTo(0, { immediate: true });
 
         const overlay = document.querySelector(".transition-overlay");
         const container = data.next.container;
 
-        // Reset panneau info
         const toggle = document.getElementById("info-toggle");
         if (toggle) {
           document.body.classList.remove("panel-open");
           toggle.textContent = "i";
         }
 
-        // Prépare le nouveau container
         gsap.set(container, {
           opacity: 0,
           visibility: "visible",
@@ -892,7 +831,6 @@ barba.init({
           y: 20,
         });
 
-        // L'overlay repart : vers le haut (avant) ou vers le bas (arrière)
         await gsapPromise(overlay, {
           y: isGoingBack ? "100%" : "-100%",
           duration: 1.2,
@@ -903,7 +841,6 @@ barba.init({
         gsap.set(overlay, { y: "100%" });
         isGoingBack = false;
 
-        // Affiche le nouveau contenu
         await gsapPromise(container, { opacity: 1, duration: 0.5 });
 
         gsap.to(container.querySelectorAll("[data-animate-text]"), {
@@ -914,16 +851,12 @@ barba.init({
           ease: "power2.out",
         });
 
-        // Init animations de la nouvelle page
         initScrollPin();
         initStickerAnimation();
-
         initPatriciaHangingImage();
         initAfterSectionZoom();
         initSliderAnimation();
-
         initCursor(data.next.namespace);
-
         setTimeout(() => initInfoPanel(), 100);
         initLogoWiggle();
         initFooterSlowScroll();
@@ -933,12 +866,12 @@ barba.init({
         initS3Overlay();
         initMaladieSlider();
         initMaladieTitle();
-        initBlueSkiesScroll();
-
         initAutoportrait();
         initAutoportraitTitles();
-        initScrollTextReveal();
+        initConversationSlider();
+        initScrollSection();
         initBubbleClick();
+        requestAnimationFrame(initCadre);
 
         isTransitioning = false;
 
@@ -950,9 +883,6 @@ barba.init({
   ],
 });
 
-// ============================================================
-//  13. BOUTONS MAGNÉTIQUES
-// ============================================================
 function initMagneticButtons() {
   const buttons = document.querySelectorAll("#info-toggle, #audio-toggle");
   const radius = 80;
@@ -999,62 +929,10 @@ function initMagneticButtons() {
 
 initMagneticButtons();
 
-// ============================================================
-//  14. INIT AU CHARGEMENT
-// ============================================================
 document.querySelectorAll(".ligne-h").forEach((el) => initSVGLine(el, "y"));
 document
   .querySelectorAll(".vertical-line-svg")
   .forEach((el) => initSVGLine(el, "x"));
-
-function initMummersDraggable() {
-  const pics = document.querySelectorAll(".Section-mummers .pic");
-  if (!pics.length) return;
-  let zCounter = 10;
-
-  pics.forEach((pic) => {
-    let prevX = 0,
-      prevY = 0,
-      velX = 0,
-      velY = 0;
-
-    Draggable.create(pic, {
-      type: "x,y",
-      bounds: ".Section-mummers",
-      onPress: function () {
-        zCounter++;
-        gsap.set(this.target, { zIndex: zCounter });
-        gsap.killTweensOf(this.target);
-        prevX = this.x;
-        prevY = this.y;
-        velX = 0;
-        velY = 0;
-      },
-      onDrag: function () {
-        velX = this.x - prevX;
-        velY = this.y - prevY;
-        prevX = this.x;
-        prevY = this.y;
-      },
-      onDragEnd: function () {
-        const targetX = Math.max(
-          this.minX,
-          Math.min(this.maxX, this.x + velX * 6),
-        );
-        const targetY = Math.max(
-          this.minY,
-          Math.min(this.maxY, this.y + velY * 6),
-        );
-        gsap.to(this.target, {
-          x: targetX,
-          y: targetY,
-          ease: "power3.out",
-          duration: 0.7,
-        });
-      },
-    });
-  });
-}
 
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", () => {
@@ -1067,7 +945,8 @@ if (document.readyState === "loading") {
     initLogoWiggle();
     initFooterSlowScroll();
     initMummersImages();
-    initScrollTextReveal();
+    initConversationSlider();
+    initScrollSection();
   });
 } else {
   initScrollPin();
@@ -1080,86 +959,9 @@ if (document.readyState === "loading") {
   initFooterSlowScroll();
   initMummersImages();
   initIndexLogoFall();
-  initScrollTextReveal();
+  initConversationSlider();
+  initScrollSection();
 }
-
-// ============================================================
-//  15. STICKER DANTE — entre depuis pinned-section à mi-scroll
-// ============================================================
-
-function initStickerAnimation() {
-  const sticker = document.querySelector(".scroll-lock__sticker");
-  const pinned = document.querySelector(".pinned-section");
-  if (!sticker || !pinned) return;
-
-  const LAND_Y = 230; // px from top of viewport where sticker lands
-  const START_Y = window.innerHeight + 100; // just below the viewport
-
-  // Start: fixed, off-screen bottom
-  gsap.set(sticker, {
-    position: "fixed",
-    top: 0,
-    x: 0,
-    y: START_Y,
-    zIndex: 999999,
-    transformOrigin: "50% 50%",
-  });
-
-  // Rise from bottom, overshoot up, then settle — scrubbed during pinned-section
-  const stickerTl = gsap.timeline({
-    scrollTrigger: {
-      trigger: pinned,
-      start: "30% top",
-      end: "bottom top",
-      scrub: 1,
-      onEnter: () => gsap.set(sticker, { visibility: "visible" }),
-      onEnterBack: () => gsap.set(sticker, { visibility: "visible" }),
-      onLeaveBack: () => gsap.set(sticker, { visibility: "hidden" }),
-    },
-  });
-  // Trajectory on wrapper, rotation on img — both scrubbed in the same timeline
-  const stickerImg = sticker.querySelector("img");
-  gsap.set(stickerImg, { transformOrigin: "50% 50%", rotation: 0 });
-
-  stickerTl
-    .fromTo(
-      sticker,
-      { y: START_Y, scale: 1.8, x: 0 },
-      { y: 60, scale: 1.1, x: -160, ease: "power2.out" },
-    )
-    .to(sticker, { y: LAND_Y, scale: 0.6, x: -320, ease: "power2.in" });
-
-  // Rotation scrubbed on img during descent phase (second half of timeline)
-  stickerTl.fromTo(
-    stickerImg,
-    { rotation: 0 },
-    { rotation: 360, ease: "none" },
-    0.5,
-  );
-
-  // Exit: sticker scrolls up with the slider as after-dante enters
-  const afterSection = document.querySelector(".after-dante");
-  if (afterSection) {
-    gsap.fromTo(
-      sticker,
-      { y: LAND_Y },
-      {
-        y: -window.innerHeight,
-        ease: "none",
-        scrollTrigger: {
-          trigger: afterSection,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: true,
-        },
-      },
-    );
-  }
-}
-
-// ============================================================
-//  16. STICKER CLICK — wiggle CSS au clic
-// ============================================================
 
 function initLogoWiggle() {
   const logo = document.getElementById("logo");
@@ -1176,10 +978,6 @@ function initLogoWiggle() {
   });
 }
 
-// ============================================================
-//  16b. BUBBLE — grandit et rétrécit au clic
-// ============================================================
-
 function initBubbleClick() {
   const bubble = document.getElementById("bubble");
   if (!bubble) return;
@@ -1190,49 +988,11 @@ function initBubbleClick() {
   bubble.addEventListener("click", () => {
     if (animating) return;
     animating = true;
-    gsap.timeline({ onComplete: () => (animating = false) })
+    gsap
+      .timeline({ onComplete: () => (animating = false) })
       .to(bubble, { scale: 1.25, duration: 0.25, ease: "power2.out" })
       .to(bubble, { scale: 1, duration: 0.5, ease: "elastic.out(1, 0.4)" });
   });
-}
-
-// ============================================================
-//  17. SECTION 8 — images apparaissent une par une depuis le bas
-// ============================================================
-
-function initMummersImages() {
-  const imgs = document.querySelectorAll(".container-img-mummers img");
-  const section = document.querySelector(".images-Mummers");
-  if (!imgs.length || !section) return;
-
-  gsap.set(imgs, { opacity: 0, y: 80 });
-
-  ScrollTrigger.create({
-    trigger: section,
-    start: "top bottom",
-    once: true,
-    onEnter: () => {
-      imgs.forEach((img, i) => {
-        gsap.to(img, {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "power2.out",
-          delay: i * 0.2,
-        });
-      });
-    },
-  });
-}
-
-// ============================================================
-//  20. STICKER — visible uniquement sur la page dante
-// ============================================================
-
-function updateStickerVisibility(namespace) {
-  const sticker = document.querySelector(".scroll-lock__sticker");
-  if (!sticker) return;
-  sticker.style.display = namespace === "dante" ? "" : "none";
 }
 
 function setScrollSpeed(namespace) {
@@ -1242,10 +1002,6 @@ function setScrollSpeed(namespace) {
   };
   lenis.options.wheelMultiplier = speeds[namespace] ?? 1;
 }
-
-// ============================================================
-//  18. FOOTER — ralentit le scroll quand le footer est visible
-// ============================================================
 
 function initFooterSlowScroll() {
   const footer = document.querySelector(".footer");
@@ -1282,8 +1038,6 @@ function initFooterSlowScroll() {
   );
 }
 
-/* ── Section 3 : slide par-dessus section 2 ── */
-
 function initS3Overlay() {
   const s3 = document.querySelector("#s3");
   if (!s3) return;
@@ -1301,4 +1055,53 @@ function initS3Overlay() {
       },
     },
   );
+}
+
+function initCadre() {
+  const r = 27;
+  const cs = getComputedStyle(document.documentElement);
+  const colorBg = cs.getPropertyValue("--bg").trim();
+  const colorMaladie = cs.getPropertyValue("--sombre-maladie").trim();
+  const colorAuto = cs.getPropertyValue("--auto-text").trim();
+
+  function setupCadre(el, svgEl, pathEl, color) {
+    if (!el || !svgEl || !pathEl) return;
+    pathEl.style.fill = "none";
+    pathEl.style.stroke = color || "#fff";
+    pathEl.style.strokeWidth = "2";
+    pathEl.setAttribute("vector-effect", "non-scaling-stroke");
+    function draw() {
+      const W = el.clientWidth;
+      const H = el.clientHeight;
+      const d = [
+        `M ${r},0`,
+        `L ${W - r},0`,
+        `A ${r},${r} 0 0 0 ${W},${r}`,
+        `L ${W},${H - r}`,
+        `A ${r},${r} 0 0 0 ${W - r},${H}`,
+        `L ${r},${H}`,
+        `A ${r},${r} 0 0 0 0,${H - r}`,
+        `L 0,${r}`,
+        `A ${r},${r} 0 0 0 ${r},0`,
+        `Z`,
+      ].join(" ");
+      svgEl.setAttribute("viewBox", `0 0 ${W} ${H}`);
+      pathEl.setAttribute("d", d);
+    }
+    draw();
+    new ResizeObserver(draw).observe(el);
+  }
+
+  [
+    ["heroIndex", "heroIndexSvg", "heroIndexPath", colorBg],
+    ["monCadre", "cadreSvg", "cadrePath", colorBg],
+    [null, "heroSvgDante", "heroPathDante", colorBg],
+    [null, "heroSvgConversation", "heroPathConversation", colorBg],
+    [null, "heroSvgMaladie", "heroPathMaladie", colorMaladie],
+    [null, "heroSvgAutoportrait", "heroPathAutoportrait", colorAuto],
+  ].forEach(([elId, svgId, pathId, color]) => {
+    const svgEl = document.getElementById(svgId);
+    const el = elId ? document.getElementById(elId) : svgEl?.parentElement;
+    setupCadre(el, svgEl, document.getElementById(pathId), color);
+  });
 }

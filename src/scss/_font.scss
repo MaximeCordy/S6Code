@@ -26,16 +26,8 @@
 }
 
 /* Éviter le flash de contenu non-animé avant GSAP */
-.patricia.js-loaded .PAT,
 .patricia.js-loaded img,
 .patricia.js-loaded h2,
 .patricia.js-loaded h3 {
   visibility: visible;
-}
-
-.PAT {
-  font-family: "Poppins", sans-serif;
-  font-size: 680px;
-  font-weight: 700;
-  color: var(--bg);
 }

@@ -19,11 +19,7 @@
 
   <body data-page="2">
     <canvas></canvas>
-    <a href="index.html" class="site-logo">
-      <img src="image/logo_sticker.png" alt="Logo" />
-    </a>
-    <!-- <div class="vertical-line left"></div>
-    <div class="vertical-line right"></div> -->
+
     <div id="scroll-progress"><div id="scroll-progress-bar"></div></div>
     <button id="audio-toggle" aria-label="Audio">♪</button>
     <button id="info-toggle">i</button>
@@ -42,11 +38,9 @@
       </div>
     </div>
     <div class="bg"></div>
-    <!-- Barba Wrapper -->
     <div data-barba="wrapper">
       <div data-barba="container" data-barba-namespace="conversation">
         <div class="page">
-          <!-- HERO -->
           <div class="header-index">
             <div class="text-ligne">
               <p data-animate-text="">Maxime Cordy</p>
@@ -74,6 +68,23 @@
           </div>
 
           <section class="hero_conversation">
+            <svg
+              id="heroSvgConversation"
+              xmlns="http://www.w3.org/2000/svg"
+              style="
+                position: absolute;
+                top: clamp(8%, 3vw, 40px);
+                bottom: clamp(20px, 3vw, 40px);
+                left: 100%;
+                transform: translateX(-50%);
+                width: 80%;
+                overflow: visible;
+                pointer-events: none;
+                z-index: 0;
+              "
+            >
+              <path id="heroPathConversation" />
+            </svg>
             <h1>
               Conversation
               <span class="bubble" id="bubble">
@@ -93,8 +104,8 @@
               - Patricia
             </h1>
             <h2>
-              Peu à peu, William se sent en retrait des personnes qu’il aime ou
-              qu’il connaît. Il préfère les peindre.
+              Peu à peu, William se sent en retrait des personnes qu'il aime ou
+              qu'il connaît. Il préfère les peindre.
             </h2>
 
             <div class="scroll-hint">
@@ -162,13 +173,15 @@
                 />
               </svg>
             </div>
-            <h2 class="artiste-conv" data-animate-text>Interieur chaleureux</h2>
+            <h2 class="artiste-conv" data-animate-text>
+              Interieurs chaleureux
+            </h2>
             <div class="text-layer">
-              <div class="label" data-animate-text>Londre 1989–1991</div>
+              <div class="label" data-animate-text>Londres 1989–1991</div>
               <h2 data-animate-text>
-                Entre 1989 et 1991, une série d’œuvres montre des intérieurs
+                Entre 1989 et 1991, une série d'œuvres montre des intérieurs
                 chaleureux où des amis se retrouvent. Tout semble calme et
-                rassurant… jusqu’au moment où l’inattendu s’invite, venant
+                rassurant… jusqu'au moment où l'inattendu s'invite, venant
                 troubler doucement cette apparente tranquillité.
               </h2>
             </div>
@@ -200,7 +213,6 @@
           >
             <div class="conversation-slider-container">
               <div class="conversation-slider-track">
-                <!-- Bloc initial -->
                 <img
                   src="image/Conversation-1989-1991/Bed.avif"
                   data-artwork="0"
@@ -231,7 +243,6 @@
                   alt="w9"
                   data-artwork="5"
                 />
-                <!-- Dupliquer pour continuité -->
                 <img
                   src="image/Conversation-1989-1991/Bed.avif"
                   data-artwork="0"
@@ -319,7 +330,7 @@
                   <div class="copy-group">
                     <div class="copy-block">
                       <p>
-                        William nous invite à entrer dans son domicile de pour y
+                        William nous invite à entrer dans son domicile pour y
                         partager des moments de vie.
                       </p>
                     </div>
@@ -331,7 +342,7 @@
                     </div>
                     <div class="copy-block">
                       <p>
-                        Elle est accompagnée d’une de ses amies, venue partager
+                        Elle est accompagnée d'une de ses amies, venue partager
                         un verre et discuter.
                       </p>
                     </div>
@@ -371,7 +382,7 @@
                     </div>
                     <div class="copy-block">
                       <p>
-                        Les trois femmes boivent un café ou du vin et s’écoutent
+                        Les trois femmes boivent un café ou du vin et s'écoutent
                         parler pendant que les perspectives de la pièce se
                         perdent.
                       </p>
@@ -379,7 +390,7 @@
                     <div class="copy-block">
                       <p>
                         Les reflets et les couleurs sont variés, tandis que
-                        l’extérieur demeure sombre.
+                        l'extérieur demeure sombre.
                       </p>
                     </div>
                   </div>
@@ -411,8 +422,8 @@
                   <div class="copy-group">
                     <div class="copy-block">
                       <p>
-                        Alors qu’une veste posée sur la chaise nous fait
-                        remarquer que William n’est plus présent dans la
+                        Alors qu'une veste posée sur la chaise nous fait
+                        remarquer que William n'est plus présent dans la
                         discussion.
                       </p>
                     </div>
@@ -444,7 +455,7 @@
                     <div class="copy-block">
                       <p>
                         Les invités défilent mais ne se ressemblent pas. En
-                        1991, William peint cette conversation entre l’un de ses
+                        1991, William peint cette conversation entre l'un de ses
                         amis et sa femme.
                       </p>
                     </div>
@@ -490,22 +501,22 @@
                   <div class="copy-group">
                     <div class="copy-block">
                       <p>
-                        Un groupe d’amis s’invite à la maison alors que la
-                        perspective, les reflets et l’environnement perdent de
+                        Un groupe d'amis s'invite à la maison alors que la
+                        perspective, les reflets et l'environnement perdent de
                         leur sens.
                       </p>
                     </div>
                     <div class="copy-block">
                       <p>
                         William apparaît enfin. On le retrouve sur le canapé,
-                        son chat blotti contre lui. Toujours à l’écart, perdu
+                        son chat blotti contre lui. Toujours à l'écart, perdu
                         dans ses pensées...
                       </p>
                     </div>
                     <div class="copy-block">
                       <p>
-                        dans cette maison où l’extérieur semble se fondre à
-                        l’intérieur.
+                        Il évolue dans cette maison où l'extérieur semble se
+                        fondre à l'intérieur.
                       </p>
                     </div>
                   </div>
@@ -538,13 +549,13 @@
                     <div class="copy-block">
                       <p>
                         Dans le lit, les chats se reposent et Patricia lit.
-                        William est épuisé, il s’est déjà endormi.
+                        William est épuisé, il s'est déjà endormi.
                       </p>
                     </div>
                     <div class="copy-block">
                       <p>
                         Le reflet dans le miroir est déformé. La porte est
-                        ouverte, mais rien n’apparaît derrière.À présent, la
+                        ouverte, mais rien n'apparaît derrière. À présent, la
                         perspective penche entièrement vers la gauche.
                       </p>
                     </div>
@@ -581,16 +592,15 @@
             <div class="text-layer2">
               <h2 data-animate-text>
                 La porte verte revient sans cesse, comme un message silencieux
-                que William n’ose pas prononcer. Dans ses tableaux, on semble
+                que William n'ose pas prononcer. Dans ses tableaux, on semble
                 lire son invisibilité face aux autres. Les perspectives qui se
                 dérobent, la quête de représentation des souvenirs, et son
-                isolement trahissent peu à peu les premiers signes d’une maladie
+                isolement trahissent peu à peu les premiers signes d'une maladie
                 grave.
               </h2>
             </div>
           </section>
         </div>
-        <!-- footer -->
         <div class="ligne-h" id="ligne-h5">
           <svg viewBox="0 0 800 400">
             <path
@@ -627,7 +637,7 @@
           <div class="text_footer">
             <h3>William Utermohlen</h3>
 
-            <h3>la galerie des souvenirs</h3>
+            <h3>La Galerie des Souvenirs</h3>
 
             <h3>Maxime Cordy</h3>
           </div>
@@ -635,31 +645,41 @@
         <a href="dante.html" style="display: none"></a>
         <a href="conversation.html" style="display: none"></a>
         <a href="maladie.html" style="display: none"></a>
-        <script src="js/conversation.js"></script>
         <script type="module" src="js/info.js"></script>
         <script type="module" src="js/text-animation-addon.js"></script>
         <script type="module" src="js/main.js"></script>
       </div>
     </div>
 
-    <!-- ════ TIMELINE NAV ════ -->
     <div id="tl-nav" class="hidden">
       <div id="tl-nav__pill">
         <div id="tl-nav__track"><div id="tl-nav__fill"></div></div>
         <div id="tl-nav__nodes">
-          <a href="index.html" data-label="La Galerie" class="tl-nav-node tl-nav-visited"
+          <a
+            href="index.html"
+            data-label="La Galerie"
+            class="tl-nav-node tl-nav-visited"
             ><span class="tl-nav-dot"></span
           ></a>
-          <a href="dante.html" data-label="Dante" class="tl-nav-node tl-nav-visited"
+          <a
+            href="dante.html"
+            data-label="Dante"
+            class="tl-nav-node tl-nav-visited"
             ><span class="tl-nav-dot"></span
           ></a>
-          <a href="conversation.html" data-label="Conversation" class="tl-nav-node tl-nav-active"
+          <a
+            href="conversation.html"
+            data-label="Conversation"
+            class="tl-nav-node tl-nav-active"
             ><span class="tl-nav-dot"></span
           ></a>
           <a href="maladie.html" data-label="Maladie" class="tl-nav-node"
             ><span class="tl-nav-dot"></span
           ></a>
-          <a href="autoportrait.html" data-label="Autoportrait" class="tl-nav-node"
+          <a
+            href="autoportrait.html"
+            data-label="Autoportrait"
+            class="tl-nav-node"
             ><span class="tl-nav-dot"></span
           ></a>
         </div>
@@ -668,27 +688,27 @@
             <img
               class="tl-nav-img"
               src="image/logo/MAISON_LOGO_INDEX.webp"
-              alt=""
+              alt="Logo La Galerie des Souvenirs"
             />
             <img
               class="tl-nav-img"
               src="image/logo/MAISON_LOGO_DANTE.webp"
-              alt=""
+              alt="Logo Dante"
             />
             <img
               class="tl-nav-img tl-nav-on"
               src="image/logo/MAISON_LOGO_CONV.webp"
-              alt=""
+              alt="Logo Conversation"
             />
             <img
               class="tl-nav-img"
               src="image/logo/MAISON_LOGO_MALADIE.webp"
-              alt=""
+              alt="Logo Maladie"
             />
             <img
               class="tl-nav-img"
               src="image/logo/MAISON_LOGO_AUTO.webp"
-              alt=""
+              alt="Logo Autoportrait"
             />
           </div>
         </div>

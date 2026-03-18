@@ -19,10 +19,6 @@
   transition: height 0.05s linear;
 }
 
-// ============================================================
-// RESET
-// ============================================================
-
 *,
 *::before,
 *::after {
@@ -43,7 +39,7 @@ body {
 }
 
 // ============================================================
-// LIGNES VERTICALES SVG (fixes, gauche & droite)
+// LIGNES VERTICALES
 // ============================================================
 
 .vertical-line-svg {
@@ -117,7 +113,7 @@ body {
 }
 
 // ============================================================
-// SVG PLEINE LARGEUR
+// SVG PLEINE LARGEUR (LINE)
 // ============================================================
 
 svg {
@@ -132,19 +128,7 @@ svg {
 }
 
 // ============================================================
-// BLOCS IMAGES GÉNÉRIQUES
-// ============================================================
-
-.image-block {
-  width: 100%;
-  max-width: 600px;
-  height: 500px;
-  margin: 0 auto;
-  opacity: 0;
-}
-
-// ============================================================
-// PAGES SPÉCIFIQUES (dante, conversation, maladie)
+// PAGES SPÉCIFIQUES (dante, conversation, maladie, auto)
 // ============================================================
 
 .page-dante {
@@ -192,85 +176,13 @@ svg {
   height: 600px;
 }
 
-// ============================================================
-// LIGNE (transition transform)
-// ============================================================
-
 .line {
   transform: translateY(100%);
   will-change: transform;
 }
 
 // ============================================================
-// HERO CONVERSATION
-// ============================================================
-
-.hero_conversation {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-
-  &-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-    }
-  }
-
-  &-canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 2;
-    pointer-events: none;
-  }
-
-  &-content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 3;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
-    text-align: center;
-  }
-
-  &-title {
-    font-size: clamp(3rem, 12vw, 8rem);
-    font-weight: 700;
-    color: var(--text);
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    margin-bottom: 1rem;
-  }
-
-  &-subtitle {
-    font-size: clamp(1rem, 3vw, 1.5rem);
-    font-weight: 300;
-    color: var(--text);
-    letter-spacing: 0.02em;
-  }
-}
-
-// ============================================================
-// MOTHER & FATHER (images will-change)
+// MOTHER & FATHER
 // ============================================================
 
 .mother,
@@ -287,27 +199,6 @@ svg {
 // SITE LOGO (fixe, haut gauche)
 // ============================================================
 
-.site-logo {
-  display: none;
-  position: fixed;
-  top: 1.5rem;
-  left: 0.8rem;
-  z-index: 9998;
-  pointer-events: auto;
-  transition: opacity 0.4s ease;
-
-  &.is-hidden {
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  img {
-    width: 58px;
-    height: auto;
-    display: block;
-  }
-}
-
 // ============================================================
 // CURSOR — CANVAS (fixe, plein écran, pointer-events: none)
 // ============================================================
@@ -322,151 +213,6 @@ canvas {
   pointer-events: none;
 }
 
-// ============================================================
-// SECTION MUMMERS (section 6 — index page)
-// ============================================================
-
-.Section-mummers {
-  position: relative;
-  max-width: 88%;
-  margin: 0 auto;
-  padding: 80px 40px 0;
-  height: 1500px;
-}
-
-.subtitle {
-  color: var(--bg);
-  font-family: Poppins;
-  font-size: 35px;
-  font-style: normal;
-
-  font-weight: 600;
-  line-height: 150%;
-  letter-spacing: -0.77px;
-  text-align: center;
-  text-transform: none;
-  overflow: visible;
-  pointer-events: none;
-  margin-top: 5%;
-}
-
-.title {
-  position: relative;
-  z-index: 1;
-  color: var(--bg);
-  font-family: Poppins;
-  font-size: 110px;
-  font-style: normal;
-  font-weight: 700;
-  letter-spacing: -2.86px;
-  pointer-events: none;
-  text-align: center;
-  margin-top: 5%;
-}
-
-.row-big,
-.row-small {
-  display: contents;
-}
-
-.pic {
-  position: absolute;
-  cursor: grab;
-  z-index: 2;
-  user-select: none;
-
-  &:active {
-    cursor: grabbing;
-  }
-}
-
-.pic img {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;
-  pointer-events: none;
-}
-
-.row-big .pic:nth-child(1) {
-  width: 320px;
-  top: 400px;
-  left: 350px;
-  transform: rotate(-8deg);
-}
-.row-big .pic:nth-child(2) {
-  width: 290px;
-  top: 420px;
-  left: 900px;
-  transform: rotate(6deg);
-}
-.row-small .pic:nth-child(1) {
-  width: 380px;
-  top: 1000px;
-  left: 50px;
-  transform: rotate(-5deg);
-}
-.row-small .pic:nth-child(2) {
-  width: 210px;
-  top: 480px;
-  left: 675px;
-  transform: rotate(10deg);
-}
-.row-small .pic:nth-child(3) {
-  width: 500px;
-  top: 860px;
-  left: 65%;
-  transform: rotate(10deg);
-}
-.row-small .pic:nth-child(4) {
-  width: 345px;
-  top: 650px;
-  left: 850px;
-  transform: rotate(320deg);
-}
-
-.After-mummers .subtitle p {
-  color: var(--bg);
-  text-align: center;
-  font-family: Poppins;
-  font-size: 33px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 150%;
-  letter-spacing: -0.726px;
-  width: 1259px;
-  height: 100px;
-}
-
-.After-mummers h1 {
-  color: var(--bg);
-  text-align: center;
-  font-family: Poppins;
-  font-size: 40px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 150%;
-  letter-spacing: -0.88px;
-  text-transform: uppercase;
-}
-.images-Mummers {
-  align-items: center;
-  justify-content: center;
-}
-.container-img-mummers {
-  display: flex;
-  align-items: center;
-  gap: 55px;
-  justify-content: center;
-  margin: 0 auto 80px;
-}
-.container-img-mummers img {
-  width: 350px;
-  height: 439px;
-  aspect-ratio: 59/74;
-  opacity: 0;
-  transform: translateY(80px);
-}
 // ============================================================
 // LOGO WRAPPER — ANIMATION AU CLIC (wiggle)
 // ============================================================

@@ -1,7 +1,3 @@
-// ============================================================
-// RESET
-// ============================================================
-
 * {
   margin: 0;
   padding: 0;
@@ -116,7 +112,7 @@ body {
 
 .bubble .layer-fg {
   position: absolute;
-  width: 80%;
+  width: 100%;
   height: auto;
   will-change: transform;
   pointer-events: none;
@@ -179,19 +175,7 @@ body {
 // ============================================================
 // HERO INDEX
 // ============================================================
-#ligne-h00,
-#ligne-h0 {
-  margin-top: -26.5%;
-  margin-bottom: -30%;
-}
-#ligne-h00 {
-  margin-top: calc(-26.5% - 100px);
-  margin-bottom: calc(-30% - 100px);
-}
-#ligne-h01 {
-  margin-top: -20%;
-  margin-bottom: -32%;
-}
+
 .text-ligne {
   display: inline-flex;
   justify-content: center;
@@ -267,92 +251,69 @@ body {
     max-width: 50%;
   }
 }
-
-.hero_dante {
-  height: 80vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+.hero_index {
   position: relative;
-  gap: 5;
-  margin-top: 10;
-}
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
 
-.hero_dante h1 {
-  color: var(--bg);
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  font-family: Poppins;
-  font-size: 120px;
-  font-style: normal;
-  font-weight: 800;
-  line-height: 104%; /* 133.12px */
-  letter-spacing: -2.816px;
-  max-width: 60%;
-  @media (min-width: 1540px) {
-    max-width: 50%;
+  &-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+  }
+
+  &-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  &-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  &-title {
+    font-size: clamp(3rem, 12vw, 8rem);
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  &-subtitle {
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    font-weight: 300;
+    color: var(--text);
+    letter-spacing: 0.02em;
   }
 }
-
-.hero_dante p {
-  color: var(--bg);
-  text-align: center;
-  font-family: Poppins;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 104%; /* 24.96px */
-  letter-spacing: -0.528px;
-}
-
-.hero_dante h2 {
-  color: var(--bg);
-  text-align: center;
-  font-family: Poppins;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 104%; /* 24.96px */
-  letter-spacing: -0.528px;
-  width: 40%;
-  margin-top: 5;
-  text-transform: none;
-  @media (min-width: 1540px) {
-    max-width: 30%;
-  }
-}
-
-.h-text-bouton {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
-  margin-top: 6%;
-  margin-left: 7%;
-}
-.h-text-bouton h1 {
-  color: var(--bg);
-  font-family: Poppins;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 104%; /* 33.28px */
-  letter-spacing: -0.704px;
-}
-.h-bouton-p p {
-  color: var(--muted);
-  font-family: poppins;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 300;
-  line-height: 112%; /* 22.4px */
-  letter-spacing: -0.44px;
-  max-width: 90%;
-}
-
 // ============================================================
 // SCROLL HINT (indicateur de défilement — page index)
 // ============================================================
@@ -362,14 +323,15 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0rem;
   color: var(--bg);
   font-size: 0.75rem;
   letter-spacing: 0.2em;
+  bottom: 90;
 }
 
 .scroll-hint .line {
-  width: 1px;
+  width: 2px;
   height: 50px;
   background: linear-gradient(to bottom, var(--bg), transparent);
   animation: pulse 2s ease-in-out infinite;
@@ -379,7 +341,7 @@ body {
   color: var(--bg);
   text-align: center;
   font-family: Poppins;
-  font-size: 16px;
+  font-size: 15px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -540,15 +502,32 @@ body.panel-open .pinned-section {
 // ============================================================
 // LIGNES SVG HORIZONTALES (ligne-h1 à h6)
 // ============================================================
-
+#ligne-h00,
+#ligne-h0 {
+  margin-top: -26.5%;
+  margin-bottom: -30%;
+}
+#ligne-h00 {
+  margin-top: calc(-26.5% - 100px);
+  margin-bottom: calc(-30% - 100px);
+}
+#ligne-h01 {
+  margin-top: -20%;
+  margin-bottom: -32%;
+}
 #ligne-h1 {
-  margin-top: -33%;
+  margin-top: -27%;
 }
 
 #ligne-h2 {
   margin-top: -22%;
 }
-
+#ligne-h3 {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
 #ligne-h3 {
   margin-bottom: -40%;
   margin-top: -20%;
@@ -588,7 +567,18 @@ body.panel-open .pinned-section {
   margin-top: -15%;
   margin-bottom: -23%;
 }
+#ligne-h10 {
+  margin-bottom: -24%;
+}
 
+#ligne-h11 {
+  margin-top: -15%;
+  margin-bottom: -23%;
+}
+#ligne-h12 {
+  margin-top: -20%;
+  margin-bottom: -24%;
+}
 // ============================================================
 // AFTER-SECTION — SECTION 3 (Europe / Mère & Père)
 // ============================================================
@@ -864,13 +854,6 @@ body.panel-open .pinned-section {
   overflow: visible;
 }
 
-#ligne-h3 {
-  width: 100vw;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
 .after-patricia {
   display: flex;
   width: 100%;
@@ -1034,100 +1017,3 @@ body.panel-open .slider-item {
 // ============================================================
 // PAGE MALADIE + BRUIT DE FOND 2
 // ============================================================
-
-body .page-maladie {
-  background-color: var(--bg);
-  margin: 0;
-  overflow-x: hidden;
-}
-
-.bg2 {
-  position: fixed;
-  top: -50%;
-  left: -50%;
-  right: -50%;
-  bottom: -50%;
-  width: 200%;
-  height: 200vh;
-  background: transparent
-    url("http://assets.iceable.com/img/noise-transparent.png") repeat 0 0;
-  background-repeat: repeat;
-  animation: bg-animation 0.2s infinite;
-  opacity: 0.6;
-  visibility: visible;
-}
-
-// ============================================================
-// after-dante
-// ============================================================
-
-.after-dante {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 90px;
-  text-align: center;
-  justify-content: center;
-}
-
-.after-dante h1 {
-  color: var(--bg, #313131);
-  font-family: Poppins;
-  font-size: 46px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 150%;
-  letter-spacing: -1.012px;
-  max-width: 90%;
-  top: 20;
-  left: 5;
-  @media (min-width: 1540px) {
-    max-width: 70%;
-  }
-}
-// ============================================================
-// MUMMERS
-// ============================================================
-.text-mummers {
-  display: flex;
-  flex-direction: column;
-}
-// ============================================================
-// after-mummers
-// ============================================================
-.contenu {
-  color: var(--bg);
-  text-align: center;
-  font-family: Poppins;
-  font-size: 29px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 150%; /* 36px */
-  letter-spacing: -0.528px;
-  text-transform: uppercase;
-  width: 50%;
-  height: 108px;
-}
-
-.after-mummers-container-contenu {
-  display: inline-flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 34px;
-  margin-left: 10%;
-  margin-right: 10%;
-}
-
-.placeholder {
-  color: var(--bg);
-  text-align: center;
-  font-family: Poppins;
-  font-size: 29px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 150%; /* 36px */
-  letter-spacing: -0.528px;
-  text-transform: uppercase;
-  width: 50%;
-  height: 108px;
-}

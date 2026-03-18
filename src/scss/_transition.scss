@@ -124,24 +124,3 @@ p {
   height: 100%;
   object-fit: contain;
 }
-
-/* ── Animation rideau (clip-path) ── */
-
-.reveal-section {
-  /* Cache la section en dehors du champ de vue */
-  clip-path: inset(0 0 100% 0);
-
-  /* Aucune transition au départ (évite un flash au chargement) */
-  transition: none;
-
-  /* Arrondi optionnel sur le bord haut — retire si tu n'en veux pas */
-  border-radius: 24px 24px 0 0;
-}
-
-.reveal-section.is-revealed {
-  /* Révèle la section */
-  clip-path: inset(0 0 0% 0);
-
-  /* Durée + easing — ajuste à ton goût */
-  transition: clip-path 0.9s cubic-bezier(0.77, 0, 0.175, 1);
-}

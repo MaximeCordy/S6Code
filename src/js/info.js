@@ -1,5 +1,5 @@
 // ============================================================
-// DONNÉES — ŒUVRES PAR SECTION
+// INFO — ŒUVRES PAR SECTION
 // ============================================================
 
 const DATA = {
@@ -722,8 +722,10 @@ const DATA = {
   },
 };
 
-// Audio unique par page (namespace Barba)
-// new URL() permet à Parcel de bundler les fichiers et les servir correctement
+// ============================================================
+// INFO - AUDIO - AUDIO PAR SECTIONS
+// ============================================================
+
 const PAGE_AUDIO = {
   index: {
     src: new URL("../audio/Interview_part_1.mp3", import.meta.url).href,
@@ -751,7 +753,7 @@ const PAGE_AUDIO = {
 };
 
 // ============================================================
-// HELPERS
+// INFO - HELPERS INFO ET AUDIO
 // ============================================================
 
 function setBtnText(btn, text) {
@@ -768,7 +770,7 @@ function fmtTime(s) {
 }
 
 // ============================================================
-// VARIABLES GLOBALES
+// INFO - VARIABLES GLOBALES
 // ============================================================
 
 let infoPanelListeners = [];
@@ -779,7 +781,7 @@ let audioRAF = null;
 let currentAudioLabel = "";
 
 // ============================================================
-// POPUP AUDIO — CRÉATION & DRAG
+// INFO - POPUP AUDIO
 // ============================================================
 
 function getOrCreatePopup() {
@@ -804,7 +806,9 @@ function getOrCreatePopup() {
   document.body.appendChild(popup);
   audioPopup = popup;
 
-  // Drag
+  // ============================================================
+  // INFO - POPUP AUDIO - DRAG
+  // ============================================================
   const drag = popup.querySelector("#ap-drag");
   let isDragging = false;
   let offsetX = 0;
@@ -853,14 +857,18 @@ function getOrCreatePopup() {
   });
   document.addEventListener("touchend", endDrag);
 
-  // Play/Pause
+  // ============================================================
+  // INFO - POPUP AUDIO - PLAY/PAUSE
+  // ============================================================
   popup.querySelector("#ap-play").addEventListener("click", () => {
     if (!audioEl) return;
     if (audioEl.paused) audioEl.play();
     else audioEl.pause();
   });
 
-  // Seek
+  // ============================================================
+  // INFO - POPUP AUDIO - RECHERCHE DE L'AUDIO
+  // ============================================================
   popup.querySelector("#ap-progress").addEventListener("click", (e) => {
     if (!audioEl || !audioEl.duration) return;
     const rect = e.currentTarget.getBoundingClientRect();
@@ -868,7 +876,9 @@ function getOrCreatePopup() {
     audioEl.currentTime = pct * audioEl.duration;
   });
 
-  // Fermer
+  // ============================================================
+  // INFO - POPUP AUDIO - OUVRIR/FERMER
+  // ============================================================
   popup.querySelector("#ap-close").addEventListener("click", () => {
     if (audioEl) {
       audioEl.pause();
@@ -906,7 +916,7 @@ function hidePopup() {
 }
 
 // ============================================================
-// POPUP AUDIO — PROGRESSION & ÉTAT PLAY
+// INFO - POPUP AUDIO — PROGRESSION & ÉTAT PLAY
 // ============================================================
 
 function updatePopupProgress() {
@@ -1002,7 +1012,7 @@ function setupAudioButton(audioData) {
 }
 
 // ============================================================
-// CLEANUP — RESET COMPLET DU PANNEAU
+// INFO - POPUP AUDIO — CLEANUP — RESET COMPLET DU PANNEAU
 // ============================================================
 
 function cleanupInfoPanel() {
@@ -1041,7 +1051,7 @@ function cleanupInfoPanel() {
 }
 
 // ============================================================
-// INIT PANNEAU INFO (export principal)
+// INFO - INIT PANNEAU INFO (export principal)
 // ============================================================
 
 export function initInfoPanel() {
@@ -1053,20 +1063,21 @@ export function initInfoPanel() {
 
   if (!toggle || !ipTitle || !ipBody) return;
 
-  // Empêche Lenis d'intercepter le scroll à l'intérieur du panneau
   ipBody.setAttribute("data-lenis-prevent", "");
 
   const fadeEls = [ipTitle.closest(".ip-head"), ipBody];
   const sections = [...document.querySelectorAll("section[data-section]")];
   let currentSection = null;
 
-  // Audio unique pour toute la page
   const namespace =
     document.querySelector("[data-barba-namespace]")?.dataset.barbaNamespace ||
     "";
   setupAudioButton(PAGE_AUDIO[namespace] || null);
 
-  // Toggle audio = ouvre/ferme le popup
+  // ============================================================
+  // INFO - POPUP AUDIO — TOGGLE
+  // ============================================================
+
   const audioBtn = document.getElementById("audio-toggle");
   if (audioBtn) {
     const audioHandler = () => {
@@ -1080,7 +1091,7 @@ export function initInfoPanel() {
         hidePopup();
       } else {
         showPopup();
-        audioEl.play().catch((err) => console.error("Audio play error:", err));
+        audioEl.play().catch(() => {});
       }
     };
     audioBtn.addEventListener("click", audioHandler);
@@ -1091,7 +1102,10 @@ export function initInfoPanel() {
     });
   }
 
-  // Toggle panneau ouvert/fermé
+  // ============================================================
+  // INFO — TOGGLE
+  // ============================================================
+
   const toggleHandler = () => {
     document.body.classList.toggle("panel-open");
     setBtnText(
@@ -1106,7 +1120,10 @@ export function initInfoPanel() {
     handler: toggleHandler,
   });
 
-  // Clic sur le backdrop = fermer
+  // ============================================================
+  // INFO - BACKDROP = FERMER
+  // ============================================================
+
   const backdrop = document.querySelector(".panel-backdrop");
   if (backdrop) {
     const backdropHandler = () => {
@@ -1120,15 +1137,19 @@ export function initInfoPanel() {
       handler: backdropHandler,
     });
   }
+  // ============================================================
+  // INFO - SURLIGNAGE DE LA CARD SELECTIONNEE
+  // ============================================================
 
-  // Surligne la carte active dans le panneau
   function highlightCard(index) {
     ipBody.querySelectorAll(".ip-card").forEach((c, i) => {
       c.classList.toggle("active", i === index);
     });
   }
+  // ============================================================
+  // INFO - REPERAGE DES IMAGES DANS LA SECTION ACTIVE
+  // ============================================================
 
-  // Récupère l'image correspondante dans la section active
   function getImgInActiveSection(index) {
     const activeSection = document.querySelector(
       `section[data-section="${currentSection}"]`,
@@ -1136,8 +1157,10 @@ export function initInfoPanel() {
     if (!activeSection) return null;
     return activeSection.querySelector(`img[data-artwork="${index}"]`);
   }
+  // ============================================================
+  // INFO - HOVER IMG ET SURLIGNAGE DES CARTES
+  // ============================================================
 
-  // Hover image = outline + surlignage carte
   const mouseoverHandler = (e) => {
     const img = e.target.closest("img[data-artwork]");
     if (!img) return;
@@ -1164,7 +1187,10 @@ export function initInfoPanel() {
     handler: mouseoutHandler,
   });
 
-  // Hover carte = effet sur l'image liée
+  // ============================================================
+  // INFO - HOVER CARTE (effet lien)
+  // ============================================================
+
   const cardMouseoverHandler = (e) => {
     const card = e.target.closest(".ip-card");
     if (!card) return;
@@ -1201,7 +1227,10 @@ export function initInfoPanel() {
     handler: cardMouseoutHandler,
   });
 
-  // Clic image = ouvre le panneau
+  // ============================================================
+  // INFO - CLIC IMAGE --> OUVRE PANNEAU
+  // ============================================================
+
   const clickHandler = (e) => {
     const img = e.target.closest("img[data-artwork]");
     if (!img) return;
@@ -1224,8 +1253,10 @@ export function initInfoPanel() {
     event: "click",
     handler: clickHandler,
   });
+  // ============================================================
+  // INFO - MISE A JOUR PAR SECTIONS
+  // ============================================================
 
-  // Mise à jour du contenu du panneau
   function updatePanel(key) {
     if (key === currentSection) return;
     currentSection = key;
@@ -1256,7 +1287,6 @@ export function initInfoPanel() {
     }, 220);
   }
 
-  // Détection section active (compatible GSAP pinned)
   function getActiveSection() {
     let active = sections[0];
     let closest = Infinity;
@@ -1282,5 +1312,3 @@ export function initInfoPanel() {
   const init = getActiveSection();
   if (init) updatePanel(init.dataset.section);
 }
-
-// Auto-init handled by main.js after page transition overlay

@@ -8,8 +8,11 @@ export function initMaladieSlider() {
   const items = track.querySelectorAll(".maladie-slide-item");
   if (!items.length) return;
 
-  // Calculer la largeur d'un seul set (la moitié du track, car images dupliquées)
-  const itemWidth = items[0].offsetWidth + 15; // largeur + gap
+  // ============================================================
+  // MALADIE - CALCUL MOITIE TRACK (images dupliquées)
+  // ============================================================
+
+  const itemWidth = items[0].offsetWidth + 15;
   const totalWidth = itemWidth * (items.length / 2);
 
   gsap.to(track, {
@@ -19,7 +22,10 @@ export function initMaladieSlider() {
     repeat: -1,
   });
 
-  // Animation fumée au hover — disparaît, réapparaît après 3s
+  // ============================================================
+  // MALADIE - IMG - ANIMATION FUMEE HOVER DISPPAITION 3S
+  // ============================================================
+
   const imgs = track.querySelectorAll("img[data-artwork]");
   imgs.forEach((img) => {
     let reappearTimer = null;
@@ -44,12 +50,11 @@ export function initMaladieSlider() {
         },
       });
     });
-
-    img.addEventListener("mouseleave", () => {
-      // Ne rien faire — on laisse le timer gérer la réapparition
-    });
   });
 }
+// ============================================================
+// MALADIE - TEXT - ANIMATION FUMEE HOVER DISPPAITION
+// ============================================================
 
 export function initLetterHover(el, texte) {
   if (!el) return;
@@ -70,15 +75,9 @@ export function initLetterHover(el, texte) {
         opacity: 1,
         blur: 0,
         brightness: 1,
-        tx: 0,
-        ty: 0,
-        scale: 1,
         targetOpacity: 1,
         targetBlur: 0,
         targetBrightness: 1,
-        targetTx: 0,
-        targetTy: 0,
-        targetScale: 1,
       };
       span._state = state;
 
@@ -133,5 +132,3 @@ export function initMaladieTitle() {
     if (el) initLetterHover(el, el.textContent.trim().replace(/\s+/g, " "));
   });
 }
-
-export function initBlueSkiesScroll() {}

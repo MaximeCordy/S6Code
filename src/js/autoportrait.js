@@ -1,3 +1,6 @@
+// ============================================================
+// AUTO - IMPORT ET CONST
+// ============================================================
 import { initLetterHover } from "./maladie.js";
 
 export function initAutoportraitTitles() {
@@ -19,12 +22,13 @@ export function initAutoportraitTitles() {
     });
   });
 }
+// ============================================================
+// AUTO - GALLERIE
+// ============================================================
 
 export function initAutoportrait() {
   const trackEl = document.getElementById("gallery-track");
   if (!trackEl) return;
-  gsap.registerPlugin(ScrollTrigger);
-  // Lecture des images depuis le HTML (#gallery-images)
   const DATA = [...trackEl.querySelectorAll("#gallery-images img")].map(
     (img) => ({
       year: parseInt(img.dataset.year),
@@ -84,11 +88,12 @@ export function initAutoportrait() {
   };
 
   trackEl.style.height = trackH(zoom) + "px";
-
-  // cartes
+  // ============================================================
+  // AUTO - GALLERIE - CARTES
+  // ============================================================
   DATA.forEach((d, i) => {
-    const t = i / (DATA.length - 1); // 0 = première image, 1 = dernière
-    const brightness = 1 - t * 0.75; // 1.0 → 0.25
+    const t = i / (DATA.length - 1);
+    const brightness = 1 - t * 0.75;
     const el = document.createElement("div");
     el.className = "g-card";
     el.style.cssText = `left:${d.x}px;top:${CY + d.y - d.h / 2}px;width:${d.w}px;height:${d.h}px;filter:brightness(${brightness})`;
@@ -96,7 +101,9 @@ export function initAutoportrait() {
     cvsEl.appendChild(el);
   });
 
-  // timeline
+  // ============================================================
+  // AUTO - GALLERIE - TIMELINE
+  // ============================================================
   const years = [...new Set(DATA.map((d) => d.year))].sort((a, b) => a - b);
   const tlMap = {};
   years.forEach((yr, i) => {
@@ -139,6 +146,9 @@ export function initAutoportrait() {
     });
     idx = best;
   }
+  // ============================================================
+  // AUTO - GALLERIE - ZOOM & Dragg
+  // ============================================================
 
   function scrollToCard(i) {
     idx = Math.max(0, Math.min(DATA.length - 1, i));
@@ -158,7 +168,6 @@ export function initAutoportrait() {
     () => {
       const p = scrollP();
       tgtX = xForP(p, zoom);
-      // Scroll de plus en plus lent : 0.3 au début → 0.07 à la fin
       if (window.__lenis) {
         window.__lenis.options.wheelMultiplier = 0.3 - p * 0.23;
       }
@@ -190,14 +199,7 @@ export function initAutoportrait() {
     },
     { passive: false },
   );
-  sceneEl.addEventListener("mousedown", (e) => {
-    drag = true;
-    dSY = dLY = e.clientY;
-    dCY = tgtY;
-    dVY = velY = 0;
-    sceneEl.classList.add("dragging");
-    e.preventDefault();
-  });
+
   window.addEventListener("mousemove", (e) => {
     if (!drag) return;
     dVY = e.clientY - dLY;
@@ -260,15 +262,6 @@ export function initAutoportrait() {
       velY = dVY * 1.2;
     }
   });
-  window.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowRight") scrollToCard(idx + 1);
-    if (e.key === "ArrowLeft") scrollToCard(idx - 1);
-    if (e.key === "+" || e.key === "=") applyZoom(zoom * 1.2);
-    if (e.key === "-") applyZoom(zoom / 1.2);
-    if (e.key === "0") applyZoom(DEF_ZOOM);
-  });
-  document.getElementById("gPrev").onclick = () => scrollToCard(idx - 1);
-  document.getElementById("gNext").onclick = () => scrollToCard(idx + 1);
 
   (function loop() {
     if (!drag) {

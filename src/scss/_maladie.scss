@@ -1,21 +1,30 @@
-/* ══════════════════════════════════════════════════════
-   PAGE MALADIE
-   ══════════════════════════════════════════════════════ */
+body .page-maladie {
+  background-color: var(--bg);
+  margin: 0;
+  overflow-x: hidden;
+}
 
 :root {
   --maladie: #6e6e6e;
   --sombre-maladie: #5f5f5f;
 }
 
-/* ── Bruit ────────────────────────────────────────────── */
+// ============================================================
+// BRUIT COULEUR
+// ============================================================
 
 [data-barba-namespace="maladie"] .bg {
   opacity: 1;
 }
-[data-barba-namespace="maladie"] .scroll-hint {
+[data-barba-namespace="maladie"] .scroll-hint span {
   color: var(--maladie);
 }
-/* ── Lignes ───────────────────────────────────────────── */
+[data-barba-namespace="maladie"] .scroll-hint .line {
+  background: linear-gradient(to bottom, var(--maladie), transparent);
+}
+// ============================================================
+// LIGNES COULEUR
+// ============================================================
 
 [data-barba-namespace="maladie"] .line-path {
   stroke: var(--maladie);
@@ -41,7 +50,9 @@
   animation: pulse 2s ease-in-out infinite;
 }
 
-/* ── Slider images ─────────────────────────────────────── */
+// ============================================================
+// SLIDER IMG
+// ============================================================
 
 .maladie-slider-section {
   width: 100%;
@@ -143,9 +154,12 @@
     letter-spacing: -0.528px;
   }
 }
+// ============================================================
+// LIGNES - MALADIE
+// ============================================================
 
 #ligne-h1-maladie {
-  margin-top: -35%;
+  margin-top: -30%;
   margin-bottom: -34%;
   pointer-events: none;
 }
@@ -233,7 +247,7 @@
     text-transform: uppercase;
     user-select: none;
     color: var(--maladie);
-    margin-bottom: 3%;
+    margin-bottom: 2%;
   }
   p {
     color: var(--sombre-maladie);
@@ -245,7 +259,7 @@
     letter-spacing: -0.528px;
   }
   @media (min-width: 1540px) {
-    top: 120;
+    top: 90;
   }
 }
 
@@ -276,8 +290,9 @@
   left: 5;
   margin-top: -12%;
 }
-/* ── Footer maladie ────────────────────────────────────── */
-
+// ============================================================
+// FOOTER - MALADIE
+// ============================================================
 [data-barba-namespace="maladie"] .text_nav h1,
 [data-barba-namespace="maladie"] .text_nav h2 {
   color: var(--maladie);
@@ -287,6 +302,9 @@
   background: var(--maladie);
   color: #f8f6f0;
 }
+// ============================================================
+// HERO - MALADIE
+// ============================================================
 .text-ligne-maladie {
   display: inline-flex;
   justify-content: center;
@@ -314,6 +332,7 @@
   line-height: 104%; /* 24.96px */
   letter-spacing: -0.528px;
 }
+
 .hero_maladie {
   height: 80vh;
   display: flex;
@@ -357,5 +376,69 @@
   text-transform: none;
   @media (min-width: 1540px) {
     max-width: 40%;
+  }
+}
+
+.hero_maladie {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+
+  &-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+  }
+
+  &-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  &-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  &-title {
+    font-size: clamp(3rem, 12vw, 8rem);
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  &-subtitle {
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    font-weight: 300;
+    color: var(--text);
+    letter-spacing: 0.02em;
   }
 }

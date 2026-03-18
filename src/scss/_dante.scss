@@ -1,0 +1,566 @@
+// ============================================================
+// DANTE — styles spécifiques à la page dante
+// (hero, mummers, scroll-lock, after-dante, galerie)
+// ============================================================
+
+// ============================================================
+// VARIABLES DANTE
+// ============================================================
+
+:root {
+  --sl-bg: #446e47;
+  --sl-white: #ffffff;
+  --sl-muted: rgba(255, 255, 255, 0.5);
+}
+
+// ============================================================
+// HERO DANTE
+// ============================================================
+
+.hero_dante {
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  gap: 5;
+  margin-top: 10;
+}
+
+.hero_dante h1 {
+  color: var(--bg);
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 120px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 104%;
+  letter-spacing: -2.816px;
+  max-width: 60%;
+  @media (min-width: 1540px) {
+    max-width: 50%;
+  }
+}
+
+.hero_dante p {
+  color: var(--bg);
+  text-align: center;
+  font-family: Poppins;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 104%;
+  letter-spacing: -0.528px;
+}
+
+.hero_dante h2 {
+  color: var(--bg);
+  text-align: center;
+  font-family: Poppins;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 104%;
+  letter-spacing: -0.528px;
+  width: 40%;
+  margin-top: 5;
+  text-transform: none;
+  @media (min-width: 1540px) {
+    max-width: 30%;
+  }
+}
+
+.h-text-bouton {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 6%;
+  margin-left: 7%;
+}
+.h-text-bouton h1 {
+  color: var(--bg);
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 104%;
+  letter-spacing: -0.704px;
+}
+.h-bouton-p p {
+  color: var(--muted);
+  font-family: poppins;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 112%;
+  letter-spacing: -0.44px;
+  max-width: 90%;
+}
+
+.hero_dante {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+
+  &-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+  }
+
+  &-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  &-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  &-title {
+    font-size: clamp(3rem, 12vw, 8rem);
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  &-subtitle {
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    font-weight: 300;
+    color: var(--text);
+    letter-spacing: 0.02em;
+  }
+}
+// ============================================================
+// SECTION MUMMERS
+// ============================================================
+
+.Section-mummers {
+  position: relative;
+  max-width: 88%;
+  margin: 0 auto;
+  padding: 80px 40px 0;
+  height: 1500px;
+}
+
+.subtitle {
+  color: var(--bg);
+  font-family: Poppins;
+  font-size: 35px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150%;
+  letter-spacing: -0.77px;
+  text-align: center;
+  text-transform: none;
+  overflow: visible;
+  pointer-events: none;
+  margin-top: 5%;
+}
+
+.title {
+  position: relative;
+  z-index: 1;
+  color: var(--bg);
+  font-family: Poppins;
+  font-size: 110px;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: -2.86px;
+  pointer-events: none;
+  text-align: center;
+  margin-top: 5%;
+}
+
+.row-big,
+.row-small {
+  display: contents;
+}
+
+.pic {
+  position: absolute;
+  cursor: grab;
+  z-index: 2;
+  user-select: none;
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.pic img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.row-big .pic:nth-child(1) {
+  width: 320px;
+  top: 400px;
+  left: 350px;
+  transform: rotate(-8deg);
+}
+.row-big .pic:nth-child(2) {
+  width: 290px;
+  top: 420px;
+  left: 900px;
+  transform: rotate(6deg);
+}
+.row-small .pic:nth-child(1) {
+  width: 380px;
+  top: 1000px;
+  left: 50px;
+  transform: rotate(-5deg);
+}
+.row-small .pic:nth-child(2) {
+  width: 210px;
+  top: 480px;
+  left: 675px;
+  transform: rotate(10deg);
+}
+.row-small .pic:nth-child(3) {
+  width: 500px;
+  top: 860px;
+  left: 65%;
+  transform: rotate(10deg);
+}
+.row-small .pic:nth-child(4) {
+  width: 345px;
+  top: 650px;
+  left: 850px;
+  transform: rotate(320deg);
+}
+
+.After-mummers .subtitle p {
+  color: var(--bg);
+  text-align: center;
+  font-family: Poppins;
+  font-size: 33px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 150%;
+  letter-spacing: -0.726px;
+  width: 1259px;
+  height: 100px;
+}
+
+.After-mummers h1 {
+  color: var(--bg);
+  text-align: center;
+  font-family: Poppins;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 150%;
+  letter-spacing: -0.88px;
+  text-transform: uppercase;
+}
+
+.images-Mummers {
+  align-items: center;
+  justify-content: center;
+}
+.container-img-mummers {
+  display: flex;
+  align-items: center;
+  gap: 55px;
+  justify-content: center;
+  margin: 0 auto 80px;
+}
+.container-img-mummers img {
+  width: 350px;
+  height: 439px;
+  aspect-ratio: 59/74;
+  opacity: 0;
+  transform: translateY(80px);
+}
+
+// ============================================================
+// TEXT MUMMERS & AFTER MUMMERS
+// ============================================================
+
+.text-mummers {
+  display: flex;
+  flex-direction: column;
+}
+
+.contenu {
+  color: var(--bg);
+  text-align: center;
+  font-family: Poppins;
+  font-size: 29px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 150%;
+  letter-spacing: -0.528px;
+  text-transform: uppercase;
+  width: 50%;
+  height: 108px;
+}
+
+.after-mummers-container-contenu {
+  display: inline-flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 34px;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+// ============================================================
+// AFTER DANTE
+// ============================================================
+
+.after-dante {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 90px;
+  text-align: center;
+  justify-content: center;
+}
+
+.after-dante h1 {
+  color: var(--bg, #313131);
+  font-family: Poppins;
+  font-size: 46px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150%;
+  letter-spacing: -1.012px;
+  max-width: 90%;
+  top: 20;
+  left: 5;
+  @media (min-width: 1540px) {
+    max-width: 70%;
+  }
+}
+
+// ============================================================
+// SCROLL-LOCK — CONTENEUR PRINCIPAL
+// ============================================================
+
+.scroll-lock {
+  position: relative;
+  height: 500vh;
+  background: url("../image/back_green_dante.png") 17% 0 / 65% 100% no-repeat;
+}
+
+.scroll-lock__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: visible;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-lock__header {
+  position: absolute;
+  bottom: 1.8rem;
+  left: 8rem;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.scroll-lock__logo {
+  width: 70px;
+  height: auto;
+  opacity: 1;
+}
+
+.scroll-lock__label {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.scroll-lock__label--year {
+  margin-top: 0.3rem;
+}
+
+.scroll-lock__sticker {
+  position: fixed;
+  z-index: 999999;
+  left: calc(50% - 100px);
+  top: 0;
+  visibility: hidden;
+  img {
+    width: 200px;
+    height: auto;
+    display: block;
+  }
+  @media (min-width: 1540px) {
+    left: 680;
+    bottom: 500;
+  }
+}
+
+// ============================================================
+// TEXT STAGES — scroll-lock text animation
+// ============================================================
+
+.section-before,
+.section-after {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 300;
+  color: #555;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.section-after {
+  border-top: 1px solid #1a1a1a;
+}
+
+.text-stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: center;
+  padding: 4rem;
+  padding-top: 50vh;
+  text-align: left;
+  z-index: 5;
+  pointer-events: none;
+  margin-left: 7%;
+}
+
+.text-stage__phrase {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 1rem;
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s ease 0.05s,
+    transform 0.7s ease 0.05s;
+}
+
+.text-stage__headline {
+  font-family: "Poppins", sans-serif;
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 150%;
+  letter-spacing: -0.924px;
+  text-transform: none;
+  max-width: 60%;
+  height: 200%;
+  color: var(--sl-white);
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s ease 0.1s,
+    transform 0.7s ease 0.1s;
+
+  em {
+    font-style: italic;
+    font-weight: 300;
+  }
+}
+
+.text-stage.is-active .text-stage__headline,
+.text-stage.is-active .text-stage__phrase {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.text-stage.is-exiting .text-stage__headline,
+.text-stage.is-exiting .text-stage__phrase {
+  opacity: 0;
+  transform: translateY(-22px);
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease;
+}
+
+// ============================================================
+// GALERIE VERTICALE DROITE (scroll-lock)
+// ============================================================
+
+.horizontal-gallery {
+  position: absolute;
+  top: 0;
+  right: 7vw;
+  width: 20vw;
+  height: 100%;
+  overflow: visible;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.horizontal-gallery__track {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5vh;
+  width: 100%;
+  padding: 0 1.5vw;
+  will-change: transform;
+}
+
+.gallery-item {
+  flex-shrink: 0;
+  width: 100%;
+  transform-origin: center;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: contrast(1.05) saturate(1.05);
+  outline: 3px solid #ffffff;
+  outline-offset: -3px;
+}

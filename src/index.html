@@ -16,11 +16,7 @@
 
   <body data-page="0">
     <canvas></canvas>
-    <a href="index.html" class="site-logo">
-      <img src="image/logo_sticker.png?aswebp" alt="Logo" />
-    </a>
-    <!-- <div class="vertical-line left"></div>
-    <div class="vertical-line right"></div> -->
+
     <div id="scroll-progress"><div id="scroll-progress-bar"></div></div>
     <button id="audio-toggle" aria-label="Audio">♪</button>
     <button id="info-toggle">i</button>
@@ -39,11 +35,9 @@
       </div>
     </div>
     <div class="bg"></div>
-    <!-- Barba Wrapper -->
     <div data-barba="wrapper">
       <div data-barba="container" data-barba-namespace="index">
         <div class="page">
-          <!-- HERO -->
           <div class="header-index">
             <div class="text-ligne">
               <p data-animate-text="">Maxime Cordy</p>
@@ -70,7 +64,24 @@
             </svg>
           </div>
 
-          <section class="hero_index">
+          <section class="hero_index" id="heroIndex">
+            <svg
+              id="heroIndexSvg"
+              xmlns="http://www.w3.org/2000/svg"
+              style="
+                position: absolute;
+                top: clamp(8%, 3vw, 40px);
+                bottom: clamp(20px, 3vw, 40px);
+                left: 100%;
+                transform: translateX(-50%);
+                width: 80%;
+                overflow: visible;
+                pointer-events: none;
+                z-index: 0;
+              "
+            >
+              <path id="heroIndexPath" />
+            </svg>
             <h1>
               La Galerie
               <span class="bubble" id="bubble">
@@ -89,11 +100,10 @@
               </span>
               des souvenirs
             </h1>
-            <h2>
+            <h2 data-animate-text="">
               Bienvenue dans la Galerie des Souvenirs, un musée immersif, où
               chaque salle raconte une histoire et chaque œuvre devient un
-              indice, et où l'art de William révèle peu à peu un destin
-              tragique.
+              indice, où l'art de William révèle peu à peu un destin tragique.
             </h2>
 
             <div class="scroll-hint">
@@ -196,7 +206,7 @@
                 </div>
 
                 <div class="info">
-                  <p id="titrage" data-animate-text>Influences</p>
+                  <p id="titrage" data-animate-text>Influence</p>
                   <h2 data-animate-text>expressionnisme</h2>
                 </div>
               </div>
@@ -221,16 +231,14 @@
             />
           </svg>
         </div>
-        <!-- PINNED SECTION -->
         <section id="s2" data-section="section2" class="pinned-section">
           <div class="pinned-wrapper">
-            <!-- Text fixed -->
             <h2 data-animate-text class="artiste">D'artiste à Art triste</h2>
             <div class="text-layer">
               <div class="label" data-animate-text>Philadelphia 1933</div>
               <h2 data-animate-text>
                 William Utermohlen naît le 5 décembre 1933 à South Philadelphia,
-                dans une famille d’immigrants allemands.
+                dans une famille d'immigrants allemands.
               </h2>
               <h2 data-animate-text>
                 Enfant unique, il grandit dans un environnement protecteur et
@@ -238,7 +246,6 @@
               </h2>
             </div>
 
-            <!-- Images qui montent -->
             <div class="image-track image-track--index">
               <div
                 class="img-card"
@@ -300,7 +307,7 @@
                 <img src="image/logo_sticker.png" alt="logo" />
               </div>
               <p class="after-section-text" data-animate-text>
-                C’est là-bas qu’il découvre l’art de la Renaissance italienne et
+                C'est là-bas qu'il découvre l'art de la Renaissance italienne et
                 le baroque français. Ces influences vont nourrir durablement son
                 attachement à la figure humaine.
               </p>
@@ -331,7 +338,7 @@
                 <h1>PATRICIA</h1>
                 <div class="pat-grid">
                   <div>
-                    <span class="pat-label">NOM-PRÉNOM</span>
+                    <span class="pat-label">NOM-PRENOM</span>
                     <strong>PATRICA REDMOND</strong>
                   </div>
                   <div>
@@ -349,13 +356,13 @@
                 </div>
 
                 <h2 data-animate-text>
-                  Patricia est l’épouse de William, celle qui le suivra tout au
-                  long de sa vie et que l’artiste représentera dans plusieurs
+                  Patricia est l'épouse de William, celle qui le suivra tout au
+                  long de sa vie et que l'artiste représentera dans plusieurs
                   portraits. Elle sera pour lui un immense soutien.
                 </h2>
                 <h2 data-animate-text>
-                  En 1962, William s’installe définitivement à Londres, où il
-                  rencontre l’historienne de l’art qu’il épousera en 1965.
+                  En 1962, William s'installe définitivement à Londres, où il
+                  rencontre l'historienne de l'art qu'il épousera en 1965.
                 </h2>
               </div>
               <div
@@ -392,7 +399,7 @@
         <section id="s4-5" data-section="section4-5" class="after-patricia">
           <h1 data-animate-text>
             Londres devient alors le centre de sa vie artistique et personnelle,
-            et le décor récurrent de nombreux portraits et scènes d’intérieur
+            les décors récurrent de nombreux portraits et scènes d'intérieur
           </h1>
         </section>
         <div class="ligne-h" id="ligne-h3b">
@@ -469,7 +476,6 @@
           </div>
         </section>
 
-        <!-- Section après le slider pour donner du temps avant la transition -->
         <div class="ligne-h" id="ligne-h5">
           <svg viewBox="0 0 800 400">
             <path
@@ -506,7 +512,7 @@
           <div class="text_footer">
             <h3>William Utermohlen</h3>
 
-            <h3>la galerie des souvenirs</h3>
+            <h3>La Galerie des Souvenirs</h3>
 
             <h3>Maxime Cordy</h3>
           </div>
@@ -517,24 +523,32 @@
       </div>
     </div>
 
-    <!-- ════ TIMELINE NAV ════ -->
     <div id="tl-nav" class="hidden">
       <div id="tl-nav__pill">
         <div id="tl-nav__track"><div id="tl-nav__fill"></div></div>
         <div id="tl-nav__nodes">
-          <a href="index.html" data-label="La Galerie" class="tl-nav-node tl-nav-active"
+          <a
+            href="index.html"
+            data-label="La Galerie"
+            class="tl-nav-node tl-nav-active"
             ><span class="tl-nav-dot"></span
           ></a>
           <a href="dante.html" data-label="Dante" class="tl-nav-node"
             ><span class="tl-nav-dot"></span
           ></a>
-          <a href="conversation.html" data-label="Conversation" class="tl-nav-node"
+          <a
+            href="conversation.html"
+            data-label="Conversation"
+            class="tl-nav-node"
             ><span class="tl-nav-dot"></span
           ></a>
           <a href="maladie.html" data-label="Maladie" class="tl-nav-node"
             ><span class="tl-nav-dot"></span
           ></a>
-          <a href="autoportrait.html" data-label="Autoportrait" class="tl-nav-node"
+          <a
+            href="autoportrait.html"
+            data-label="Autoportrait"
+            class="tl-nav-node"
             ><span class="tl-nav-dot"></span
           ></a>
         </div>
@@ -543,7 +557,7 @@
             <img
               class="tl-nav-img tl-nav-on"
               src="image/logo/MAISON_LOGO_INDEX.webp"
-              alt=""
+              alt="Logo La Galerie des Souvenirs"
             />
             <img
               class="tl-nav-img"

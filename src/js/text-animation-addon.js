@@ -1,6 +1,5 @@
 // ============================================================
-// ANIMATION DE TEXTE — MOT PAR MOT (standalone)
-// Compatible Barba — ne touche pas aux autres animations
+//  ANIMATION DE TEXTE — IMPORT - MOT PAR MOT
 // ============================================================
 
 import gsap from "gsap";
@@ -8,7 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 // ============================================================
-// FONCTION PRINCIPALE — animateTextByWords
+// ANIMATION DE TEXTE — FONCTION PRINCIPALE
 // ============================================================
 
 function animateTextByWords(selector = "[data-animate-text]", options = {}) {
@@ -23,10 +22,7 @@ function animateTextByWords(selector = "[data-animate-text]", options = {}) {
 
   const elements = scope.querySelectorAll(selector);
 
-  if (!elements.length) {
-    console.log("⚠️ Aucun élément avec", selector);
-    return;
-  }
+  if (!elements.length) return;
 
   elements.forEach((element) => {
     if (element.hasAttribute("data-text-animated")) return;
@@ -86,7 +82,7 @@ function animateTextByWords(selector = "[data-animate-text]", options = {}) {
 }
 
 // ============================================================
-// INITIALISATION AU CHARGEMENT
+// ANIMATION DE TEXTE — INITIALISATION AU CHARGEMENT
 // ============================================================
 
 document.addEventListener("DOMContentLoaded", () => {

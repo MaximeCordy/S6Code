@@ -2,6 +2,11 @@
 // Si l'on arrive d'une transition Barba (main.js pose "barba-transition" avant de
 // changer de page), l'overlay doit déjà couvrir l'écran au premier paint.
 try {
+  if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+} catch (e) {
+  /* ignore */
+}
+try {
   if (sessionStorage.getItem("barba-transition")) {
     document.documentElement.classList.add("is-arriving");
   }

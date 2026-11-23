@@ -1177,11 +1177,13 @@ export function initInfoPanel() {
       }
       if (!dragging) {
         // s'est-on déplacé assez, et la liste est-elle toujours en haut ?
-        if (dy < 6 || ipBody.scrollTop > 0) return;
+        if (dy < 2 || ipBody.scrollTop > 0) return;
         dragging = true;
         sheet.style.transition = "none";
       }
-      e.preventDefault();
+      // dès le premier mouvement vers le bas : on garde la main (sinon Chrome Android
+      // démarre son propre défilement/pull-to-refresh et envoie un touchcancel)
+      if (e.cancelable) e.preventDefault();
       sheet.style.transform = `translateY(${dy}px)`;
     };
     const sheetEnd = () => {

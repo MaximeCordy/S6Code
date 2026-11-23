@@ -265,6 +265,10 @@ export function initAutoportrait() {
         );
         return;
       }
+      // Au doigt, le glissement vertical fait défiler la page (c'est lui qui fait
+      // avancer la galerie) : on ne déplace PAS aussi la caméra en Y, sinon les
+      // images sortent de l'écran. Seul le pincement (zoom) reste actif.
+      if (window.matchMedia("(pointer: coarse)").matches) return;
       const t = e.touches[0];
       drag = true;
       dSY = dLY = t.clientY;

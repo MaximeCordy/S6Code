@@ -884,6 +884,12 @@ barba.init({
         }, 1000);
 
         const transitionDir = sessionStorage.getItem("barba-transition");
+        if (transitionDir && transitionDir !== "lang") {
+          // arrivée par transition : on repart toujours du haut de la page
+          // (un doigt encore posé pendant le chargement ne doit pas faire défiler)
+          window.scrollTo(0, 0);
+          lenis.scrollTo(0, { immediate: true, force: true });
+        }
         if (transitionDir === "lang") {
           // Changement de langue : même page, même endroit de la page, fondu rapide
           // de l'overlay (arrive.js l'a déjà posé avant le premier rendu).
@@ -916,6 +922,9 @@ barba.init({
           });
           gsap.set(overlay, { y: "100%" });
         }
+
+        // fin de l'arrivée : on rend le défilement (verrouillé par arrive.js / CSS)
+        document.documentElement.classList.remove("is-arriving");
 
         showTimelineNav();
         initInfoPanel();

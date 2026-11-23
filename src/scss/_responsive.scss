@@ -1398,3 +1398,49 @@ html[lang="en"] .hero_index h1 {
     }
   }
 }
+
+// Tablette / téléphone : pendant l'arrivée d'une transition, la page ne défile pas
+// (sinon un geste du doigt pendant le fondu décalait le héros).
+@media (max-width: 1024px) {
+  html.is-arriving,
+  html.is-arriving body {
+    overflow: hidden;
+    touch-action: none;
+  }
+
+  // Titre du héros de l'accueil centré (comme en anglais) et jamais en contact
+  // avec l'indicateur « Scroll » : on réserve sa hauteur en bas du héros.
+  .hero_index {
+    padding-bottom: 9rem;
+  }
+  .hero_index h1 {
+    text-align: center;
+  }
+}
+
+// Volet d'info : le glissement vers le bas ne doit pas déclencher le rafraîchissement du navigateur
+@media (max-width: 767px) {
+  #info-panel {
+    overscroll-behavior: contain;
+  }
+  .ip-head {
+    touch-action: none;
+  }
+}
+
+// Autoportrait / Maladie : la première ligne horizontale a un décalage de -100px
+// (calé pour le desktop) qui remontait le héros de ~200px sous l'en-tête sur
+// tablette/téléphone. On reprend les mêmes marges que `#ligne-h0` des autres pages.
+@media (max-width: 1024px) {
+  // (et on retire le `gap` de la page de chaque côté de la ligne, absent sur
+  // l'accueil/dante/conversation) pour que le cadre de tous les héros démarre
+  // à la même distance de l'en-tête.
+  #ligne-h00 {
+    margin-top: calc(-26.5% - 6.94vw);
+    margin-bottom: calc(-30% - 6.94vw);
+  }
+  .hero_dante,
+  .hero_maladie {
+    margin-top: 0;
+  }
+}

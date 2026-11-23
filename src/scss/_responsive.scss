@@ -1410,9 +1410,6 @@ html[lang="en"] .hero_index h1 {
 
   // Titre du héros de l'accueil centré (comme en anglais) et jamais en contact
   // avec l'indicateur « Scroll » : on réserve sa hauteur en bas du héros.
-  .hero_index {
-    padding-bottom: 9rem;
-  }
   .hero_index h1 {
     text-align: center;
   }
@@ -1442,5 +1439,19 @@ html[lang="en"] .hero_index h1 {
   .hero_dante,
   .hero_maladie {
     margin-top: 0;
+  }
+}
+
+// Héros de l'accueil téléphone : contenu centré dans le cadre comme les autres
+// pages (Dante, Conversation…), « Scroll » juste en dessous. Le texte est plus
+// long que sur les autres pages : on réduit un peu titre et paragraphe pour
+// qu'il tienne au-dessus de l'indicateur sans le décaler vers le haut.
+@media (max-width: 767px) {
+  .hero_index h1 {
+    font-size: clamp(2.4rem, 11.5vw, 7.5rem);
+  }
+  .hero_index h2 {
+    font-size: 0.9rem;
+    margin-top: 0.9rem;
   }
 }

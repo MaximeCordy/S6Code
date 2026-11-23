@@ -1328,7 +1328,11 @@ export function initInfoPanel() {
   // ============================================================
 
   const clickHandler = (e) => {
-    const img = e.target.closest("img[data-artwork]");
+    // Mummers : les <img> sont en pointer-events:none (le .pic est draggable), le
+    // clic arrive donc sur le .pic : on retrouve l'image qu'il contient.
+    const img =
+      e.target.closest("img[data-artwork]") ||
+      e.target.closest(".pic")?.querySelector("img[data-artwork]");
     if (!img) return;
     const index = parseInt(img.dataset.artwork);
     document.body.classList.add("panel-open");

@@ -19,16 +19,25 @@ export function initStickerAnimation() {
   // pose AU-DESSUS du texte. ≤1024px la galerie occupe la gauche et le texte la
   // droite : il se pose de la même façon, au-dessus de la colonne de texte
   // (même formule que le padding-left du texte dans _responsive.scss).
+  // Le logo se pose de façon que le côté GAUCHE DU DESSIN s'aligne sur le côté
+  // gauche du texte « Dante Cycle ». Le dessin n'occupe que de 27.8 % à 72.6 % de
+  // la largeur de l'image (le reste est transparent) : on aligne donc le dessin,
+  // pas le cadre de l'image. Valable desktop, tablette et téléphone.
+  const DRAW_LEFT = 0.2776; // fraction de la largeur de l'image avant le dessin
+  const FINAL_SCALE = 0.6;
   const landX = () => {
-    const vw = window.innerWidth;
-    if (vw > 1024) return -320;
-    // Mesuré sur desktop : le logo se pose centré sur le bord GAUCHE du texte
-    // (centre du logo ≈ bord du texte + 7px). Ici le bord gauche du logo
-    // s'aligne sur celui du texte (centre = bord + demi-logo à l'échelle 0.6) :
-    // il ne mord pas sur la galerie, qui est juste à gauche.
-    const textLeft = vw * 0.34 + 16;
-    const half = ((sticker.querySelector("img")?.offsetWidth || 140) * 0.6) / 2;
-    return textLeft + half - 10 - vw / 2; // -10 : le dessin n'occupe pas tout le cadre de l'image
+    const img = sticker.querySelector("img");
+    const wrap = sticker.querySelector(".logo-wrapper");
+    const phrase = document.querySelector(
+      ".scroll-lock .text-stage .text-stage__phrase",
+    );
+    const textLeft = phrase ? phrase.getBoundingClientRect().left : window.innerWidth * 0.1;
+    const boxW = sticker.offsetWidth;
+    const imgLeftInBox = (wrap ? wrap.offsetLeft : 0) + img.offsetLeft;
+    const baseLeft = parseFloat(getComputedStyle(sticker).left) || 0;
+    // bord gauche visible de l'image pour x = 0 (échelle finale autour du centre du sticker)
+    const left0 = baseLeft + boxW / 2 + FINAL_SCALE * (imgLeftInBox - boxW / 2);
+    return textLeft - DRAW_LEFT * FINAL_SCALE * img.offsetWidth - left0;
   };
   // Desktop : 230px (inchangé). ≤1024px : atterrissage au MILIEU de l'écran,
   // juste au-dessus du texte du bloc vert (dont le haut est à 50svh - 40px, cf.
@@ -38,10 +47,20 @@ export function initStickerAnimation() {
   // monte avec les cartes et tourne SOUS ce texte, puis rejoint le centre quand le
   // bloc vert arrive.
   const WAIT_Y = () => window.innerHeight * 0.64;
-  const LAND_Y = () =>
-    !small()
-      ? 230
-      : Math.max(window.innerHeight * 0.06, window.innerHeight * 0.5 - 169);
+  // Desktop : le texte vert démarre à 50vh (padding-top du .text-stage). L'ancienne
+  // valeur fixe (230px) n'était juste que pour une fenêtre de ~960px de haut. On
+  // calcule donc y pour que le BAS visible du logo (échelle finale 0.6, autour du
+  // centre du sticker) soit 10px au-dessus du haut du texte, à toute hauteur d'écran.
+  const LAND_Y = () => {
+    if (small())
+      return Math.max(window.innerHeight * 0.06, window.innerHeight * 0.5 - 169);
+    const img = sticker.querySelector("img");
+    const wrap = sticker.querySelector(".logo-wrapper");
+    const half = sticker.offsetHeight / 2;
+    const imgBottom = (wrap ? wrap.offsetTop : 0) + img.offsetTop + img.offsetHeight;
+    const bottomOffset = half + 0.6 * (imgBottom - half);
+    return window.innerHeight * 0.5 - 10 - bottomOffset;
+  };
   const START_Y = () => window.innerHeight + 100;
 
   gsap.set(sticker, {
@@ -52,6 +71,120 @@ export function initStickerAnimation() {
     zIndex: 999999,
     transformOrigin: "50% 50%",
   });
+
+  // ------------------------------------------------------------------
+  // TABLETTE / TÉLÉPHONE : le logo se cale EN DIRECT sur le texte
+  //  1. il monte avec la section « 33 chants » et reste SOUS son texte (jamais
+  //     par-dessus), sans bouger tant que ce texte est épinglé ;
+  //  2. quand le bloc vert arrive, il rejoint un emplacement FIXE juste au-dessus
+  //     du texte vert, n'en bouge plus, puis sort par le haut à la fin du bloc.
+  // Desktop : animation d'origine ci-dessous, inchangée.
+  // ------------------------------------------------------------------
+  if (small()) {
+    const imgEl = sticker.querySelector("img");
+    const titleEl = pinned.querySelector(".artiste");
+    const bodyEl = pinned.querySelector(".text-layer");
+    const allCards = pinned.querySelectorAll(".img-card");
+    const cardEl = allCards[allCards.length - 1]; // dernière image
+    const GAP = 16;
+    const afterEl = document.querySelector(".after-dante");
+    const lockEl = document.querySelector(".scroll-lock");
+
+    gsap.set(sticker, { y: START_Y(), scale: 0.9, x: 0 });
+    gsap.set(imgEl, { transformOrigin: "50% 50%", rotation: 0 });
+
+    const pinEndS = Math.min(
+      0.9,
+      Math.max(0.4, 1 - window.innerHeight / pinned.offsetHeight),
+    );
+    // échelle, décalage latéral et rotation suivent le défilement (comme avant) ;
+    // seule la position verticale est calée sur les textes (ticker ci-dessous).
+    const tlSmall = gsap.timeline({
+      scrollTrigger: {
+        trigger: pinned,
+        start: "top top",
+        end: "bottom top",
+        scrub: 1,
+        invalidateOnRefresh: true,
+      },
+    });
+    tlSmall
+      .fromTo(
+        sticker,
+        { scale: 0.9, x: 0 },
+        { scale: 0.8, x: () => landX() * 0.5, ease: "power2.out", duration: pinEndS },
+      )
+      .to(sticker, {
+        scale: 0.6,
+        x: landX,
+        ease: "power2.in",
+        duration: 1 - pinEndS,
+      });
+    tlSmall.fromTo(imgEl, { rotation: 0 }, { rotation: 360, ease: "none" }, 0.5);
+
+    let waitC = null; // centre du logo en position d'attente (texte épinglé)
+    const measureWait = () => {
+      if (!titleEl || !bodyEl) return null;
+      const a = titleEl.getBoundingClientRect();
+      const b = bodyEl.getBoundingClientRect();
+      const unionH = Math.max(a.bottom, b.bottom) - Math.min(a.top, b.top);
+      // le contenu épinglé est centré dans l'écran
+      return (window.innerHeight + unionH) / 2;
+    };
+
+    const tick = () => {
+      const vh = window.innerHeight;
+      const pr = pinned.getBoundingClientRect();
+      const box = sticker.getBoundingClientRect();
+      const h = box.height;
+      const visible = pr.top < vh;
+      if (!visible) {
+        if (sticker.style.visibility !== "hidden") gsap.set(sticker, { visibility: "hidden" });
+        return;
+      }
+      const textBottom = measureWait();
+      const waitBottom = textBottom == null ? vh * 0.7 : textBottom;
+      const waitCenter = waitBottom + GAP + h / 2;
+      // Bloc vert : le logo se pose à un emplacement FIXE, juste au-dessus du haut
+      // du texte (placé à 50svh - 40px par le CSS) et n'en bouge plus, même quand
+      // le texte glisse ou repart vers le haut.
+      const landCenter = vh * 0.5 - 40 - 8 - h / 2;
+      // sortie : une fois le bloc vert fini (la section suivante monte), le logo
+      // s'en va par le haut un peu plus vite que le défilement
+      const adTop = afterEl ? afterEl.getBoundingClientRect().top : Infinity;
+      const exit = adTop < vh ? (vh - adTop) * 1.5 : 0;
+      // arrivée : le logo monte AVEC LES IMAGES, il est porté par la dernière carte
+      // (même départ de scroll, même easing, même retard de scrub) jusqu'à sa
+      // position d'attente ; le texte épinglé n'intervient plus.
+      // Il apparaît quand la carte entre à l'écran et finit son trajet un peu plus
+      // haut (D) : même défilement mais ~2x plus lent que la carte.
+      let liveCenter = waitCenter;
+      if (cardEl) {
+        const D = vh * 0.35;
+        const ct = cardEl.getBoundingClientRect().top;
+        const q = Math.max(0, Math.min(1, (ct - (waitCenter - D)) / (vh - (waitCenter - D))));
+        liveCenter = waitCenter + (vh + h / 2 - waitCenter) * q;
+      }
+      // passage de l'attente à l'emplacement final pendant que le bloc vert monte
+      const slTop = lockEl ? lockEl.getBoundingClientRect().top : Infinity;
+      const p = Math.max(0, Math.min(1, 1 - slTop / vh));
+      const held = Math.max(waitCenter, liveCenter);
+      const target = held + (landCenter - held) * p - exit;
+      // derrière les images (z-index 99998) pendant l'arrivée ; au-dessus du bloc
+      // vert quand celui-ci arrive
+      const z = p > 0 ? 999999 : 99990;
+      if (sticker.style.zIndex !== String(z)) sticker.style.zIndex = z;
+      const curY = gsap.getProperty(sticker, "y");
+      const curC = box.top + h / 2;
+      const nextY = curY + (target - curC);
+      gsap.set(sticker, { y: nextY });
+      const hide = target < -h;
+      const vis = hide ? "hidden" : "visible";
+      if (sticker.style.visibility !== vis) gsap.set(sticker, { visibility: vis });
+    };
+    gsap.ticker.add(tick);
+    return;
+  }
 
   // fraction de la timeline (top top -> bottom top) correspondant à la fin de l'épinglage
   const pinEnd = Math.min(
@@ -120,7 +253,11 @@ export function initStickerAnimation() {
         scrollTrigger: {
           trigger: afterSection,
           start: "top bottom",
-          end: "bottom top",
+          // Le texte du bloc vert remonte exactement à la vitesse du scroll : le logo
+          // fait de même (1:1, distance de trajet = distance de scroll) et reste donc
+          // à écart constant à côté du texte, sans le rattraper ni s'en éloigner.
+          end: () =>
+            "top+=" + Math.round(LAND_Y() + window.innerHeight) + " bottom",
           scrub: true,
           invalidateOnRefresh: true,
           // une fois sorti par le haut, le sticker ne doit plus rester visible

@@ -1,0 +1,222 @@
+// ============================================================
+// PAGE 404 — autonome (n'importe pas le CSS du reste du site)
+// Même univers : fond crème, grain, cadre fin, Poppins, logo-maison.
+// ============================================================
+
+:root {
+  --bg: #313131;
+  --text: #f8f6f0;
+  --muted: #6b6572;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100svh;
+  background: var(--text);
+  color: var(--bg);
+  font-family: "Poppins", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+// grain, comme sur le site (statique ici : pas d'animation)
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: url("../image/noise.png") repeat;
+  opacity: 0.9;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.nf {
+  position: relative;
+  z-index: 2;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: clamp(2rem, 8vh, 5rem) clamp(1.5rem, 8vw, 6rem)
+    max(2rem, env(safe-area-inset-bottom));
+}
+
+// cadre fin à angles arrondis, comme les « cadres » des héros
+.nf__frame {
+  position: absolute;
+  inset: clamp(0.75rem, 3vw, 2.5rem);
+  border: 2px solid var(--bg);
+  border-radius: 27px;
+  pointer-events: none;
+}
+
+.nf__logo {
+  width: clamp(88px, 14vw, 140px);
+  height: auto;
+  margin-bottom: clamp(0.5rem, 2vh, 1.5rem);
+  animation: nf-wiggle 1.4s ease-in-out 0.4s both;
+  transform-origin: 50% 80%;
+}
+
+.nf__code {
+  font-size: clamp(5.5rem, min(24vw, 27vh), 13rem);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+}
+
+.nf__title {
+  margin-top: clamp(0.25rem, 1.5vh, 1rem);
+  font-size: clamp(1.4rem, 4.4vw, 2.5rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.nf__text {
+  margin-top: 1rem;
+  max-width: 34rem;
+  font-size: clamp(0.95rem, 2.2vw, 1.125rem);
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--muted);
+  text-wrap: balance;
+}
+
+.nf__title--en {
+  margin-top: clamp(1.25rem, 3vh, 2rem);
+  font-size: clamp(1.1rem, 3.2vw, 1.6rem);
+  font-weight: 500;
+  color: var(--muted);
+}
+.nf__text--en {
+  margin-top: 0.5rem;
+  font-size: clamp(0.85rem, 2vw, 1rem);
+}
+
+.nf__actions {
+  margin-top: clamp(1.75rem, 4vh, 2.75rem);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+// bouton : zone tactile >= 44px, focus visible
+.nf__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 2rem;
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--text);
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  transition:
+    transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+  &:active {
+    transform: translateY(0) scale(0.98);
+  }
+}
+
+.nf__btn--ghost {
+  background: transparent;
+  color: var(--bg);
+  box-shadow: inset 0 0 0 2px var(--bg);
+}
+
+.nf__rooms {
+  margin-top: clamp(1.5rem, 3.5vh, 2.25rem);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25rem 1.5rem;
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--bg);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 5px;
+
+    &:hover {
+      opacity: 0.65;
+    }
+  }
+}
+
+.nf__credit {
+  margin-top: clamp(2rem, 5vh, 3.5rem);
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+
+  a {
+    color: inherit;
+    text-underline-offset: 3px;
+  }
+}
+
+a:focus-visible {
+  outline: 3px solid var(--bg);
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+.nf__btn:focus-visible {
+  outline-offset: 4px;
+  border-radius: 999px;
+}
+
+@keyframes nf-wiggle {
+  0% {
+    transform: rotate(0) scale(1);
+  }
+  18% {
+    transform: rotate(-9deg) scale(1.08);
+  }
+  38% {
+    transform: rotate(7deg) scale(1.1);
+  }
+  58% {
+    transform: rotate(-4deg) scale(1.05);
+  }
+  78% {
+    transform: rotate(2deg) scale(1.02);
+  }
+  100% {
+    transform: rotate(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nf__logo {
+    animation: none;
+  }
+  .nf__btn {
+    transition: none;
+  }
+}

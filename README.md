@@ -1,237 +1,68 @@
-# eikon parcel starter
+# La Galerie des Souvenirs
+
+Musée interactif sur **William Utermohlen** et la maladie d'Alzheimer — projet d'examen S6 (Eikon), par Maxime Cordy.
+Site : https://galerie-souvenirs.cordy-maxime.ch/
+
+5 pages (`index`, `dante`, `conversation`, `maladie`, `autoportrait`) + une page `404` personnalisée.
+Animations : GSAP (ScrollTrigger, Draggable), Lenis (scroll lissé), Barba (transition entre pages). Responsive téléphone / tablette / desktop.
 
 ## Prérequis
 
-- Git installé
-- NPM installé
-
-## Installation
-
-Cloner le repository git
-
-```
-git clone git@github.com:eikon-frontend/starterkit.git <nom du projet>
-```
-
-Se rendre dans le dossier du projet, puis installer les dépendances avec NPM
-
-```
-cd <nom-du-projet>
-npm install
-```
+Node.js 18+ et npm.
 
 ## Commandes
 
-Compiler la SCSS, aggréger le JS, lancer le serveur et écouter les changements
-
-```
-npm run dev
-```
-
-Compiler pour la production
-
-```
-npm run build
+```bash
+npm install        # dépendances
+npm run dev        # serveur de développement (http://localhost:1234)
+npm run build      # build de production -> dist/  (public-url "/", sans source maps)
+npm run preview    # sert dist/ en local (http://localhost:4173)
 ```
 
-## Utilisation
+> `npm run dev` et `npm run build` écrivent tous les deux dans `dist/` : arrêtez le serveur de dev avant un build.
 
-### HTML
-
-Inclure un fichier _header.html_ depuis un fichier HTML
-
-```html
-<include src="components/header.html"></include>
-```
-
-### SCSS
-
-Inclure un fichier _main.scss_ depuis un fichier HTML
-
-```html
-<link rel="stylesheet" href="scss/main.scss" />
-```
-
-Inclure un fichier _\_base.scss_ depuis un fichier SCSS
-
-```scss
-@import "base";
-```
-
-### JS
-
-Inclure un fichier _main.js_ depuis un fichier HTML
-
-```html
-<script src="js/main.js" type="module"></script>
-```
-
-Inclure un fichier _carousel.js_ depuis un fichier JS
-
-```js
-import "./carousel.js";
-```
-
-## Exemples d'utilisation de packages externes
-
-### [AOS](https://michalsnik.github.io/aos)
-
-Installer le paquet avec NPM
+## Structure
 
 ```
-npm install aos@next
+src/
+  *.html            les 5 pages + 404.html
+  js/main.js        point d'entrée unique (GSAP, Lenis, Barba, polices, navigation)
+  js/*.js           modules par page (dante, conversation, maladie, autoportrait, info…)
+  en/               pages anglaises GÉNÉRÉES (npm run i18n) — ne pas éditer
+  i18n/en.json      dictionnaire FR -> EN
+  scss/             styles ; _responsive.scss = adaptation ≤1024px (media queries uniquement)
+  image/ audio/     médias
+public/             copié tel quel dans dist/ au build :
+                    .htaccess (Apache) · _headers (Netlify/Cloudflare) · robots.txt · sitemap.xml · og-cover.jpg
+ANALYSE.md          analyse des animations, du responsive et audit global
 ```
 
-Inclure le JS depuis un fichier JS
+## Déploiement
 
-```js
-import AOS from "aos";
+1. `npm run build`
+2. Envoyer **tout le contenu de `dist/`** (y compris `.htaccess`, fichier caché) à la racine du domaine.
+3. Hébergeur Apache : `.htaccess` active la page 404, HTTPS, les en-têtes de sécurité (CSP, HSTS…), la compression et le cache.
+   Netlify / Cloudflare Pages : `_headers` + `404.html` sont pris en charge automatiquement.
+4. Vérifier ensuite : une URL inexistante affiche la page 404, et https://securityheaders.com / la console du navigateur ne signalent aucune ressource bloquée.
+
+Le site doit être servi **à la racine du domaine** (URLs absolues `/dante.html`, build avec `--public-url /`).
+
+## Langues (FR / EN)
+
+Le français est la langue source (`src/*.html`). Les pages anglaises sont **générées** dans `src/en/` (ignoré par git) :
+
+```bash
+npm run i18n         # génère src/en/ à partir des pages françaises + src/i18n/en.json
+npm run i18n:check   # idem, mais échoue si une phrase n'est pas traduite (utilisé par `npm run build`)
 ```
 
-Inclure la CSS depuis un fichier SCSS
+- Dictionnaire : `src/i18n/en.json` — `{ "texte français": "English text" }`. Il sert aussi au JavaScript (panneau d'infos, `src/js/i18n.js`).
+- Modifier un texte français = mettre à jour la clé correspondante dans `en.json`, puis relancer `npm run i18n` (c'est automatique avec `npm run dev` / `npm run build`).
+- URLs : français `/dante.html`, anglais `/en/dante.html`. Le bouton « EN / FR » (bas droite) est un lien vers la même page dans l'autre langue et retrouve la même position de scroll.
+- Les enregistrements audio (en anglais) sont communs aux deux langues.
 
-```SCSS
-@import "../../node_modules/aos/dist/aos.css";
-```
+## Mettre à jour le contenu
 
-### [Bootstrap](https://getbootstrap.com)
-
-Installer le paquet avec NPM
-
-```
-npm install bootstrap
-```
-
-Inclure la SCSS depuis un fichier SCSS
-
-```SCSS
-@import "bootstrap/scss/bootstrap-grid";
-```
-
-### [Flickity](https://flickity.metafizzy.co)
-
-Installer le paquet avec NPM
-
-```
-npm install flickity
-```
-
-Inclure le JS depuis un fichier JS
-
-```js
-import Flickity from "flickity";
-```
-
-Inclure la CSS depuis un fichier SCSS
-
-```SCSS
-@import "../../node_modules/flickity/dist/flickity.css";
-```
-
-### [Font Awesome](https://fontawesome.com/)
-
-Installer le paquet avec NPM
-
-```
-npm install @fortawesome/fontawesome-free
-```
-
-Inclure le JS depuis un fichier JS
-
-```js
-import "@fortawesome/fontawesome-free/js/all.js";
-```
-
-### [GSAP](https://greensock.com/gsap/)
-
-Installer le paquet avec NPM
-
-```
-npm install gsap
-```
-
-Inclure le JS depuis un fichier JS
-
-```js
-import gsap from "gsap";
-```
-
-Inclure les éventuels plugins
-
-```js
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-gsap.registerPlugin(ScrollTrigger);
-```
-
-### [Masonry](https://masonry.desandro.com)
-
-Installer le paquet avec NPM
-
-```
-npm install masonry-layout
-```
-
-Inclure le JS depuis un fichier JS
-
-```js
-import Masonry from "masonry-layout";
-```
-
-### [ScrollMagic](https://scrollmagic.io)
-
-Installer le paquet avec NPM
-
-```
-npm install scrollmagic
-```
-
-Inclure le JS depuis un fichier JS
-
-```js
-import ScrollMagic from "scrollmagic";
-```
-
-### [Swiper](https://swiperjs.com)
-
-Installer le paquet avec NPM
-
-```
-npm install swiper@6
-```
-
-Inclure le JS depuis un fichier JS
-
-```js
-import Swiper from "swiper";
-import { Navigation, Pagination } from "swiper/modules";
-
-Swiper.use([Navigation, Pagination]);
-```
-
-Inclure la SCSS depuis un fichier SCSS
-
-```SCSS
-@import "swiper/swiper";
-```
-
-### [three.js](https://threejs.org)
-
-Installer le paquet avec NPM
-
-```
-npm install three
-```
-
-Inclure le JS depuis un fichier JS
-
-```js
-import * as THREE from "three";
-```
-
-## Exemple
-
-Un exemple avec l'installation des packages ci-desssus est disponible sur la branche _examples_
-
-```
-git checkout examples
-```
+- Textes / œuvres affichées dans le panneau « i » : `src/js/info.js` (objet `DATA`) + traductions dans `src/i18n/en.json`.
+- Titres et descriptions SEO : bloc `<head>` de chaque page (title, description, Open Graph, canonical).
+- Nouvelle page : créer `src/<page>.html` (elle est détectée automatiquement, y compris sa version anglaise), l'ajouter à `public/sitemap.xml` et à `pageOrder` / `pageUrls` dans `src/js/main.js`.

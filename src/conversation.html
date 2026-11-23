@@ -1,48 +1,63 @@
 <!doctype html>
 <html lang="fr">
   <head>
-    <link rel="icon" sizes="100x100" href="image/logo/MAISON_LOGO_INDEX.webp" />
-    <title>Musée interactif | William Utermohlen et Alzheimer</title>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
-      name="description"
-      content="Découvrez un musée interactif retraçant le parcours de William Utermohlen et l'évolution de la maladie d'Alzheimer à travers ses œuvres."
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover, minimum-scale=1"
     />
-    <meta name="robots" content="index, follow" />
-    <meta property="og:title" content="Musée interactif – William Utermohlen" />
-    <meta
-      property="og:description"
-      content="Explorez le parcours de William Utermohlen et l'évolution de la maladie d'Alzheimer à travers ses œuvres."
-    />
-    <meta property="og:type" content="website" />
-    <meta
-      property="og:url"
-      content="https://galerie-souvenirs.cordy-maxime.ch/"
-    />
-    <meta
-      name="keywords"
-      content="William Utermohlen, Alzheimer, musée interactif, art et maladie, autoportraits Alzheimer"
-    />
-    <link rel="stylesheet" href="scss/main.scss" />
+    <title>Conversation (1989–1991) | La Galerie des Souvenirs</title>
+    <meta name="description" content="Entre 1989 et 1991, William Utermohlen peint des intérieurs chaleureux où l'inattendu s'invite : la série Conversation et la place de Patricia." />
+    <meta name="author" content="Maxime Cordy" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#f8f6f0" />
+    <link rel="canonical" href="https://galerie-souvenirs.cordy-maxime.ch/conversation.html" />
+    <link rel="alternate" hreflang="fr" href="https://galerie-souvenirs.cordy-maxime.ch/conversation.html" />
+    <link rel="alternate" hreflang="en" href="https://galerie-souvenirs.cordy-maxime.ch/en/conversation.html" />
+    <link rel="alternate" hreflang="x-default" href="https://galerie-souvenirs.cordy-maxime.ch/conversation.html" />
+    <link rel="icon" sizes="100x100" href="image/logo/MAISON_LOGO_INDEX.webp" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-      rel="stylesheet"
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="La Galerie des Souvenirs" />
+    <meta property="og:locale" content="fr_CH" />
+    <meta property="og:locale:alternate" content="en_GB" />
+    <meta property="og:title" content="Conversation (1989–1991) | La Galerie des Souvenirs" />
+    <meta property="og:description" content="Entre 1989 et 1991, William Utermohlen peint des intérieurs chaleureux où l'inattendu s'invite : la série Conversation et la place de Patricia." />
+    <meta property="og:url" content="https://galerie-souvenirs.cordy-maxime.ch/conversation.html" />
+    <meta property="og:image" content="https://galerie-souvenirs.cordy-maxime.ch/og-cover.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Tableau de William Utermohlen : une scène d'intérieur, extrait de la série Conversation"
     />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@barba/core@2.9.7/dist/barba.umd.js"></script>
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Conversation (1989–1991) | La Galerie des Souvenirs" />
+    <meta name="twitter:description" content="Entre 1989 et 1991, William Utermohlen peint des intérieurs chaleureux où l'inattendu s'invite : la série Conversation et la place de Patricia." />
+    <meta name="twitter:image" content="https://galerie-souvenirs.cordy-maxime.ch/og-cover.jpg" />
+
+    <script src="js/arrive.js"></script>
+    <link rel="preload" as="image" href="image/logo_sticker.png" />
+    <link rel="stylesheet" href="scss/main.scss" />
   </head>
 
   <body data-page="2">
     <canvas></canvas>
 
     <div id="scroll-progress"><div id="scroll-progress-bar"></div></div>
-    <button id="audio-toggle" aria-label="Audio">♪</button>
-    <button id="info-toggle">i</button>
+    <a
+      id="lang-toggle"
+      class="lang-toggle"
+      href="en/conversation.html"
+      hreflang="en"
+      lang="en"
+      aria-label="Switch to English"
+      data-no-i18n
+      data-barba-prevent="all"
+      >EN</a
+    >
+    <button id="audio-toggle" type="button" aria-label="Écouter le récit audio de la page">♪</button>
+    <button id="info-toggle" type="button" aria-label="Informations sur les œuvres de la section">i</button>
     <div class="panel-backdrop"></div>
     <aside id="info-panel">
       <div class="ip-head">
@@ -54,7 +69,7 @@
 
     <div class="transition-overlay">
       <div class="logo-placeholder">
-        <img src="image/logo_sticker.png" alt="Logo" />
+        <img decoding="async" src="image/logo_sticker.png" alt="Logo" />
       </div>
     </div>
     <div class="bg"></div>
@@ -107,13 +122,13 @@
             <h1>
               Conversation
               <span class="bubble" id="bubble">
-                <img
+                <img decoding="async"
                   class="layer-bg"
                   id="layerBg"
                   src="image/plaine-conversation.png"
                   alt=""
                 />
-                <img
+                <img decoding="async"
                   class="layer-fg"
                   id="layerFg"
                   src="image/maisonplaine-conversation.png"
@@ -232,62 +247,62 @@
           >
             <div class="conversation-slider-container">
               <div class="conversation-slider-track">
-                <img
+                <img decoding="async"
                   src="image/Conversation-1989-1991/Bed.avif"
                   data-artwork="0"
                   alt="bed"
                 />
-                <img
+                <img decoding="async"
                   src="image/Conversation-1989-1991/conversation.avif"
                   data-artwork="1"
                   alt="conversation"
                 />
-                <img
+                <img decoding="async"
                   src="image/Conversation-1989-1991/Maida-Vale.avif"
                   alt="Maida-Vale"
                   data-artwork="2"
                 />
-                <img
+                <img decoding="async"
                   src="image/Conversation-1989-1991/night.avif"
                   alt="night"
                   data-artwork="3"
                 />
-                <img
+                <img decoding="async"
                   src="image/Conversation-1989-1991/Snow.avif"
                   alt="snow"
                   data-artwork="4"
                 />
-                <img
+                <img decoding="async"
                   src="image/Conversation-1989-1991/w9.avif"
                   alt="w9"
                   data-artwork="5"
                 />
-                <img
+                <img decoding="async"
                   src="image/Conversation-1989-1991/Bed.avif"
                   data-artwork="0"
                   alt="bed"
                 />
-                <img
+                <img decoding="async"
                   src="image/Conversation-1989-1991/conversation.avif"
                   data-artwork="1"
                   alt="conversation"
                 />
-                <img
+                <img decoding="async"
                   src="image/Conversation-1989-1991/Maida-Vale.avif"
                   alt="Maida-Vale"
                   data-artwork="2"
                 />
-                <img
+                <img decoding="async"
                   src="image/Conversation-1989-1991/night.avif"
                   alt="night"
                   data-artwork="3"
                 />
-                <img
+                <img decoding="async"
                   src="image/Conversation-1989-1991/Snow.avif"
                   alt="snow"
                   data-artwork="4"
                 />
-                <img
+                <img decoding="async"
                   src="image/Conversation-1989-1991/w9.avif"
                   alt="w9"
                   data-artwork="5"
@@ -322,7 +337,7 @@
               <div class="hero">
                 <div class="about-copy">
                   <div class="image-groupe">
-                    <img
+                    <img decoding="async"
                       id="img1-1"
                       src="image/Conversation-1989-1991/Maida-Vale.avif"
                       alt="Maida-Vale"
@@ -330,14 +345,14 @@
                       data-artwork="0"
                     />
                     <div class="droite">
-                      <img
+                      <img decoding="async"
                         id="img1-2"
                         src="image/Conversation-1989-1991/Maida-Vale-2.png"
                         alt="Maida-Vale"
                         data-section="section10"
                         data-artwork="0"
                       />
-                      <img
+                      <img decoding="async"
                         id="img1-3"
                         src="image/Conversation-1989-1991/Maida-Vale-3.png"
                         alt="Maida-Vale"
@@ -367,7 +382,7 @@
                     </div>
                   </div>
                   <div class="image-groupe">
-                    <img
+                    <img decoding="async"
                       id="img2-1"
                       src="image/Conversation-1989-1991/night.avif"
                       alt="night"
@@ -375,14 +390,14 @@
                       data-artwork="1"
                     />
                     <div class="droite">
-                      <img
+                      <img decoding="async"
                         id="img2-2"
                         src="image/Conversation-1989-1991/night-2.png"
                         alt="night"
                         data-section="section10"
                         data-artwork="1"
                       />
-                      <img
+                      <img decoding="async"
                         id="img2-3"
                         src="image/Conversation-1989-1991/night-3.png"
                         alt="night"
@@ -414,7 +429,7 @@
                     </div>
                   </div>
                   <div class="image-groupe">
-                    <img
+                    <img decoding="async"
                       id="img3-1"
                       src="image/Conversation-1989-1991/w9.avif"
                       alt="w9"
@@ -422,14 +437,14 @@
                       data-artwork="2"
                     />
                     <div class="droite">
-                      <img
+                      <img decoding="async"
                         id="img3-2"
                         src="image/Conversation-1989-1991/w9-2.png"
                         alt="w9"
                         data-section="section10"
                         data-artwork="2"
                       />
-                      <img
+                      <img decoding="async"
                         id="img3-3"
                         src="image/Conversation-1989-1991/w9-3.png"
                         alt="w9"
@@ -462,7 +477,7 @@
                     </div>
                   </div>
                   <div class="image-groupe">
-                    <img
+                    <img decoding="async"
                       id="img4-1"
                       src="image/Conversation-1989-1991/conversation.avif"
                       alt="Conversation"
@@ -493,7 +508,7 @@
                     </div>
                   </div>
                   <div class="image-groupe">
-                    <img
+                    <img decoding="async"
                       id="img5-1"
                       src="image/Conversation-1989-1991/Snow.avif"
                       alt="Snow"
@@ -501,14 +516,14 @@
                       data-artwork="4"
                     />
                     <div class="droite">
-                      <img
+                      <img decoding="async"
                         id="img5-2"
                         src="image/Conversation-1989-1991/Snow-2.png"
                         alt="Snow"
                         data-section="section10"
                         data-artwork="4"
                       />
-                      <img
+                      <img decoding="async"
                         id="img5-3"
                         src="image/Conversation-1989-1991/Snow-3.png"
                         alt="Snow"
@@ -540,7 +555,7 @@
                     </div>
                   </div>
                   <div class="image-groupe">
-                    <img
+                    <img decoding="async"
                       id="img6-1"
                       src="image/Conversation-1989-1991/Bed.avif"
                       alt="Bed"
@@ -548,14 +563,14 @@
                       data-artwork="5"
                     />
                     <div class="droite">
-                      <img
+                      <img decoding="async"
                         id="img6-2"
                         src="image/Conversation-1989-1991/Bed-2.png"
                         alt="Bed"
                         data-section="section10"
                         data-artwork="5"
                       />
-                      <img
+                      <img decoding="async"
                         id="img6-3"
                         src="image/Conversation-1989-1991/Bed-3.png"
                         alt="Bed"
@@ -651,80 +666,86 @@
             </div>
           </div>
           <div class="footerimg">
-            <img src="image/footer/fusain.png" alt="flower" />
+            <img decoding="async" loading="lazy" src="image/footer/fusain.png" alt="flower" />
           </div>
           <div class="text_footer">
             <h3>William Utermohlen</h3>
 
             <h3>La Galerie des Souvenirs</h3>
 
-            <h3>Maxime Cordy</h3>
+            <h3>
+                <a
+                  class="footer-credit-link"
+                  href="https://cordy-maxime.ch/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Maxime Cordy</a
+                >
+              </h3>
           </div>
         </footer>
         <a href="dante.html" style="display: none"></a>
         <a href="conversation.html" style="display: none"></a>
         <a href="maladie.html" style="display: none"></a>
-        <script type="module" src="js/info.js"></script>
-        <script type="module" src="js/text-animation-addon.js"></script>
-        <script type="module" src="js/main.js"></script>
+                    <script type="module" src="js/main.js"></script>
       </div>
     </div>
 
-    <div id="tl-nav" class="hidden">
+    <nav id="tl-nav" class="hidden" aria-label="Navigation entre les salles de la galerie">
       <div id="tl-nav__pill">
         <div id="tl-nav__track"><div id="tl-nav__fill"></div></div>
         <div id="tl-nav__nodes">
           <a
             href="index.html"
-            data-label="La Galerie"
+            data-label="La Galerie" aria-label="La Galerie"
             class="tl-nav-node tl-nav-visited"
             ><span class="tl-nav-dot"></span
           ></a>
           <a
             href="dante.html"
-            data-label="Dante"
+            data-label="Dante" aria-label="Dante"
             class="tl-nav-node tl-nav-visited"
             ><span class="tl-nav-dot"></span
           ></a>
           <a
             href="conversation.html"
-            data-label="Conversation"
+            data-label="Conversation" aria-label="Conversation"
             class="tl-nav-node tl-nav-active"
             ><span class="tl-nav-dot"></span
           ></a>
-          <a href="maladie.html" data-label="Maladie" class="tl-nav-node"
+          <a href="maladie.html" data-label="Maladie" aria-label="Maladie" class="tl-nav-node"
             ><span class="tl-nav-dot"></span
           ></a>
           <a
             href="autoportrait.html"
-            data-label="Autoportrait"
+            data-label="Autoportrait" aria-label="Autoportrait"
             class="tl-nav-node"
             ><span class="tl-nav-dot"></span
           ></a>
         </div>
         <div id="tl-nav__cursor">
           <div id="tl-nav__thumb">
-            <img
+            <img decoding="async"
               class="tl-nav-img"
               src="image/logo/MAISON_LOGO_INDEX.webp"
               alt="Logo La Galerie des Souvenirs"
             />
-            <img
+            <img decoding="async"
               class="tl-nav-img"
               src="image/logo/MAISON_LOGO_DANTE.webp"
               alt="Logo Dante"
             />
-            <img
+            <img decoding="async"
               class="tl-nav-img tl-nav-on"
               src="image/logo/MAISON_LOGO_CONV.webp"
               alt="Logo Conversation"
             />
-            <img
+            <img decoding="async"
               class="tl-nav-img"
               src="image/logo/MAISON_LOGO_MALADIE.webp"
               alt="Logo Maladie"
             />
-            <img
+            <img decoding="async"
               class="tl-nav-img"
               src="image/logo/MAISON_LOGO_AUTO.webp"
               alt="Logo Autoportrait"
@@ -732,6 +753,6 @@
           </div>
         </div>
       </div>
-    </div>
+    </nav>
   </body>
 </html>

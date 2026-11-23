@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stop-scroll — 6 textes / 2 photos</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #1a1a1a;
+      color: #f5f0e8;
+      overflow-x: hidden;
+    }
+
+    /* ── Espaceurs avant/après ── */
+    .spacer {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.2;
+    }
+
+    /* ============================================================
+       STOP-SCROLL — structure
+       .container   = rail de scroll  (height: N_groupes × 100vh)
+       .sticky      = zone collée     (height: 100vh, position:sticky)
+         .images    = photos empilées (position:absolute)
+         .texts     = blocs texte     (position:absolute, bas)
+    ============================================================ */
+
+    .container {
+      /* 6 groupes, ~116vh chacun pour laisser du temps aux transitions */
+      height: 700vh;
+      position: relative;
+    }
+
+    .sticky {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ── Photos ── */
+
+    .images {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .photo {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 78%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 17px;
+      padding: 3rem 8rem;
+    }
+
+    /* Remplacez .ph par de vraies <img> selon le même layout */
+    .ph {
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+    .ph-main  { width: 340px; height: 400px; }
+    .ph-small { width: 160px; height: 185px; }
+
+    .droite {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* couleurs par photo */
+    .photo-a .ph { background: rgba(200,160,100,.12); border: 1px solid rgba(200,160,100,.25); color: #c8a064; }
+    .photo-b .ph { background: rgba(80,100,180,.12);  border: 1px solid rgba(80,100,180,.25);  color: #6080c8; }
+
+    .photo-label {
+      position: absolute;
+      top: 1.2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.3;
+    }
+
+    /* ── Textes ── */
+
+    .texts {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    /* 6 copy-groups empilés — GSAP gère lequel est visible */
+    .copy-group {
+      position: absolute;
+      bottom: 2.2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 82%;
+      display: flex;
+      gap: 2%;
+    }
+
+    .copy-block {
+      flex: 1;
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .copy-block p {
+      font-size: clamp(13px, 1.05vw, 18px);
+      font-weight: 600;
+      line-height: 1.6;
+      letter-spacing: -0.02em;
+      color: #f5f0e8;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="spacer">↓ scroll</div>
+
+  <!-- ============================================================
+       STOP-SCROLL : 6 groupes de texte, 2 photos
+       • photo-a couvre les groupes 1–3 (elle slide-out à mi-parcours)
+       • photo-b couvre les groupes 4–6
+       • les textes crossfadent mot à mot d'un groupe à l'autre
+  ============================================================ -->
+  <div class="container">
+    <div class="sticky">
+
+      <!-- ── 2 photos ── -->
+      <div class="images">
+        <div class="photo photo-a">
+          <span class="photo-label">Photo A — groupes 1 à 3</span>
+          <div class="ph ph-main">Image principale A</div>
+          <div class="droite">
+            <div class="ph ph-small">Détail 1</div>
+            <div class="ph ph-small">Détail 2</div>
+          </div>
+        </div>
+
+        <div class="photo photo-b">
+          <span class="photo-label">Photo B — groupes 4 à 6</span>
+          <div class="ph ph-main">Image principale B</div>
+          <div class="droite">
+            <div class="ph ph-small">Détail 1</div>
+            <div class="ph ph-small">Détail 2</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── 6 groupes de texte ── -->
+      <div class="texts">
+
+        <div class="copy-group">
+          <div class="copy-block"><p>William nous invite à entrer dans son domicile pour y partager des moments de vie.</p></div>
+          <div class="copy-block"><p>Dans la plupart des tableaux apparaît Patricia, qui, malgré les années, reste présente auprès de William.</p></div>
+          <div class="copy-block"><p>Elle est accompagnée d'une de ses amies, venue partager un verre et discuter.</p></div>
+        </div>
+
+        <div class="copy-group">
+          <div class="copy-block"><p>Les intérieurs de William et Patricia reflètent un univers vif et coloré, où les perspectives se mêlent et se confondent.</p></div>
+          <div class="copy-block"><p>Les trois femmes boivent un café ou du vin et s'écoutent parler pendant que les perspectives de la pièce se perdent.</p></div>
+          <div class="copy-block"><p>Les reflets et les couleurs sont variés, tandis que l'extérieur demeure sombre.</p></div>
+        </div>
+
+        <div class="copy-group">
+          <div class="copy-block"><p>Alors qu'une veste posée sur la chaise nous fait remarquer que William n'est plus présent dans la discussion.</p></div>
+          <div class="copy-block"><p>Patricia continue de dialoguer avec ses amies à table, la scène sublimée par des canards en arrière-plan.</p></div>
+          <div class="copy-block"><p>Cette série puise directement dans les souvenirs de William. Il va y placer plein de références à sa vie passée.</p></div>
+        </div>
+
+        <div class="copy-group">
+          <div class="copy-block"><p>Les invités défilent mais ne se ressemblent pas. En 1991, William peint cette conversation entre l'un de ses amis et sa femme.</p></div>
+          <div class="copy-block"><p>Patricia est accompagnée de son chat noir, qui ne manque pas de faire tomber le bol. La composition penche vers la gauche.</p></div>
+          <div class="copy-block"><p>Des souvenirs de William sont représentés dans les reflets ou dans les tableaux au deuxième plan.</p></div>
+        </div>
+
+        <div class="copy-group">
+          <div class="copy-block"><p>Un groupe d'amis s'invite à la maison alors que la perspective, les reflets et l'environnement perdent de leur sens.</p></div>
+          <div class="copy-block"><p>William apparaît enfin. On le retrouve sur le canapé, son chat blotti contre lui. Toujours à l'écart, perdu dans ses pensées...</p></div>
+          <div class="copy-block"><p>Il évolue dans cette maison où l'extérieur semble se fondre à l'intérieur.</p></div>
+        </div>
+
+        <div class="copy-group">
+          <div class="copy-block"><p>Dans le lit, les chats se reposent et Patricia lit. William est épuisé, il s'est déjà endormi.</p></div>
+          <div class="copy-block"><p>Le reflet dans le miroir est déformé. La porte est ouverte, mais rien n'apparaît derrière. À présent, la perspective penche vers la gauche.</p></div>
+          <div class="copy-block"><p>Pour Patricia, tous ces petits signes ne trompent plus : le corps de William commence à lui faire défaut.</p></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="spacer">fin</div>
+
+
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    function init() {
+      const container = document.querySelector(".container");
+      if (!container) return;
+
+      const groups        = [...document.querySelectorAll(".copy-group")];
+      const NUM_GROUPS    = groups.length;               // 6
+      const GROUP_SEG     = 1 / NUM_GROUPS;
+      const STAGGER_RATIO = 0.2;
+      const CROSSFADE_THRESHOLDS = [0.6, 0.73, 0.86];
+
+      // ── Les 2 photos ─────────────────────────────────────────
+      // photo-a → groupes 0–2, photo-b → groupes 3–5
+      const photoA    = document.querySelector(".photo-a");
+      const photoB    = document.querySelector(".photo-b");
+      const SWITCH_AT = 3; // indice du premier groupe qui utilise photo B
+
+      // état photos
+      let photoAVisible = false;
+      let photoBVisible = false;
+
+      function showPhoto(el, state) {
+        if (state.visible) return;
+        state.visible = true;
+        const children = el.querySelectorAll(".ph");
+        gsap.set(el, { display: "flex", autoAlpha: 1, x: 0 });
+        gsap.set(children, { autoAlpha: 0 });
+        gsap.to(children, { autoAlpha: 1, duration: 1.4, ease: "power2.out", stagger: 0.35 });
+      }
+
+      function hidePhoto(el, state, slideOut = false) {
+        if (!state.visible) return;
+        state.visible = false;
+        if (slideOut) {
+          gsap.to(el, { x: "-110vw", duration: 0.6, ease: "power3.in", onComplete: () => gsap.set(el, { display: "none", x: 0 }) });
+        } else {
+          gsap.set(el, { autoAlpha: 0, display: "none", x: 0 });
+        }
+      }
+
+      const stateA = { visible: false };
+      const stateB = { visible: false };
+
+      // init
+      gsap.set(photoA, { autoAlpha: 0, display: "none" });
+      gsap.set(photoB, { autoAlpha: 0, display: "none" });
+
+      // ── Textes ───────────────────────────────────────────────
+
+      const pendingDelays = new Map();
+      const blockVisible  = new WeakMap();
+      const blockCrossed  = new WeakMap();
+      const groupXFired   = new Map();
+
+      function prepareWords(block) {
+        const p = block.querySelector("p");
+        if (!p || p.dataset.wordsReady) return;
+        p.dataset.wordsReady = "true";
+        const words = p.textContent.split(/(\s+)/);
+        p.innerHTML = "";
+        words.forEach((word) => {
+          if (word.trim() === "") { p.appendChild(document.createTextNode(word)); return; }
+          const w = document.createElement("span");
+          w.style.cssText = "display:inline-block;overflow:hidden;vertical-align:bottom";
+          const s = document.createElement("span");
+          s.textContent = word;
+          s.style.display = "inline-block";
+          w.appendChild(s);
+          p.appendChild(w);
+        });
+        gsap.set(p.querySelectorAll("span > span"), { y: "100%" });
+      }
+
+      function animateIn(block) {
+        const spans = block.querySelectorAll("p span > span");
+        if (!spans.length) return;
+        gsap.killTweensOf(spans);
+        gsap.fromTo(spans, { y: "100%" }, { y: "0%", duration: 1.2, stagger: 0.04, ease: "power4.out" });
+      }
+
+      function animateOut(block) {
+        const spans = block.querySelectorAll("p span > span");
+        if (!spans.length) return;
+        gsap.killTweensOf(spans);
+        gsap.to(spans, { y: "100%", duration: 0.8, stagger: 0.03, ease: "power4.in" });
+      }
+
+      function killDelay(block) {
+        if (pendingDelays.has(block)) { pendingDelays.get(block).kill(); pendingDelays.delete(block); }
+      }
+
+      function resetBlock(block) {
+        killDelay(block);
+        const spans = block.querySelectorAll("p span > span");
+        gsap.killTweensOf(spans);
+        gsap.set(block, { autoAlpha: 0 });
+        gsap.set(spans, { y: "100%" });
+      }
+
+      groups.forEach((group) => {
+        group.querySelectorAll(".copy-block").forEach((block) => {
+          prepareWords(block);
+          blockVisible.set(block, false);
+          blockCrossed.set(block, false);
+        });
+        gsap.set(group.querySelectorAll(".copy-block"), { autoAlpha: 0 });
+        groupXFired.set(group, [false, false, false]);
+      });
+
+      // ── ScrollTrigger ─────────────────────────────────────────
+
+      ScrollTrigger.create({
+        trigger: container,
+        start: "top top",
+        end:   "bottom bottom",
+        onUpdate(self) {
+          const p = self.progress;
+
+          // slide-out de photo A quand on atteint la moitié du scroll
+          const globalMid = (SWITCH_AT - 1 + 0.6) * GROUP_SEG; // groupP=0.6 du groupe 2
+          if (p >= globalMid) {
+            hidePhoto(photoA, stateA, true);
+            showPhoto(photoB, stateB);
+          } else {
+            hidePhoto(photoB, stateB);
+            showPhoto(photoA, stateA);
+          }
+
+          // slide continu de photo A entre [globalMid, (SWITCH_AT)*GROUP_SEG]
+          if (stateA.visible) {
+            const exitStart = globalMid;
+            const exitEnd   = SWITCH_AT * GROUP_SEG;
+            if (p >= exitStart) {
+              const exitP = Math.min((p - exitStart) / (exitEnd - exitStart), 1);
+              gsap.set(photoA, { x: `${-exitP * 110}vw` });
+            } else {
+              gsap.set(photoA, { x: 0 });
+            }
+          }
+
+          // ── textes
+          groups.forEach((group, g) => {
+            const groupStart = g * GROUP_SEG;
+            const groupP     = (p - groupStart) / GROUP_SEG;
+            const blocks     = [...group.querySelectorAll(".copy-block")];
+            const isFirst    = g === 0;
+            const isLast     = g === NUM_GROUPS - 1;
+            const isActive   = (isFirst ? groupP >= 0 : groupP > 0) && (isLast ? true : groupP < 1);
+
+            if (!isActive) {
+              blocks.forEach((block) => {
+                resetBlock(block);
+                blockVisible.set(block, false);
+                blockCrossed.set(block, false);
+              });
+              groupXFired.set(group, [false, false, false]);
+              return;
+            }
+
+            // apparition en stagger des 3 blocs
+            blocks.forEach((block, b) => {
+              if (blockCrossed.get(block)) return;
+              const localP = (groupP - b * STAGGER_RATIO) / STAGGER_RATIO;
+              const opacity = localP >= 1 ? 1 : localP > 0 ? localP : 0;
+              const wasVisible   = blockVisible.get(block);
+              const isNowVisible = opacity > 0;
+
+              if (!wasVisible && isNowVisible) {
+                killDelay(block);
+                localP >= 1
+                  ? gsap.set(block.querySelectorAll("p span > span"), { y: "0%" })
+                  : animateIn(block);
+              } else if (wasVisible && !isNowVisible) {
+                gsap.set(block.querySelectorAll("p span > span"), { y: "100%" });
+              }
+              blockVisible.set(block, isNowVisible);
+              gsap.set(block, { autoAlpha: opacity });
+            });
+
+            // crossfade vers le groupe suivant
+            if (!isLast) {
+              const nextBlocks = [...groups[g + 1].querySelectorAll(".copy-block")];
+              const fired = groupXFired.get(group);
+
+              CROSSFADE_THRESHOLDS.forEach((threshold, b) => {
+                if (groupP >= threshold && !fired[b]) {
+                  fired[b] = true;
+                  if (blocks[b]) animateOut(blocks[b]);
+                  if (nextBlocks[b]) {
+                    killDelay(nextBlocks[b]);
+                    gsap.set(nextBlocks[b], { autoAlpha: 1 });
+                    animateIn(nextBlocks[b]);
+                    blockVisible.set(nextBlocks[b], true);
+                    blockCrossed.set(nextBlocks[b], true);
+                  }
+                } else if (groupP < threshold && fired[b]) {
+                  fired[b] = false;
+                  if (nextBlocks[b]) { resetBlock(nextBlocks[b]); blockVisible.set(nextBlocks[b], false); blockCrossed.set(nextBlocks[b], false); }
+                  if (blocks[b]) gsap.set(blocks[b].querySelectorAll("p span > span"), { y: "0%" });
+                }
+              });
+            }
+          });
+        },
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", init);
+  </script>
+</body>
+</html>

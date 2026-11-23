@@ -1,0 +1,1400 @@
+// ============================================================
+// RESPONSIVE — couche d'adaptation tablette + mobile
+// ------------------------------------------------------------
+// Règle d'or : TOUT ce qui est ici est dans une media query
+// (max-width). Au-dessus de 1024px le rendu desktop d'origine
+// n'est pas touché. Les sélecteurs GSAP (classes / ids) ne sont
+// jamais renommés : seules les dimensions et mises en page changent.
+// Importé en DERNIER dans main.scss pour gagner la cascade.
+// ============================================================
+
+@mixin tablet {
+  @media (max-width: 1024px) {
+    @content;
+  }
+}
+@mixin phone {
+  @media (max-width: 767px) {
+    @content;
+  }
+}
+@mixin touch {
+  @media (hover: none) and (pointer: coarse) {
+    @content;
+  }
+}
+
+// ============================================================
+// TOUCH — pas de curseur-trail, pas de tooltips au survol
+// ============================================================
+@include touch {
+  canvas {
+    display: none;
+  }
+  #info-toggle::after,
+  #audio-toggle::after,
+  #lang-toggle::after {
+    display: none;
+  }
+  .tl-nav-node::after {
+    display: none;
+  }
+}
+
+// ============================================================
+// GLOBAL (≤1024)
+// ============================================================
+@include tablet {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  // À l'ouverture du panneau « i », .slider-mask passe en overflow:visible et le
+  // slider (300 % de large) élargissait la page → le navigateur mobile dézoomait
+  // tout. On garde donc ce masque rogné sur petit écran. (NB : ne PAS mettre
+  // overflow-x:clip sur html/body : ça casse position:sticky — testé.)
+  // Les lignes verticales sont à 2.5% des bords (6% sur desktop, là où le masque
+  // coupe) : sur petit écran le masque doit couper À LA LIGNE, pour que les images
+  // disparaissent en la franchissant (et non 15px avant ou après).
+  .slider-mask,
+  .maladie-slider-container,
+  #scene {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      transparent 2.5vw,
+      black 2.5vw,
+      black calc(100% - 2.5vw),
+      transparent calc(100% - 2.5vw),
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      transparent 2.5vw,
+      black 2.5vw,
+      black calc(100% - 2.5vw),
+      transparent calc(100% - 2.5vw),
+      transparent 100%
+    );
+  }
+  body.panel-open .slider-mask {
+    overflow: clip !important;
+  }
+
+  // Le desktop est composé en proportion de la largeur (marges négatives en %),
+  // sauf la marge fixe de 40px que `svg { margin: 40px 0 }` ajoute autour de
+  // chaque ligne : sur petit écran elle pesait ~6x plus et créait de grands
+  // vides. On la rend proportionnelle (40px sur 1440px = 2.78vw).
+  svg {
+    margin-top: 2.78vw;
+    margin-bottom: 2.78vw;
+  }
+
+  h1 {
+    font-size: clamp(2.5rem, 9vw, 5rem);
+  }
+  h2 {
+    font-size: clamp(1.75rem, 5vw, 3rem);
+  }
+
+  // bruit de fond : pas de 200% x 200vh animé sur petit écran (coût GPU)
+  .bg {
+    animation-duration: 0.4s;
+  }
+
+  // lignes verticales : plus près du bord pour libérer le contenu
+  .vertical-line-svg {
+    width: 40px;
+    &.left {
+      left: calc(2.5% - 20px);
+    }
+    &.right {
+      right: calc(2.5% - 20px);
+    }
+  }
+
+  // boutons flottants : zone tactile 44px, safe-area
+  #info-toggle,
+  #audio-toggle,
+  #lang-toggle {
+    width: 44px;
+    height: 44px;
+    right: max(1rem, env(safe-area-inset-right));
+  }
+  #info-toggle {
+    bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+  #audio-toggle {
+    bottom: calc(max(1rem, env(safe-area-inset-bottom)) + 44px + 0.7rem);
+  }
+  #lang-toggle {
+    bottom: calc(max(1rem, env(safe-area-inset-bottom)) + 2 * (44px + 0.7rem));
+  }
+
+  // `.page { min-height: 100vh }` : sur desktop le contenu dépasse largement 100vh,
+  // mais ici le héros ne fait plus un écran : la page restait forcée à 100vh et
+  // laissait ~140px de vide entre le héros et la ligne/section suivante.
+  .page {
+    min-height: 0;
+  }
+
+  // Maladie et Autoportrait : `gap: 100px` fixe entre TOUS les blocs de la page,
+  // compensé sur desktop par des marges négatives en % de la largeur. Sur petit
+  // écran ce 100px pèse ~4x trop : on le rend proportionnel (100/1440 = 6.94vw).
+  .page-maladie,
+  .page-autoportrait {
+    gap: 6.94vw;
+  }
+  .after-dante,
+  .after-patricia {
+    gap: 6.25vw; // 90px / 1440
+  }
+
+  // Le CSS d'origine contient des valeurs SANS unité (`right: 300`, `top: 200`…)
+  // que Parcel convertit en px : sur desktop elles décalent volontairement des
+  // éléments `position: relative`, sur petit écran elles les envoient hors de
+  // la grille. On les neutralise ici.
+  .containerimgmother,
+  .logo-wrapper,
+  .logo-wrapper-after,
+  .after-dante h1,
+  .before-Conversation h1,
+  .After-Patricia-Maladie h1,
+  .fin,
+  .container-link,
+  .text-pat-maladie {
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+  }
+
+  // Les images d'œuvres ont z-index 99998 !important (pour passer au-dessus du
+  // voile du panneau) : elles recouvraient la barre de navigation.
+  #tl-nav {
+    z-index: 99999;
+  }
+
+  // navigation timeline (tablette) : verticale, collée au bord, centrée
+  #tl-nav {
+    right: 8px;
+    top: 50%;
+  }
+}
+
+// ============================================================
+// NAVIGATION TIMELINE — barre horizontale en bas (≤1024px)
+// Les positions du curseur (logo) passent de `top` à `left`.
+// (Verticale à droite elle recouvrait le texte sur tablette.)
+// ============================================================
+@include tablet {
+  #tl-nav {
+    left: 50%;
+    right: auto;
+    top: auto;
+    bottom: max(0.9rem, env(safe-area-inset-bottom));
+    scale: 1;
+    transform: translateX(-50%);
+    &.hidden {
+      transform: translateX(-50%) translateY(200%);
+    }
+  }
+  #tl-nav__pill {
+    padding: 10px 14px;
+  }
+  #tl-nav__nodes {
+    flex-direction: row;
+  }
+  #tl-nav__track {
+    left: 14px;
+    right: 14px;
+    top: 50%;
+    bottom: auto;
+    width: auto;
+    height: 2px;
+    transform: translateY(-50%);
+  }
+  #tl-nav__fill {
+    height: 100%;
+    width: 0%;
+    transition: width 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  #tl-nav__cursor {
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: left 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  body[data-page="0"] #tl-nav__cursor { top: 50%; left: -3px; }
+  body[data-page="1"] #tl-nav__cursor { top: 50%; left: 31px; }
+  body[data-page="2"] #tl-nav__cursor { top: 50%; left: 65px; }
+  body[data-page="3"] #tl-nav__cursor { top: 50%; left: 99px; }
+  body[data-page="4"] #tl-nav__cursor { top: 50%; left: 133px; }
+  body[data-page="0"] #tl-nav__fill { height: 100%; width: 0%; }
+  body[data-page="1"] #tl-nav__fill { height: 100%; width: 25%; }
+  body[data-page="2"] #tl-nav__fill { height: 100%; width: 50%; }
+  body[data-page="3"] #tl-nav__fill { height: 100%; width: 75%; }
+  body[data-page="4"] #tl-nav__fill { height: 100%; width: 100%; }
+
+  // boutons flottants au-dessus de la barre
+  #info-toggle {
+    bottom: calc(max(0.9rem, env(safe-area-inset-bottom)) + 8px);
+  }
+  #audio-toggle {
+    bottom: calc(max(0.9rem, env(safe-area-inset-bottom)) + 8px + 44px + 0.7rem);
+  }
+  #lang-toggle {
+    bottom: calc(
+      max(0.9rem, env(safe-area-inset-bottom)) + 8px + 2 * (44px + 0.7rem)
+    );
+  }
+  .text_footer {
+    padding-bottom: calc(max(1rem, env(safe-area-inset-bottom)) + 4rem) !important;
+  }
+}
+
+// ============================================================
+// PANNEAU INFO — bottom-sheet sur mobile
+// ============================================================
+@include phone {
+  #info-panel {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    height: 52dvh;
+    transform: translateY(100%);
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px 16px 0 0;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  body.panel-open #info-panel {
+    transform: translateY(0);
+  }
+  // la poignée visuelle du sheet
+  #info-panel::before {
+    content: "";
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    width: 36px;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateX(-50%);
+  }
+  .ip-head {
+    padding-top: 1.6rem;
+  }
+
+  .panel-open #info-toggle,
+  .panel-open #audio-toggle,
+  .panel-open #lang-toggle {
+    right: max(1rem, env(safe-area-inset-right));
+  }
+  .panel-open #info-toggle {
+    bottom: calc(52dvh + 0.8rem);
+  }
+  .panel-open #audio-toggle {
+    bottom: calc(52dvh + 0.8rem + 44px + 0.7rem);
+  }
+  .panel-open #lang-toggle {
+    bottom: calc(52dvh + 0.8rem + 2 * (44px + 0.7rem));
+  }
+  .panel-open #tl-nav {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  // popup audio : pleine largeur, collé en bas
+  .audio-popup {
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: max(0.75rem, env(safe-area-inset-bottom));
+    width: auto;
+    min-width: 0;
+    max-width: none;
+  }
+  .panel-open .audio-popup {
+    right: 0.75rem;
+    bottom: calc(52dvh + 0.5rem);
+    border-radius: 12px;
+  }
+  .ap-play {
+    width: 40px;
+    height: 40px;
+  }
+  .ap-close {
+    padding: 0.5rem 0.25rem 0.5rem 0.75rem;
+    font-size: 1rem;
+  }
+}
+
+// ============================================================
+// EN-TÊTE DE PAGE (Maxime Cordy / William Utermohlen / 2026)
+// ============================================================
+@include tablet {
+  .text-ligne,
+  .text-ligne-maladie,
+  .text-ligne-auto {
+    display: flex;
+    width: 100%;
+    gap: 1rem;
+    justify-content: space-between;
+    padding: 0 5%;
+    margin-top: 3%;
+  }
+}
+@include phone {
+  .text-ligne p,
+  .text-ligne-maladie p,
+  .text-ligne-auto p {
+    font-size: 11px;
+  }
+  .text-ligne h1,
+  .text-ligne-maladie h1,
+  .text-ligne-auto h1 {
+    font-size: 13px;
+    text-align: center;
+  }
+}
+
+// ============================================================
+// HEROS (index, dante, conversation, maladie, autoportrait)
+// ============================================================
+@include tablet {
+  .hero_index,
+  .hero_dante,
+  .hero_conversation,
+  .hero_maladie,
+  .hero_autoportrait {
+    height: 80svh;
+    min-height: 28rem;
+  }
+
+  .hero_index h1,
+  .hero_dante h1,
+  .hero_conversation h1,
+  .hero_maladie h1 {
+    font-size: clamp(2.6rem, 11vw, 7.5rem);
+    letter-spacing: -0.025em;
+    max-width: 88%;
+  }
+  .hero_autoportrait h1 {
+    max-width: 90%;
+  }
+
+  .hero_index h2,
+  .hero_dante h2,
+  .hero_conversation h2,
+  .hero_maladie h2 {
+    width: 80%;
+    max-width: 80%;
+    font-size: clamp(0.9rem, 2.4vw, 1.125rem);
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    margin-top: 1.25rem;
+  }
+
+  // l'ovale "bulle" avec parallaxe : proportions conservées via em
+  .bubble {
+    width: 1.74em;
+    height: 0.77em;
+    border-radius: 999px;
+    margin-top: 0;
+    &::after {
+      border-radius: 999px;
+      box-shadow: inset 0 0 0.3em rgba(0, 0, 0, 0.15);
+    }
+  }
+
+  // cadre SVG des heros : un peu plus large
+  // Cadre du héros : un <svg> n'est PAS étiré par top+bottom, sa hauteur vient du
+  // ratio du viewBox (= celui du héros). À 92% de large il mesure donc 92% de la
+  // hauteur ; décalé de ~8% + marges il dépassait du héros (overflow:hidden) et
+  // sa ligne du bas disparaissait. On le centre : 4% / 92% / 4%.
+  #heroIndexSvg,
+  #heroSvgDante,
+  #heroSvgConversation,
+  #heroSvgMaladie,
+  #heroSvgAutoportrait {
+    width: 92% !important;
+    top: 4% !important;
+    bottom: auto !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .scroll-hint {
+    bottom: 3.6rem; // assez haut pour ne pas toucher le bas du cadre
+  }
+}
+
+@include phone {
+  // Titres des héros : sur desktop ils occupent la moitié de la hauteur de
+  // l'écran. On les agrandit pour garder cet impact (un mot par ligne) au lieu
+  // d'un petit titre perdu dans un grand vide.
+  .hero_index h1,
+  .hero_dante h1,
+  .hero_maladie h1 {
+    font-size: clamp(2.6rem, 13vw, 7.5rem);
+    max-width: 84%;
+  }
+  [data-barba-namespace="conversation"] .hero_conversation h1 {
+    font-size: 9.4vw;
+    max-width: 88%;
+  }
+  [data-barba-namespace="autoportrait"] .hero_conversation h1 {
+    font-size: 12.5vw;
+    max-width: 86%;
+  }
+  // Héros à 80% de la hauteur d'écran (demande : assez d'impact sans le grand
+  // vide d'un 100svh sur un écran en portrait), cadre SVG inclus.
+  .hero_index,
+  .hero_dante,
+  .hero_conversation,
+  .hero_maladie,
+  .hero_autoportrait {
+    height: 80svh;
+    min-height: 28rem;
+    padding: 0;
+  }
+  .scroll-hint {
+    bottom: 3.6rem;
+  }
+  .hero_index h2,
+  .hero_dante h2,
+  .hero_conversation h2,
+  .hero_maladie h2 {
+    width: 86%;
+    max-width: 86%;
+    font-size: 0.95rem;
+  }
+}
+
+// ============================================================
+// INDEX — S1 biographie
+// ============================================================
+@include tablet {
+  .intro_index {
+    margin-top: -17%;
+  }
+  .intro_index {
+    justify-content: center;
+  }
+  .layout_img_index {
+    width: 100%;
+    flex-direction: column;
+    margin-left: 0;
+    gap: 2rem;
+    padding: 0 8%;
+    img {
+      width: min(55%, 320px);
+    }
+  }
+  .container {
+    width: 100%;
+    gap: 1.5rem;
+  }
+  .layout_intro_index {
+    width: 100%;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  .info {
+    h2 {
+      font-size: clamp(0.95rem, 3.4vw, 1.6rem);
+      line-height: 1.1;
+      text-align: center;
+    }
+    p {
+      font-size: clamp(0.65rem, 2vw, 0.8rem);
+      text-align: center;
+    }
+  }
+}
+
+// ============================================================
+// INDEX — S2 section épinglée + cartes
+// ============================================================
+@include tablet {
+  // Desktop : -65vh pour que les cartes entrent pendant la fin de S1. En
+  // portrait ça faisait passer le titre sous la grille de S1 : pas de chevauchement,
+  // et 220vh suffisent (les cartes sortent au scrub, au-delà ce n'était que du vide).
+  .pinned-section {
+    margin-top: 0;
+    height: 190vh;
+  }
+  // Dante : 6 cartes qui passent à la suite -> plus de course de scroll
+  body[data-page="1"] .pinned-section {
+    height: 380vh;
+  }
+  // Sur desktop le titre flotte au-dessus du bloc de texte grâce à un
+  // margin-top en % de la largeur ; en portrait ce calcul s'effondre (titre et
+  // texte se retrouvaient à 250px l'un de l'autre). Ils forment donc un seul
+  // groupe centré : titre, petit espace, texte.
+  .pinned-wrapper {
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+  .pinned-wrapper .artiste {
+    position: relative;
+    top: auto;
+    margin: 0;
+    font-size: clamp(1.6rem, 7vw, 3rem);
+    padding: 0 6%;
+    z-index: 10;
+  }
+  .pinned-wrapper .text-layer {
+    position: relative;
+    width: 100%;
+  }
+  .text-layer {
+    padding: 0 8%;
+    h2 {
+      font-size: clamp(0.95rem, 3.6vw, 1.75rem);
+      line-height: 1.4;
+      letter-spacing: -0.02em;
+      max-width: 100%;
+      margin-bottom: 1rem;
+    }
+  }
+}
+@include phone {
+  .img-card:nth-child(1) {
+    width: 38vw;
+    height: 52vw;
+    left: 4%;
+    top: 22%;
+  }
+  .img-card:nth-child(2) {
+    width: 42vw;
+    height: 56vw;
+    left: auto;
+    right: 4%;
+    top: 4%;
+  }
+  .img-card:nth-child(3) {
+    width: 36vw;
+    height: 50vw;
+    right: auto;
+    left: 8%;
+    top: 52%;
+  }
+  .img-card:nth-child(4) {
+    width: 40vw;
+    height: 54vw;
+    right: 4%;
+    top: 40%;
+  }
+}
+
+// ============================================================
+// INDEX — S3 Europe (fond rouge)
+// ============================================================
+@include tablet {
+  .after-section {
+    display: block;
+    width: 100%;
+    margin-top: -10%;
+    padding: 4rem 8% 3rem;
+  }
+  .textimg {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+  }
+  .containertextmother {
+    margin: 0;
+    gap: 1.25rem;
+  }
+  .after-section h2 {
+    width: 100%;
+    height: auto;
+    font-size: clamp(1.4rem, 6vw, 2.6rem);
+    line-height: 1.1;
+  }
+  .after-section p {
+    max-width: 100%;
+    margin-bottom: 0;
+    font-size: clamp(1rem, 3.6vw, 1.75rem);
+    line-height: 1.5;
+    letter-spacing: -0.02em;
+  }
+  .logo-wrapper-after {
+    width: 84px;
+    height: 84px;
+  }
+  .containerimgmother {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 1rem;
+    width: 100%;
+  }
+  .mother,
+  .father {
+    flex: 1;
+    max-width: 240px;
+  }
+  .mother img,
+  .father img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: auto;
+  }
+}
+
+// ============================================================
+// INDEX — S4 Patricia (image suspendue)
+// ============================================================
+@include tablet {
+  // L'image est suspendue en HAUT, le texte dessous, puis un "sol" (padding-bottom)
+  // réservé pour son atterrissage : initPatriciaHangingImage calcule la chute
+  // jusqu'au bas de la section, elle atterrit donc dans cet espace libre.
+  .patricia {
+    margin-top: 12%;
+    padding: 0 6% calc(min(44vw, 250px) * 1.45 + 2rem);
+  }
+  .container-pat {
+    flex-direction: column-reverse;
+    align-items: center;
+    margin: 0;
+    gap: 2rem;
+  }
+  .container-text-pat {
+    width: 100%;
+    margin: 0;
+    gap: 1.25rem;
+  }
+  .patricia h1 {
+    font-size: clamp(3rem, 16vw, 8rem);
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+  }
+  .patricia h2 {
+    font-size: clamp(1rem, 3.8vw, 1.75rem);
+    line-height: 1.45;
+  }
+  .pat-grid {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    gap: 1rem 0.75rem;
+  }
+  .hanging-img-wrapper {
+    margin-top: 0;
+    img {
+      width: min(44vw, 250px) !important;
+    }
+  }
+  .after-patricia h1 {
+    font-size: clamp(1.25rem, 5.4vw, 2.6rem);
+    max-width: 90%;
+    line-height: 1.35;
+  }
+}
+
+// ============================================================
+// INDEX — S5 slider horizontal épinglé
+// ------------------------------------------------------------
+// ≤1024px : on REPRODUIT la composition desktop (mêmes largeurs / positions en %
+// du conteneur, mêmes rotations) en la mettant à l'échelle de l'écran, au lieu de
+// placer les images à la main. Le conteneur est une réplique de la scène desktop
+// (150% x 100vh, soit un rapport 2160:900) :
+//   échelle k = min(hauteur écran / 900, 1.15 x largeur écran / 540)
+//     -> la scène remplit la hauteur sans que la plus grande image (25% de 2160 =
+//        540px à l'échelle 1) dépasse ~115% de la largeur d'écran
+//   largeur  = 2160 x k = min(240svh, 460vw)
+//   hauteur  =  900 x k = min(100svh, 191.7vw), centrée verticalement
+// La course horizontale (JS, initSliderAnimation) se déduit de cette largeur.
+// ============================================================
+@include tablet {
+  .slider {
+    margin-top: 5%;
+  }
+  .slider-mask {
+    height: 100svh;
+  }
+  .slider-container {
+    width: min(240svh, 460vw);
+    height: min(100svh, 191.7vw);
+    margin-top: max(0px, calc((100svh - min(100svh, 191.7vw)) / 2));
+  }
+  // la lettre `left:-80px` desktop = 20% de la largeur d'un élément
+  .slider-item img {
+    left: -20%;
+  }
+  // pas de petit logo dans le slider sur tablette/téléphone (demande)
+  .slider-item#item-7 {
+    display: none;
+  }
+}
+
+// ============================================================
+// FOOTER (commun)
+// ============================================================
+@include tablet {
+  .text_nav {
+    gap: 1rem;
+    margin-top: 12%;
+    margin-bottom: -4%;
+    padding: 0 6%;
+    text-align: center;
+    h1 {
+      font-size: clamp(1.4rem, 5vw, 2rem);
+    }
+  }
+  .footerimg {
+    width: min(92vw, 748px);
+    height: auto;
+    aspect-ratio: 222 / 157;
+  }
+  .text_footer {
+    height: auto;
+    min-height: 64px;
+    padding: 1rem 5% max(1rem, env(safe-area-inset-bottom));
+    gap: 0.5rem 1.5rem;
+    flex-wrap: wrap;
+    text-align: center;
+    font-size: 11px;
+    h3 {
+      font-size: inherit;
+      font-weight: 500;
+    }
+  }
+  .scroll-hint-footer {
+    margin-top: -37%; // sous « Découvrir la suite », hors des fleurs
+  }
+}
+
+// ============================================================
+// DANTE — hero, section épinglée (6 cartes), scroll-lock, mummers
+// ============================================================
+@include tablet {
+  // cartes 5 et 6 (Dante a 6 cartes, l'index 4)
+  .after-dante h1,
+  .before-Conversation h1 {
+    font-size: clamp(1.25rem, 5.4vw, 2.6rem);
+    max-width: 90%;
+    line-height: 1.35;
+  }
+
+  // --- sticker animé (position/tailles scalées avec le facteur JS) ---
+  body .scroll-lock__sticker {
+    left: calc(50% - 70px);
+    img {
+      width: 140px;
+    }
+  }
+
+  // --- scroll-lock : texte à gauche, galerie défilante à droite ---
+  // (dante.html charge aussi scroll-section.scss APRÈS main.css : on monte donc
+  // la spécificité avec `body` pour garder la main sur ces règles.)
+  body .scroll-lock {
+    background-size: 100% 100%;
+    background-position: 0 0;
+  }
+  // Galerie à GAUCHE (le pouce de la main droite scrolle sur la droite : à
+  // droite on ouvrait des tableaux par erreur) et texte en haut à DROITE.
+  body .scroll-lock__header {
+    left: auto;
+    right: 1rem;
+    bottom: 5.5rem;
+  }
+  body .scroll-lock__logo {
+    width: 52px;
+  }
+  body .text-stage {
+    // Haut du texte à 50svh - 40px : le logo (posé par dante.js, LAND_Y) se
+    // place juste au-dessus. Le bloc logo + texte finit ainsi centré dans l'écran.
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: calc(50svh - 40px) 1rem 0 calc(4vw + 30vw + 1rem);
+    margin-left: 0;
+  }
+  body .text-stage__headline {
+    font-size: clamp(1rem, 4.4vw, 2rem);
+    line-height: 1.4;
+    letter-spacing: -0.02em;
+    max-width: 100%;
+    height: auto;
+  }
+  body .horizontal-gallery {
+    right: auto;
+    left: 4vw;
+    width: 30vw;
+  }
+  // les vignettes défilantes sont décoratives ici : au doigt elles ne doivent
+  // ni capter le geste de scroll ni ouvrir le panneau d'infos.
+  body .horizontal-gallery img {
+    pointer-events: none;
+  }
+  body .horizontal-gallery__track {
+    padding: 0;
+  }
+
+  // --- Mummers : collage déplaçable, positions en vw pour suivre la largeur ---
+  .Section-mummers {
+    max-width: 100%;
+    width: 100%;
+    padding: 56px 5% 0;
+    height: 330vw;
+  }
+  .title {
+    font-size: clamp(2.4rem, 11vw, 6.5rem);
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+    margin-top: 2%;
+  }
+  .subtitle {
+    font-size: clamp(1rem, 3.8vw, 1.9rem);
+    line-height: 1.45;
+    letter-spacing: -0.02em;
+    margin-top: 1.25rem;
+  }
+  .row-big .pic:nth-child(1) {
+    width: 46%;
+    top: 84vw;
+    left: 3%;
+  }
+  .row-big .pic:nth-child(2) {
+    width: 44%;
+    top: 96vw;
+    left: 52%;
+  }
+  .row-small .pic:nth-child(1) {
+    width: 52%;
+    top: 158vw;
+    left: 6%;
+  }
+  .row-small .pic:nth-child(2) {
+    width: 32%;
+    top: 170vw;
+    left: 62%;
+  }
+  .row-small .pic:nth-child(3) {
+    width: 62%;
+    top: 222vw;
+    left: 30%;
+  }
+  .row-small .pic:nth-child(4) {
+    width: 44%;
+    top: 285vw;
+    left: 8%;
+  }
+
+  // --- texte "Les Mummers…" : trois paragraphes en colonne ---
+  .after-mummers-container-contenu {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0 7%;
+    align-items: center;
+  }
+  .contenu {
+    width: 100%;
+    height: auto;
+    font-size: clamp(1rem, 4vw, 1.75rem);
+    line-height: 1.4;
+    letter-spacing: -0.02em;
+  }
+
+  // --- trois grands portraits ---
+  .container-img-mummers {
+    gap: 1rem;
+    margin-bottom: 3rem;
+    padding: 0 5%;
+    img {
+      width: 30%;
+      height: auto;
+    }
+  }
+}
+@include phone {
+  // Collage déplaçable -> GRILLE 2 colonnes (images entières, hauteur naturelle).
+  .Section-mummers {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    align-items: center;
+    align-content: start;
+    height: auto;
+    padding: 48px 6% 2.5rem;
+  }
+  .Section-mummers .text-mummers {
+    grid-column: 1 / -1;
+    margin-bottom: 0.75rem;
+  }
+  body .Section-mummers .row-big .pic,
+  body .Section-mummers .row-small .pic {
+    position: relative;
+    width: auto;
+    top: auto;
+    left: auto;
+    transform: none;
+    cursor: default;
+  }
+  .Section-mummers .pic img {
+    height: auto;
+  }
+  .container-img-mummers {
+    flex-direction: column;
+    gap: 1.25rem;
+    img {
+      width: min(80vw, 420px);
+      height: auto;
+      aspect-ratio: 59 / 74;
+    }
+  }
+  .img-card:nth-child(5) {
+    width: 44vw;
+    height: 58vw;
+    left: 28%;
+    right: auto;
+    top: 62%;
+  }
+  .img-card:nth-child(6) {
+    width: 34vw;
+    height: 46vw;
+    right: 10%;
+    left: auto;
+    top: 20%;
+  }
+}
+
+// ============================================================
+// CONVERSATION — intro, bandeau défilant, slider scroll épinglé
+// ------------------------------------------------------------
+// Le slider (1200vh) empile 6 « image-groupe » + 6 « copy-group »
+// pilotés par la progression de scroll (conversation.js). Seule la
+// mise en page change : image principale en haut, deux vignettes
+// dessous, trois textes empilés en bas. Les ids #imgX-Y portent des
+// largeurs en px → reset en !important (un id bat toute classe).
+// ============================================================
+@include tablet {
+  .container-conversation-slider {
+    // 1200vh sur desktop avec molette ralentie à 0.03 ; au doigt le scroll
+    // est natif, on rallonge donc la piste pour garder un rythme lisible.
+    height: 1800vh;
+  }
+  .Slider-coversation {
+    clip-path: inset(0 3%);
+  }
+
+  .conversation-slider-track img {
+    width: 150px;
+    height: 94px;
+  }
+
+  .artiste-conv {
+    margin-bottom: 0;
+    padding: 0 6%;
+  }
+  .before-Conversation {
+    gap: 2rem;
+    justify-content: flex-start;
+    .text-layer {
+      // en absolu + centré verticalement, le bloc recouvre le titre quand les
+      // marges négatives en % du desktop disparaissent : on le remet dans le flux.
+      position: relative;
+      padding: 0 8%;
+      h2 {
+        font-size: clamp(0.95rem, 3.8vw, 1.75rem);
+        line-height: 1.4;
+        max-width: 100%;
+      }
+    }
+  }
+  .text-layer2 h2 {
+    font-size: clamp(1rem, 3.6vw, 1.75rem);
+    line-height: 1.4;
+    padding: 0 8%;
+    margin-top: 8%;
+    margin-bottom: 8%;
+    text-align: center;
+  }
+}
+
+@include tablet {
+  // Budget vertical de la scène (viewport = 100svh) :
+  //   en haut   : 4.2rem de marge
+  //   au milieu : images (occupent tout ce qui reste)
+  //   en bas    : bloc de 3 textes (--copy-h) + barre de navigation (4.4rem)
+  // Les images se calent donc sur la hauteur disponible au lieu de recouvrir le
+  // texte quand l'écran est court (iPhone SE : 667px).
+  .Slider-coversation {
+    --copy-h: 12.6rem;
+    --nav-h: calc(max(0.9rem, env(safe-area-inset-bottom)) + 4rem);
+  }
+  .about-copy {
+    flex-direction: column;
+  }
+
+  .image-groupe {
+    position: absolute;
+    top: 4.2rem;
+    left: 0;
+    right: 0;
+    bottom: calc(var(--copy-h) + var(--nav-h) + 0.75rem);
+    height: auto;
+    margin: 0;
+    padding: 0 6%;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 8px;
+    max-width: none;
+  }
+  .image-groupe > img {
+    width: 100% !important;
+    height: auto !important;
+    flex: 1 1 0;
+    min-height: 0;
+    margin: 0 !important;
+    top: 0 !important;
+    left: 0 !important;
+    aspect-ratio: auto !important;
+    object-fit: contain;
+    object-position: center;
+  }
+  .image-groupe .droite {
+    width: 100%;
+    height: 34%;
+    margin: 0;
+    gap: 8px;
+    flex-direction: row;
+    align-items: stretch;
+    flex: 0 0 auto;
+  }
+  .image-groupe .droite img {
+    flex: 1 1 0;
+    min-width: 0;
+    width: auto !important;
+    height: 100% !important;
+    margin: 0 !important;
+    top: 0 !important;
+    left: 0 !important;
+    aspect-ratio: auto !important;
+    object-fit: contain;
+    object-position: center;
+  }
+
+  .copy-group {
+    width: 88%;
+    margin-left: 0;
+    left: 50%;
+    bottom: var(--nav-h);
+    height: var(--copy-h);
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 0.5rem;
+  }
+  .copy-block {
+    flex: 0 0 auto;
+    margin-bottom: 0;
+  }
+  .copy-block p {
+    width: 100%;
+    height: auto;
+    font-size: 0.88rem;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+  }
+}
+
+// ============================================================
+// MALADIE
+// ============================================================
+@include tablet {
+  .maladie-slide-item img {
+    width: 160px;
+    height: 208px;
+  }
+  .maladie-slide-item {
+    margin-right: 12px;
+  }
+  .maladie-text-container {
+    margin-top: 14%;
+    margin-bottom: 12%;
+    padding: 0 5%;
+    h2 {
+      font-size: clamp(1.25rem, 5.4vw, 2.5rem);
+      width: 92%;
+      line-height: 1.4;
+    }
+    p {
+      font-size: clamp(1rem, 4.2vw, 1.5rem);
+    }
+  }
+  .Before-image-Sky h1,
+  .After-Patricia-Maladie h1 {
+    font-size: clamp(1.1rem, 4.8vw, 1.9rem);
+    max-width: 90%;
+    line-height: 1.4;
+    letter-spacing: -0.02em;
+  }
+  .After-Patricia-Maladie h1 {
+    margin-top: 0;
+  }
+  .Before-image-Sky {
+    gap: 2rem;
+  }
+  .blue-skyes {
+    width: 62%;
+  }
+  .container-pat-maladie {
+    gap: 1.5rem;
+  }
+}
+@include phone {
+  .maladie-slide-item img {
+    width: 132px;
+    height: 172px;
+  }
+  .blue-skyes {
+    width: 88%;
+  }
+  .container-pat-maladie {
+    flex-direction: column;
+    align-items: center;
+    display: flex;
+    padding: 0 6%;
+  }
+  .Maladie-Pat img {
+    max-width: 78%;
+    margin-top: 0;
+  }
+  .text-pat-maladie {
+    max-width: 100%;
+    margin-top: 0;
+    align-items: center;
+    text-align: center;
+    h1 {
+      font-size: clamp(2.5rem, 14vw, 4.5rem);
+      justify-content: center;
+      margin-bottom: 0.75rem;
+    }
+    p {
+      font-size: clamp(1rem, 4.2vw, 1.4rem);
+      line-height: 1.5;
+      text-align: center;
+    }
+  }
+}
+
+// ============================================================
+// AUTOPORTRAIT
+// ------------------------------------------------------------
+// La galerie (21 cartes sur une bande de ~10 000px pilotée par le
+// scroll) se règle côté JS : zoom par défaut adaptatif. Ici : héro,
+// textes et pilule d'années.
+// ============================================================
+@include tablet {
+  .h2-repeat {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.25rem 1rem;
+    h2 {
+      width: auto;
+      max-width: none;
+      font-size: clamp(0.8rem, 2.4vw, 1.1rem);
+    }
+  }
+  .text-start p,
+  .text-end p {
+    font-size: clamp(1.1rem, 4.6vw, 1.9rem);
+    line-height: 1.4;
+    letter-spacing: -0.02em;
+    max-width: 88%;
+  }
+  .text-start p {
+    margin-bottom: 8%;
+  }
+  .str-text {
+    text-align: center;
+    font-size: clamp(1.2rem, 5vw, 2.2rem);
+    line-height: 1.4;
+    letter-spacing: -0.02em;
+    max-width: 88%;
+  }
+  .scroll-text-reveal {
+    height: auto;
+    min-height: 0;
+    padding: 2rem 0;
+  }
+  .info-avant-footer {
+    padding: 0 6%;
+    h1 {
+      font-size: clamp(1.4rem, 6.2vw, 2.4rem);
+      margin-bottom: 8%;
+      line-height: 1.25;
+    }
+    p {
+      font-size: clamp(1rem, 4.4vw, 1.5rem);
+      margin-top: 0;
+    }
+  }
+  // Fin d'Autoportrait : sur desktop, 4 colonnes de liens alignées à gauche,
+  // l'ensemble centré (4 x 168px, gap 100px). On garde cette structure : 4
+  // colonnes en tablette, grille 2 x 2 sur téléphone, textes alignés à gauche
+  // dans chaque colonne (et non plus des colonnes qui dérivent à droite).
+  .container-link {
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    justify-content: center;
+    align-items: start;
+    gap: 2rem clamp(1.25rem, 4vw, 3rem);
+    text-align: left;
+    left: 0;
+    padding: 0 6%;
+  }
+  .link,
+  .link-text {
+    width: auto;
+    min-width: 0;
+  }
+  .link {
+    gap: 0.9rem;
+  }
+  .link-text {
+    gap: 0.55rem;
+  }
+  .link-text a,
+  .link h2 {
+    font-size: 0.9rem;
+    padding: 0.15rem 0;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+  }
+  // Tablette/téléphone : pas de survol, les textes sont donc posés directement
+  // dans leur état « hover » (couleur plus claire, lisible sur le fond sombre).
+  .hero_autoportrait h1,
+  .g-tl-yr,
+  .text-end p,
+  .info-avant-footer h1,
+  .str-text {
+    color: var(--auto-text);
+  }
+  // mention « Ce site a été conçu… » : texte de crédit, nettement plus petit
+  .info-avant-footer .fin,
+  h3.fin {
+    margin-top: 3.5rem; // desktop : ~100px sous les colonnes de liens
+    margin-bottom: 2rem;
+    max-width: 88%;
+    font-size: clamp(0.7rem, 2.8vw, 0.85rem);
+    line-height: 1.55;
+    letter-spacing: 0;
+    font-weight: 300;
+  }
+
+  // pilule d'années de la galerie : au-dessus de la barre de navigation mobile
+  .g-timeline {
+    max-width: calc(100vw - 1.5rem);
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 8px 10px;
+  }
+  .g-tl-item {
+    padding: 0 6px;
+  }
+  .g-tl-yr {
+    font-size: 10px;
+  }
+  .g-hdr {
+    padding: 14px 18px;
+  }
+  .g-zoom {
+    left: 18px;
+    top: 14px;
+  }
+}
+@include phone {
+  .h2-repeat {
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    margin-top: 0.75rem;
+    h2 {
+      line-height: 1.25;
+    }
+  }
+  .g-timeline {
+    bottom: calc(max(0.9rem, env(safe-area-inset-bottom)) + 4.6rem);
+  }
+}
+
+// paysage téléphone (peu de hauteur) : nav timeline compacte
+@media (max-width: 1024px) and (max-height: 500px) {
+  #tl-nav {
+    scale: 0.72;
+    transform-origin: right center;
+  }
+  .hero_index h1,
+  .hero_dante h1,
+  .hero_conversation h1,
+  .hero_maladie h1 {
+    font-size: clamp(2.2rem, 9vh, 4.5rem);
+  }
+}
+
+// ============================================================
+// RESPECT DES PRÉFÉRENCES SYSTÈME
+// ============================================================
+@media (prefers-reduced-motion: reduce) {
+  .bg {
+    animation: none;
+  }
+  .scroll-hint .line,
+  .scroll-hint-footer .line-footer,
+  #info-toggle::before {
+    animation: none;
+  }
+  .hanging-img-wrapper.swinging {
+    animation: none;
+  }
+}
+
+// Autoportrait (téléphone) : liens en grille 2 x 2
+@include phone {
+  .container-link {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    justify-content: stretch;
+    gap: 1.75rem 1.25rem;
+    padding: 0 9%;
+  }
+}
+
+// ============================================================
+// TRANSITION DE PAGE — arrivée sans « trou »
+// js/arrive.js pose `is-arriving` sur <html> dès le premier paint quand on
+// arrive d'une transition Barba : l'overlay couvre déjà l'écran, la page ne se
+// charge plus « derrière » et l'animation ne se coupe/relance plus.
+// ============================================================
+html.is-arriving .transition-overlay {
+  transform: translateY(0);
+}
+
+// EN : titre du hero centré (la version FR garde son alignement d'origine)
+html[lang="en"] .hero_index h1 {
+  text-align: center;
+}
+
+// Desktop : la pilule de navigation ne doit jamais toucher la pile de boutons
+// (langue / audio / info). On l'ancre juste au-dessus de la pile au lieu de
+// la centrer à 72 % de la hauteur.
+@media (min-width: 1025px) {
+  #tl-nav {
+    top: auto;
+    bottom: calc(1.5rem + 3 * 40px + 2 * 0.8rem + 16px);
+    transform: none;
+    &.hidden {
+      transform: translateX(150%);
+    }
+  }
+}

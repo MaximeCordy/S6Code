@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover, minimum-scale=1"
+    />
+    <title>Page introuvable (404) | La Galerie des Souvenirs</title>
+    <meta
+      name="description"
+      content="Cette salle n'existe pas : la page demandée est introuvable ou a été déplacée. / This room doesn't exist: the page can't be found or has been moved."
+    />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#f8f6f0" />
+    <link rel="icon" sizes="100x100" href="image/logo/MAISON_LOGO_INDEX.webp" />
+    <link rel="stylesheet" href="scss/page-404.scss" />
+  </head>
+
+  <body>
+    <main class="nf" id="contenu">
+      <div class="nf__frame" aria-hidden="true"></div>
+
+      <img
+        class="nf__logo"
+        src="image/logo_sticker.png"
+        alt=""
+        width="160"
+        height="160"
+      />
+
+      <h1 class="nf__code">404</h1>
+      <p class="nf__title">Cette salle n'existe pas.</p>
+      <p class="nf__text">
+        Vous vous êtes égaré dans la galerie : la page demandée est introuvable
+        ou a été déplacée.
+      </p>
+      <p class="nf__title nf__title--en" lang="en">This room doesn't exist.</p>
+      <p class="nf__text nf__text--en" lang="en">
+        You've wandered off in the gallery: the page you requested can't be
+        found or has been moved.
+      </p>
+
+      <div class="nf__actions">
+        <a class="nf__btn" href="index.html">Retourner à l'accueil</a>
+        <a class="nf__btn nf__btn--ghost" href="en/index.html" lang="en"
+          >Back to the home page</a
+        >
+      </div>
+
+      <nav class="nf__rooms" aria-label="Salles de la galerie">
+        <a href="dante.html">Dante</a>
+        <a href="conversation.html">Conversation</a>
+        <a href="maladie.html">Maladie</a>
+        <a href="autoportrait.html">Autoportrait</a>
+      </nav>
+
+      <p class="nf__credit">
+        William Utermohlen · La Galerie des Souvenirs ·
+        <a href="https://cordy-maxime.ch/" target="_blank" rel="noopener noreferrer">Maxime Cordy</a>
+      </p>
+    </main>
+
+    <script type="module" src="js/404.js"></script>
+  </body>
+</html>

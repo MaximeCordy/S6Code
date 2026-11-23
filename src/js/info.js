@@ -1,3 +1,5 @@
+import { t } from "./i18n.js";
+
 // ============================================================
 // INFO — ŒUVRES PAR SECTION
 // ============================================================
@@ -969,7 +971,7 @@ function setupAudioButton(audioData) {
     return;
   }
 
-  currentAudioLabel = audioData.label || "Audio";
+  currentAudioLabel = t(audioData.label || "Audio");
   audioEl = new Audio(audioData.src);
   audioEl.preload = "metadata";
   btn.classList.remove("hidden");
@@ -1108,6 +1110,10 @@ export function initInfoPanel() {
 
   const toggleHandler = () => {
     document.body.classList.toggle("panel-open");
+    if (!document.body.classList.contains("panel-open")) {
+      selectedIndex = -1;
+      document.querySelectorAll(".ip-card.active").forEach((c) => c.classList.remove("active"));
+    }
     setBtnText(
       toggle,
       document.body.classList.contains("panel-open") ? "✕" : "i",
@@ -1127,6 +1133,7 @@ export function initInfoPanel() {
   const backdrop = document.querySelector(".panel-backdrop");
   if (backdrop) {
     const backdropHandler = () => {
+      selectedIndex = -1;
       document.body.classList.remove("panel-open");
       toggle.textContent = "i";
     };
@@ -1138,13 +1145,100 @@ export function initInfoPanel() {
     });
   }
   // ============================================================
+  // INFO - TÉLÉPHONE : GLISSER LE VOLET VERS LE BAS POUR LE FERMER
+  // Actif quand le contenu est tout en haut (scrollTop 0) ou depuis l'en-tête ;
+  // sinon le doigt fait défiler la liste normalement.
+  // ============================================================
+  const sheet = document.getElementById("info-panel");
+  const ipHead = sheet && sheet.querySelector(".ip-head");
+  if (sheet) {
+    let startY = 0;
+    let dy = 0;
+    let tracking = false;
+    let dragging = false;
+    const CLOSE_DISTANCE = 90;
+
+    const sheetStart = (e) => {
+      if (window.innerWidth > 767 || !document.body.classList.contains("panel-open")) return;
+      const t = e.touches[0];
+      startY = t.clientY;
+      dy = 0;
+      dragging = false;
+      // on ne suit le doigt que si la liste est tout en haut (ou si on part de l'en-tête)
+      tracking = ipBody.scrollTop <= 0 || (ipHead && ipHead.contains(e.target));
+    };
+    const sheetMove = (e) => {
+      if (!tracking) return;
+      dy = e.touches[0].clientY - startY;
+      if (dy <= 0) {
+        // le doigt remonte : on rend la main au défilement natif de la liste
+        if (!dragging) return;
+        dy = 0;
+      }
+      if (!dragging) {
+        // s'est-on déplacé assez, et la liste est-elle toujours en haut ?
+        if (dy < 6 || ipBody.scrollTop > 0) return;
+        dragging = true;
+        sheet.style.transition = "none";
+      }
+      e.preventDefault();
+      sheet.style.transform = `translateY(${dy}px)`;
+    };
+    const sheetEnd = () => {
+      if (!dragging) {
+        tracking = false;
+        return;
+      }
+      const close = dy > CLOSE_DISTANCE;
+      sheet.style.transition = "";
+      void sheet.offsetHeight; // fige l'état courant avant de relancer la transition CSS
+      sheet.style.transform = "";
+      if (close) {
+        selectedIndex = -1;
+        document.body.classList.remove("panel-open");
+        setBtnText(toggle, "i");
+      }
+      tracking = false;
+      dragging = false;
+      dy = 0;
+    };
+
+    [
+      ["touchstart", sheetStart, { passive: true }],
+      ["touchmove", sheetMove, { passive: false }],
+      ["touchend", sheetEnd, { passive: true }],
+      ["touchcancel", sheetEnd, { passive: true }],
+    ].forEach(([event, handler, opts]) => {
+      sheet.addEventListener(event, handler, opts);
+      infoPanelListeners.push({ element: sheet, event, handler });
+    });
+  }
+
+  // ============================================================
   // INFO - SURLIGNAGE DE LA CARD SELECTIONNEE
   // ============================================================
+
+  // Carte « sélectionnée » par un clic sur une image : elle reste en état actif
+  // (comme au survol) tant que le panneau est ouvert sur cette section.
+  let selectedIndex = -1;
+  let pendingHighlight = null;
 
   function highlightCard(index) {
     ipBody.querySelectorAll(".ip-card").forEach((c, i) => {
       c.classList.toggle("active", i === index);
     });
+  }
+
+  // active la carte et la fait apparaître dans la liste du panneau
+  function activateCard(index) {
+    selectedIndex = index;
+    highlightCard(index);
+    const card = ipBody.querySelector(`.ip-card[data-card="${index}"]`);
+    if (card) {
+      const delta =
+        card.getBoundingClientRect().top - ipBody.getBoundingClientRect().top - 8;
+      ipBody.scrollTo({ top: ipBody.scrollTop + delta, behavior: "smooth" });
+    }
   }
   // ============================================================
   // INFO - REPERAGE DES IMAGES DANS LA SECTION ACTIVE
@@ -1178,7 +1272,7 @@ export function initInfoPanel() {
     const img = e.target.closest("img[data-artwork]");
     if (!img) return;
     img.style.outline = "";
-    highlightCard(-1);
+    highlightCard(selectedIndex);
   };
   document.addEventListener("mouseout", mouseoutHandler);
   infoPanelListeners.push({
@@ -1218,7 +1312,7 @@ export function initInfoPanel() {
       img.style.outline = "";
       img.style.transform = "";
     }
-    highlightCard(-1);
+    highlightCard(selectedIndex);
   };
   ipBody.addEventListener("mouseout", cardMouseoutHandler);
   infoPanelListeners.push({
@@ -1234,18 +1328,25 @@ export function initInfoPanel() {
   const clickHandler = (e) => {
     const img = e.target.closest("img[data-artwork]");
     if (!img) return;
+    const index = parseInt(img.dataset.artwork);
     document.body.classList.add("panel-open");
     setBtnText(toggle, "✕");
 
     const parentSection = img.closest("section[data-section]");
     if (parentSection) {
-      currentSection = null;
-      updatePanel(parentSection.dataset.section);
+      if (
+        parentSection.dataset.section === currentSection &&
+        ipBody.querySelector(".ip-card")
+      ) {
+        // panneau déjà sur cette section : on active la carte tout de suite
+        activateCard(index);
+      } else {
+        // le contenu va être (re)construit : la carte sera activée juste après
+        pendingHighlight = index;
+        currentSection = null;
+        updatePanel(parentSection.dataset.section);
+      }
     }
-
-    setTimeout(() => {
-      highlightCard(parseInt(img.dataset.artwork));
-    }, 100);
   };
   document.addEventListener("click", clickHandler);
   infoPanelListeners.push({
@@ -1264,19 +1365,19 @@ export function initInfoPanel() {
     if (!d) return;
     fadeEls.forEach((el) => el.classList.add("fading"));
     setTimeout(() => {
-      ipTitle.textContent = d.titre;
+      ipTitle.textContent = t(d.titre);
       ipBody.innerHTML = d.oeuvres
         .map(
           (o, idx) => `
           <div class="ip-card" data-card="${idx}">
-            <div class="ip-card-title">${o.titre}</div>
-            <div class="ip-card-artist">${o.artiste}</div>
+            <div class="ip-card-title">${t(o.titre)}</div>
+            <div class="ip-card-artist">${t(o.artiste)}</div>
             ${o.infos
               .map(
                 (r) => `
               <div class="ip-row">
-                <span class="ip-key">${r.cle}</span>
-                <span class="ip-val">${r.valeur}</span>
+                <span class="ip-key">${t(r.cle)}</span>
+                <span class="ip-val">${t(r.valeur)}</span>
               </div>`,
               )
               .join("")}
@@ -1284,6 +1385,13 @@ export function initInfoPanel() {
         )
         .join("");
       fadeEls.forEach((el) => el.classList.remove("fading"));
+      if (pendingHighlight !== null) {
+        const idx = pendingHighlight;
+        pendingHighlight = null;
+        activateCard(idx);
+      } else {
+        selectedIndex = -1; // autre section : plus de sélection
+      }
     }, 220);
   }
 

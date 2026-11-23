@@ -1,0 +1,76 @@
+# ============================================================
+# La Galerie des Souvenirs — configuration Apache (hébergement mutualisé type Infomaniak)
+# Copiée dans dist/ par `npm run build`.
+# ============================================================
+
+# --- Page 404 personnalisée --------------------------------
+ErrorDocument 404 /404.html
+
+# --- HTTPS obligatoire + pas de listing --------------------
+Options -Indexes
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# --- En-têtes de sécurité ----------------------------------
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "DENY"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+  Header always set Cross-Origin-Opener-Policy "same-origin"
+  Header always set Strict-Transport-Security "max-age=15552000"
+  # Tout est servi depuis le domaine (polices, images, audio, JS auto-hébergés).
+  # 'unsafe-inline' côté styles : le HTML contient des attributs style="" et GSAP
+  # écrit des styles en ligne (autorisé par CSP via CSSOM, pas via attribut HTML).
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+</IfModule>
+
+# --- Types MIME --------------------------------------------
+<IfModule mod_mime.c>
+  AddType image/avif .avif
+  AddType image/webp .webp
+  AddType font/woff2 .woff2
+  AddType audio/mpeg .mp3
+</IfModule>
+
+# --- Compression -------------------------------------------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript text/javascript application/json image/svg+xml application/xml text/plain
+</IfModule>
+
+# --- Cache -------------------------------------------------
+# Fichiers à nom haché (js/css/img/fonts) : 1 an, immuables. HTML : revalidation.
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 hour"
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType text/javascript "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 30 days"
+  ExpiresByType image/avif "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType audio/mpeg "access plus 30 days"
+</IfModule>
+<IfModule mod_headers.c>
+  <FilesMatch "\.(css|js|avif|webp|png|jpe?g)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  # polices et audio : noms non hachés par le build -> 30 jours (pas "immutable")
+  <FilesMatch "\.(woff2|mp3)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+  <FilesMatch "\.(html)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+  # L'image Open Graph garde le même nom : durée courte
+  <Files "og-cover.jpg">
+    Header set Cache-Control "public, max-age=86400"
+  </Files>
+</IfModule>

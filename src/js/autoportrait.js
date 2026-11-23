@@ -49,13 +49,28 @@ export function initAutoportrait() {
   const tlEl = document.getElementById("gTimeline");
   const zoomEl = document.getElementById("gZoom");
 
-  const VW = window.innerWidth,
-    VH = window.innerHeight,
+  // Dimensions de la scène : mesurées sur #scene (= hauteur 100vh du bloc sticky)
+  // et non sur window.innerHeight, qui bouge sur mobile quand la barre d'URL
+  // se rétracte. `let` + measure() pour pouvoir les recalculer au resize.
+  let VW = 0,
+    VH = 0,
+    CY = 0;
+  function measure() {
+    VW = sceneEl.clientWidth || window.innerWidth;
+    VH = sceneEl.clientHeight || window.innerHeight;
     CY = VH / 2;
+  }
+  measure();
   const LERP = 0.08,
     FRIC = 0.88,
-    MAX_Y = 260,
-    DEF_ZOOM = 0.9;
+    MAX_Y = 260;
+  // Zoom par défaut. Desktop : 0.9 (inchangé). ≤1024px : on calcule un zoom qui
+  // garde une carte "type" (350x500) lisible et entière dans le viewport.
+  const defZoom = () =>
+    window.innerWidth > 1024
+      ? 0.9
+      : Math.min(0.9, (VW * 0.8) / 350, (VH * 0.55) / 500);
+  const DEF_ZOOM = defZoom();
   const first = DATA[0],
     last = DATA[DATA.length - 1];
 
@@ -91,6 +106,7 @@ export function initAutoportrait() {
   // ============================================================
   // AUTO - GALLERIE - CARTES
   // ============================================================
+  const cardEls = [];
   DATA.forEach((d, i) => {
     const t = i / (DATA.length - 1);
     const brightness = 1 - t * 0.75;
@@ -99,6 +115,30 @@ export function initAutoportrait() {
     el.style.cssText = `left:${d.x}px;top:${CY + d.y - d.h / 2}px;width:${d.w}px;height:${d.h}px;filter:brightness(${brightness})`;
     el.innerHTML = `<img src="${d.src}" loading="lazy" data-artwork="${i}">`;
     cvsEl.appendChild(el);
+    cardEls.push(el);
+  });
+  const layoutCards = () =>
+    cardEls.forEach((el, i) => {
+      el.style.top = `${CY + DATA[i].y - DATA[i].h / 2}px`;
+    });
+
+  // Resize / rotation : on re-mesure, on replace les cartes (leur `top` dépend
+  // de la hauteur de scène) et on recalcule la piste de scroll.
+  let lastW = window.innerWidth;
+  let resizeTimer;
+  window.addEventListener("resize", () => {
+    if (window.innerWidth === lastW) return; // hauteur seule = barre d'URL mobile
+    lastW = window.innerWidth;
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      measure();
+      layoutCards();
+      zoom = defZoom();
+      trackEl.style.height = trackH(zoom) + "px";
+      tgtX = camX = xForP(scrollP(), zoom);
+      updateIdx();
+      updateUI();
+    }, 200);
   });
 
   // ============================================================

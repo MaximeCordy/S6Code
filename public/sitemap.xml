@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://galerie-souvenirs.cordy-maxime.ch/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://galerie-souvenirs.cordy-maxime.ch/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://galerie-souvenirs.cordy-maxime.ch/en/"/>
+  </url>
+  <url>
+    <loc>https://galerie-souvenirs.cordy-maxime.ch/en/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://galerie-souvenirs.cordy-maxime.ch/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://galerie-souvenirs.cordy-maxime.ch/en/"/>
+  </url>
+  <url>
+    <loc>https://galerie-souvenirs.cordy-maxime.ch/dante.html</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://galerie-souvenirs.cordy-maxime.ch/dante.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://galerie-souvenirs.cordy-maxime.ch/en/dante.html"/>
+  </url>
+  <url>
+    <loc>https://galerie-souvenirs.cordy-maxime.ch/en/dante.html</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://galerie-souvenirs.cordy-maxime.ch/dante.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://galerie-souvenirs.cordy-maxime.ch/en/dante.html"/>
+  </url>
+  <url>
+    <loc>https://galerie-souvenirs.cordy-maxime.ch/conversation.html</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://galerie-souvenirs.cordy-maxime.ch/conversation.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://galerie-souvenirs.cordy-maxime.ch/en/conversation.html"/>
+  </url>
+  <url>
+    <loc>https://galerie-souvenirs.cordy-maxime.ch/en/conversation.html</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://galerie-souvenirs.cordy-maxime.ch/conversation.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://galerie-souvenirs.cordy-maxime.ch/en/conversation.html"/>
+  </url>
+  <url>
+    <loc>https://galerie-souvenirs.cordy-maxime.ch/maladie.html</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://galerie-souvenirs.cordy-maxime.ch/maladie.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://galerie-souvenirs.cordy-maxime.ch/en/maladie.html"/>
+  </url>
+  <url>
+    <loc>https://galerie-souvenirs.cordy-maxime.ch/en/maladie.html</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://galerie-souvenirs.cordy-maxime.ch/maladie.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://galerie-souvenirs.cordy-maxime.ch/en/maladie.html"/>
+  </url>
+  <url>
+    <loc>https://galerie-souvenirs.cordy-maxime.ch/autoportrait.html</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://galerie-souvenirs.cordy-maxime.ch/autoportrait.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://galerie-souvenirs.cordy-maxime.ch/en/autoportrait.html"/>
+  </url>
+  <url>
+    <loc>https://galerie-souvenirs.cordy-maxime.ch/en/autoportrait.html</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://galerie-souvenirs.cordy-maxime.ch/autoportrait.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://galerie-souvenirs.cordy-maxime.ch/en/autoportrait.html"/>
+  </url>
+</urlset>

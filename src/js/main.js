@@ -1,10 +1,21 @@
 // ============================================================
 // MAIN - IMPORTS
 // ============================================================
+// Poppins auto-hébergée (RGPD / perf / CSP) : uniquement les graisses utilisées.
+import "@fontsource/poppins/latin-300.css";
+import "@fontsource/poppins/latin-300-italic.css";
+import "@fontsource/poppins/latin-400.css";
+import "@fontsource/poppins/latin-500.css";
+import "@fontsource/poppins/latin-600.css";
+import "@fontsource/poppins/latin-700.css";
+import "@fontsource/poppins/latin-800.css";
+import "@fontsource/poppins/latin-900.css";
+// Animation de texte mot par mot : importée ici (un seul bundle JS, une seule copie de GSAP)
+import "./text-animation-addon.js";
 import barba from "@barba/core";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Draggable } from "gsap/draggable";
+import { Draggable } from "gsap/Draggable";
 import Lenis from "lenis";
 import { initInfoPanel } from "./info.js";
 import { initMaladieSlider, initMaladieTitle } from "./maladie.js";
@@ -18,8 +29,19 @@ import {
 } from "./dante.js";
 import { initConversationSlider } from "./conversation.js";
 import { initScrollSection } from "./scroll-section.js";
+import { base as langBase } from "./i18n.js";
 
 gsap.registerPlugin(ScrollTrigger, Draggable);
+
+// ============================================================
+// MAIN - RESPONSIVE : détection contexte
+// ============================================================
+// Évite le "saut" des sections épinglées quand la barre d'URL mobile
+// apparaît/disparaît (resize de hauteur seulement).
+ScrollTrigger.config({ ignoreMobileResize: true });
+
+const isTouch = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+const isPhoneQuery = window.matchMedia("(max-width: 1024px)"); // ≤1024 = slider mis à l'échelle
 
 // ============================================================
 // MAIN - CONFIG PAGES ET NAVIGATION
@@ -32,12 +54,13 @@ const pageOrder = [
   "autoportrait",
   "index",
 ];
+// URLs des pages : préfixées par /en en version anglaise (src/en/*.html)
 const pageUrls = {
-  index: "/index.html",
-  dante: "/dante.html",
-  conversation: "/conversation.html",
-  maladie: "/maladie.html",
-  autoportrait: "/autoportrait.html",
+  index: `${langBase}/index.html`,
+  dante: `${langBase}/dante.html`,
+  conversation: `${langBase}/conversation.html`,
+  maladie: `${langBase}/maladie.html`,
+  autoportrait: `${langBase}/autoportrait.html`,
 };
 
 // ============================================================
@@ -48,10 +71,10 @@ let isGoingBack = false;
 let currentPageNamespace = null;
 let footerReady = false;
 let footerScrollAccum = 0;
-const FOOTER_SCROLL_THRESHOLD = 400;
+const FOOTER_SCROLL_THRESHOLD = isTouch ? 260 : 400;
 let headerReady = false;
 let headerScrollAccum = 0;
-const HEADER_SCROLL_THRESHOLD = 400;
+const HEADER_SCROLL_THRESHOLD = isTouch ? 260 : 400;
 let headerProgressEl = null;
 let headerProgressBarEl = null;
 const layerBg = document.getElementById("layerBg");
@@ -76,7 +99,7 @@ function lerp(a, b, t) {
   return a + (b - a) * t;
 }
 
-if (layerBg && layerFg) {
+if (layerBg && layerFg && !isTouch) {
   (function animate() {
     cBgX = lerp(cBgX, tBgX, LERP);
     cBgY = lerp(cBgY, tBgY, LERP);
@@ -158,12 +181,25 @@ export function initScrollPin() {
     const speed = parseFloat(card.dataset.speed) || 2;
     const endRotation = parseFloat(card.dataset.rotation) || 0;
 
-    const startY = isDante
-      ? window.innerHeight * (1.2 + i * 0.2)
-      : window.innerHeight * (0.8 + i * 0.15);
-    const endY = isDante
-      ? -window.innerHeight * (0.15 + i * 0.08)
-      : -window.innerHeight * (0.3 + i * 0.1);
+    // Fonctions (et non valeurs figées) : ScrollTrigger les ré-évalue à chaque
+    // refresh grâce à invalidateOnRefresh -> la section suit le resize/rotation.
+    // Dante sur petit écran : 6 cartes larges dans un viewport étroit se
+    // superposaient et cachaient tout le texte. On espace leur passage dans le
+    // temps (départs échelonnés de 0.8 écran au lieu de 0.2 : 1 à 2 cartes à l'écran en permanence) et on les fait
+    // sortir entièrement par le haut : elles défilent l'une après l'autre.
+    const spread = isDante && window.innerWidth <= 1024;
+    const startY = () =>
+      spread
+        ? window.innerHeight * (1.1 + i * 0.8)
+        : isDante
+          ? window.innerHeight * (1.2 + i * 0.2)
+          : window.innerHeight * (0.8 + i * 0.15);
+    const endY = () =>
+      spread
+        ? -window.innerHeight * (0.55 + i * 0.05)
+        : isDante
+          ? -window.innerHeight * (0.15 + i * 0.08)
+          : -window.innerHeight * (0.3 + i * 0.1);
 
     gsap.fromTo(
       card,
@@ -184,6 +220,7 @@ export function initScrollPin() {
           start: "top top",
           end: "bottom bottom",
           scrub: isDante ? 1.8 * speed : 0.8 * speed,
+          invalidateOnRefresh: true,
         },
       },
     );
@@ -383,14 +420,24 @@ function initSliderAnimation() {
   const sliderMask = document.querySelector(".slider-mask");
   if (!sliderMask) return;
 
+  // Desktop/tablette : conteneur à 150% -> glisse de -33%.
+  // Mobile (CSS: conteneur à 300%) -> doit glisser de 2 viewports = -66%.
   gsap.to(".slider-container", {
-    x: "-33%",
+    // Desktop/tablette : -33% (conteneur 150%). Mobile : la course dépend de la
+    // largeur réelle du conteneur (CSS) -> on la déduit : (1 - viewport/conteneur).
+    x: () => {
+      if (!isPhoneQuery.matches) return "-33%";
+      const c = document.querySelector(".slider-container");
+      const ratio = c ? window.innerWidth / c.offsetWidth : 1 / 3;
+      return `${-(1 - ratio) * 100}%`;
+    },
     scrollTrigger: {
       trigger: ".slider-mask",
       start: "top top",
       end: "500%",
       scrub: true,
       pin: true,
+      invalidateOnRefresh: true,
     },
   });
 
@@ -499,6 +546,8 @@ window.addEventListener("mousemove", onCursorMouseMove);
 window.addEventListener("touchmove", onCursorTouchMove);
 
 function initCursor(namespace) {
+  // Curseur "fil" = effet souris : inutile (et coûteux) au doigt.
+  if (isTouch) return;
   if (cursorAnimationId) {
     cancelAnimationFrame(cursorAnimationId);
     cursorAnimationId = null;
@@ -604,10 +653,49 @@ function getOrCreateProgressBar() {
   return { progressEl, progressBarEl };
 }
 
+// ------------------------------------------------------------
+// Équivalent tactile du "wheel" : un glissement du doigt au-delà de la fin
+// (ou du début) de page alimente la même jauge que la molette.
+// ------------------------------------------------------------
+const TOUCH_GAIN = 2.2;
+function makeTouchFeeder(handler) {
+  let lastY = null;
+  return {
+    start(e) {
+      lastY = e.touches[0].clientY;
+    },
+    move(e) {
+      if (lastY === null) return;
+      const y = e.touches[0].clientY;
+      // doigt qui monte (y diminue) = on veut descendre => deltaY positif
+      handler({ deltaY: (lastY - y) * TOUCH_GAIN });
+      lastY = y;
+    },
+    end() {
+      lastY = null;
+    },
+  };
+}
+let footerTouch = null;
+let headerTouch = null;
+function bindTouch(feeder) {
+  window.addEventListener("touchstart", feeder.start, { passive: true });
+  window.addEventListener("touchmove", feeder.move, { passive: true });
+  window.addEventListener("touchend", feeder.end, { passive: true });
+}
+function unbindTouch(feeder) {
+  if (!feeder) return;
+  window.removeEventListener("touchstart", feeder.start);
+  window.removeEventListener("touchmove", feeder.move);
+  window.removeEventListener("touchend", feeder.end);
+}
+
 function resetFooterProgress() {
   footerScrollAccum = 0;
   footerReady = false;
   window.removeEventListener("wheel", onFooterWheel);
+  unbindTouch(footerTouch);
+  footerTouch = null;
   const { progressEl, progressBarEl } = getOrCreateProgressBar();
   progressEl.classList.remove("visible");
   progressBarEl.style.width = "0%";
@@ -629,6 +717,8 @@ function resetHeaderProgress() {
   headerScrollAccum = 0;
   headerReady = false;
   window.removeEventListener("wheel", onHeaderWheel);
+  unbindTouch(headerTouch);
+  headerTouch = null;
   const { progressEl, progressBarEl } = getOrCreateHeaderProgressBar();
   progressEl.classList.remove("visible");
   progressBarEl.style.width = "0%";
@@ -720,6 +810,10 @@ function handleScroll() {
       const { progressEl } = getOrCreateProgressBar();
       progressEl.classList.add("visible");
       window.addEventListener("wheel", onFooterWheel, { passive: true });
+      if (isTouch) {
+        footerTouch = makeTouchFeeder(onFooterWheel);
+        bindTouch(footerTouch);
+      }
     }
   } else {
     if (footerReady) {
@@ -734,6 +828,10 @@ function handleScroll() {
       const { progressEl } = getOrCreateHeaderProgressBar();
       progressEl.classList.add("visible");
       window.addEventListener("wheel", onHeaderWheel, { passive: true });
+      if (isTouch) {
+        headerTouch = makeTouchFeeder(onHeaderWheel);
+        bindTouch(headerTouch);
+      }
     }
   } else {
     if (headerReady) {
@@ -786,7 +884,27 @@ barba.init({
         }, 1000);
 
         const transitionDir = sessionStorage.getItem("barba-transition");
-        if (transitionDir) {
+        if (transitionDir === "lang") {
+          // Changement de langue : même page, même endroit de la page, fondu rapide
+          // de l'overlay (arrive.js l'a déjà posé avant le premier rendu).
+          sessionStorage.removeItem("barba-transition");
+          const ratio = parseFloat(sessionStorage.getItem("lang-scroll"));
+          sessionStorage.removeItem("lang-scroll");
+          const overlay = document.querySelector(".transition-overlay");
+          gsap.set(overlay, { y: 0, opacity: 1 });
+          if (!Number.isNaN(ratio)) {
+            lenis.resize();
+            lenis.scrollTo(ratio * lenis.limit, { immediate: true });
+            ScrollTrigger.refresh();
+          }
+          await gsapPromise(overlay, {
+            opacity: 0,
+            duration: 0.45,
+            delay: 0.2,
+            ease: "power2.out",
+          });
+          gsap.set(overlay, { y: "100%", opacity: 1 });
+        } else if (transitionDir) {
           sessionStorage.removeItem("barba-transition");
           const overlay = document.querySelector(".transition-overlay");
           gsap.set(overlay, { y: 0 });
@@ -935,7 +1053,9 @@ barba.init({
 // MAIN - BOUTONS MAGNÉTIQUES
 // ============================================================
 function initMagneticButtons() {
-  const buttons = document.querySelectorAll("#info-toggle, #audio-toggle");
+  const buttons = document.querySelectorAll(
+    "#info-toggle, #audio-toggle, #lang-toggle",
+  );
   const radius = 80;
   const maxIconMove = 7;
 
@@ -981,6 +1101,21 @@ function initMagneticButtons() {
 initMagneticButtons();
 
 // ============================================================
+// MAIN - BOUTON DE LANGUE (FR <-> EN)
+// ============================================================
+// Le bouton est un vrai lien vers la même page dans l'autre langue (/en/…).
+// On mémorise la position de scroll (en %) pour revenir au même endroit.
+document.getElementById("lang-toggle")?.addEventListener("click", () => {
+  try {
+    const limit = lenis.limit || 1;
+    sessionStorage.setItem("lang-scroll", String(window.scrollY / limit));
+    sessionStorage.setItem("barba-transition", "lang");
+  } catch (e) {
+    /* stockage indisponible : simple changement de page */
+  }
+});
+
+// ============================================================
 // MAIN - INIT LIGNES SVG AU CHARGEMENT
 // ============================================================
 document.querySelectorAll(".ligne-h").forEach((el) => initSVGLine(el, "y"));
@@ -1015,9 +1150,9 @@ if (document.readyState === "loading") {
   initLogoWiggle();
   initFooterSlowScroll();
   initMummersImages();
-  initIndexLogoFall();
-  initConversationSlider();
-  initScrollSection();
+  // NB : un appel à `initIndexLogoFall()` (fonction jamais définie) levait ici une
+  // ReferenceError au chargement ; initConversationSlider/initScrollSection sont
+  // déjà appelés par le hook barba `once`, on ne les double donc pas ici.
 }
 
 // ============================================================
@@ -1072,7 +1207,30 @@ function setScrollSpeed(namespace) {
 // ============================================================
 // MAIN - FOOTER SLOW SCROLL + PARALLAXE IMAGE
 // ============================================================
+// Raccourci tactile/clavier : le titre "Découvrir la suite" ouvre la page suivante.
+function initFooterTap() {
+  const target = document.querySelector(".text_nav .text_central");
+  if (!target || target.dataset.tapReady) return;
+  if (!getNextPage(currentPageNamespace || document.querySelector("[data-barba-namespace]")?.dataset.barbaNamespace)) return;
+  target.dataset.tapReady = "true";
+  target.style.cursor = "pointer";
+  target.setAttribute("role", "link");
+  target.setAttribute("tabindex", "0");
+  const go = () => {
+    if (isTransitioning) return;
+    if (!currentPageNamespace) {
+      currentPageNamespace = document.querySelector("[data-barba-namespace]")?.dataset.barbaNamespace;
+    }
+    triggerNextPage();
+  };
+  target.addEventListener("click", go);
+  target.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") go();
+  });
+}
+
 function initFooterSlowScroll() {
+  initFooterTap();
   const footer = document.querySelector(".footer");
   if (!footer) return;
 

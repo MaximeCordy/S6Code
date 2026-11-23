@@ -109,7 +109,8 @@ export function initConversationSlider() {
       blockCrossed.set(block, false);
     });
     gsap.set(group.querySelectorAll(".copy-block"), { autoAlpha: 0 });
-    gsap.set(group.querySelectorAll(".copy-img"), { autoAlpha: 0 });
+    const copyImgs = group.querySelectorAll(".copy-img");
+    if (copyImgs.length) gsap.set(copyImgs, { autoAlpha: 0 });
     groupXFired.set(group, [false, false, false]);
   });
 
@@ -190,12 +191,12 @@ export function initConversationSlider() {
             blockVisible.set(block, false);
             blockCrossed.set(block, false);
           });
-          gsap.set(imgs, { autoAlpha: 0 });
+          if (imgs.length) gsap.set(imgs, { autoAlpha: 0 });
           groupXFired.set(group, [false, false, false]);
           return;
         }
 
-        gsap.set(imgs, { autoAlpha: 1, x: exitX });
+        if (imgs.length) gsap.set(imgs, { autoAlpha: 1, x: exitX });
         // ============================================================
         // CONV - STAGGER D'APPARITION DES BLOCS
         // ============================================================

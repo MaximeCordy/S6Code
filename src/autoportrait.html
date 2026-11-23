@@ -1,46 +1,62 @@
 <!doctype html>
 <html lang="fr">
   <head>
-    <link rel="icon" sizes="100x100" href="image/logo/MAISON_LOGO_INDEX.webp" />
-    <title>Musée interactif | William Utermohlen et Alzheimer</title>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
-      name="description"
-      content="Découvrez un musée interactif retraçant le parcours de William Utermohlen et l'évolution de la maladie d'Alzheimer à travers ses œuvres."
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover, minimum-scale=1"
     />
-    <meta name="robots" content="index, follow" />
-    <meta property="og:title" content="Musée interactif – William Utermohlen" />
-    <meta
-      property="og:description"
-      content="Explorez le parcours de William Utermohlen et l'évolution de la maladie d'Alzheimer à travers ses œuvres."
-    />
+    <title>Autoportraits (1996–2001) | La Galerie des Souvenirs</title>
+    <meta name="description" content="Les autoportraits de William Utermohlen entre 1996 et 2001 : la maladie d'Alzheimer racontée par son propre visage." />
+    <meta name="author" content="Maxime Cordy" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#171717" />
+    <link rel="canonical" href="https://galerie-souvenirs.cordy-maxime.ch/autoportrait.html" />
+    <link rel="alternate" hreflang="fr" href="https://galerie-souvenirs.cordy-maxime.ch/autoportrait.html" />
+    <link rel="alternate" hreflang="en" href="https://galerie-souvenirs.cordy-maxime.ch/en/autoportrait.html" />
+    <link rel="alternate" hreflang="x-default" href="https://galerie-souvenirs.cordy-maxime.ch/autoportrait.html" />
+    <link rel="icon" sizes="100x100" href="image/logo/MAISON_LOGO_INDEX.webp" />
+
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="La Galerie des Souvenirs" />
+    <meta property="og:locale" content="fr_CH" />
+    <meta property="og:locale:alternate" content="en_GB" />
+    <meta property="og:title" content="Autoportraits (1996–2001) | La Galerie des Souvenirs" />
+    <meta property="og:description" content="Les autoportraits de William Utermohlen entre 1996 et 2001 : la maladie d'Alzheimer racontée par son propre visage." />
+    <meta property="og:url" content="https://galerie-souvenirs.cordy-maxime.ch/autoportrait.html" />
+    <meta property="og:image" content="https://galerie-souvenirs.cordy-maxime.ch/og-cover.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta
-      property="og:url"
-      content="https://galerie-souvenirs.cordy-maxime.ch/"
+      property="og:image:alt"
+      content="Tableau de William Utermohlen : une scène d'intérieur, extrait de la série Conversation"
     />
-    <meta
-      name="keywords"
-      content="William Utermohlen, Alzheimer, musée interactif, art et maladie, autoportraits Alzheimer"
-    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Autoportraits (1996–2001) | La Galerie des Souvenirs" />
+    <meta name="twitter:description" content="Les autoportraits de William Utermohlen entre 1996 et 2001 : la maladie d'Alzheimer racontée par son propre visage." />
+    <meta name="twitter:image" content="https://galerie-souvenirs.cordy-maxime.ch/og-cover.jpg" />
+
+    <script src="js/arrive.js"></script>
+    <link rel="preload" as="image" href="image/logo_sticker.png" />
     <link rel="stylesheet" href="scss/main.scss" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-      rel="stylesheet"
-    />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@barba/core@2.9.7/dist/barba.umd.js"></script>
   </head>
   <body data-page="4">
     <canvas></canvas>
 
     <div id="scroll-progress"><div id="scroll-progress-bar"></div></div>
-    <button id="audio-toggle" aria-label="Audio">♪</button>
-    <button id="info-toggle">i</button>
+    <a
+      id="lang-toggle"
+      class="lang-toggle"
+      href="en/autoportrait.html"
+      hreflang="en"
+      lang="en"
+      aria-label="Switch to English"
+      data-no-i18n
+      data-barba-prevent="all"
+      >EN</a
+    >
+    <button id="audio-toggle" type="button" aria-label="Écouter le récit audio de la page">♪</button>
+    <button id="info-toggle" type="button" aria-label="Informations sur les œuvres de la section">i</button>
     <div class="panel-backdrop"></div>
     <aside id="info-panel">
       <div class="ip-head">
@@ -52,7 +68,7 @@
 
     <div class="transition-overlay">
       <div class="logo-placeholder">
-        <img src="image/logo_sticker.png" alt="Logo" />
+        <img decoding="async" src="image/logo_sticker.png" alt="Logo" />
       </div>
     </div>
 
@@ -106,13 +122,13 @@
             <h1>
               <span class="hero-text-part">Auto -</span>
               <span class="bubble" id="bubble">
-                <img
+                <img decoding="async"
                   class="layer-bg"
                   id="layerBg"
                   src="image/plaine-auto.png"
                   alt=""
                 />
-                <img
+                <img decoding="async"
                   class="layer-fg"
                   id="layerFg"
                   src="image/maisonplaine-auto.png"
@@ -208,7 +224,7 @@
 
           <section id="gallery-track" data-section="section16">
             <div id="gallery-images" hidden>
-              <img
+              <img decoding="async"
                 src="image/autoportraits-1995-2001/1995-2.avif"
                 data-year="1995"
                 data-x="40"
@@ -216,7 +232,7 @@
                 data-w="350px"
                 data-h="500px"
               />
-              <img
+              <img decoding="async"
                 src="image/autoportraits-1995-2001/1995-3.avif"
                 data-year="1995"
                 data-x="470"
@@ -224,7 +240,7 @@
                 data-w="300px"
                 data-h="442px"
               />
-              <img
+              <img decoding="async"
                 src="image/autoportraits-1995-2001/1996-1.avif"
                 data-year="1996"
                 data-x="830"
@@ -232,7 +248,7 @@
                 data-w="400px"
                 data-h="550px"
               />
-              <img
+              <img decoding="async"
                 src="image/autoportraits-1995-2001/1996-2.avif"
                 data-year="1996"
                 data-x="1260"
@@ -240,7 +256,7 @@
                 data-w="350px"
                 data-h="500px"
               />
-              <img
+              <img decoding="async"
                 src="image/autoportraits-1995-2001/1996-3.avif"
                 data-year="1996"
                 data-x="1650"
@@ -248,7 +264,7 @@
                 data-w="350px"
                 data-h="500px"
               />
-              <img
+              <img decoding="async"
                 src="image/autoportraits-1995-2001/1996-4.avif"
                 data-year="1996"
                 data-x="2060"
@@ -256,7 +272,7 @@
                 data-w="350px"
                 data-h="500px"
               />
-              <img
+              <img decoding="async"
                 src="image/autoportraits-1995-2001/1996-5.avif"
                 data-year="1996"
                 data-x="2510"
@@ -264,7 +280,7 @@
                 data-w="350px"
                 data-h="500px"
               />
-              <img
+              <img decoding="async"
                 src="image/autoportraits-1995-2001/1996-6.avif"
                 data-year="1996"
                 data-x="2950"
@@ -272,7 +288,7 @@
                 data-w="350px"
                 data-h="500px"
               />
-              <img
+              <img decoding="async"
                 src="image/autoportraits-1995-2001/1996.avif"
                 data-year="1996"
                 data-x="3390"
@@ -280,7 +296,7 @@
                 data-w="350px"
                 data-h="500px"
               />
-              <img
+              <img decoding="async"
                 src="image/autoportraits-1995-2001/1996-8.avif"
                 data-year="1996"
                 data-x="3790"
@@ -288,7 +304,7 @@
                 data-w="550px"
                 data-h="500px"
               />
-              <img
+              <img decoding="async"
                 src="image/autoportraits-1995-2001/1996-9.avif"
                 data-year="1996"
                 data-x="4360"
@@ -296,7 +312,7 @@
                 data-w="350px"
                 data-h="500px"
               />
-              <img
+              <img decoding="async"
                 src="image/autoportraits-1995-2001/1997.avif"
                 data-year="1997"
                 data-x="4770"
@@ -304,7 +320,7 @@
                 data-w="550px"
                 data-h="700px"
               />
-              <img
+              <img decoding="async"
                 src="image/autoportraits-1995-2001/1997-2.avif"
                 data-year="1997"
                 data-x="5360"
@@ -312,7 +328,7 @@
                 data-w="450px"
                 data-h="600px"
               />
-              <img
+              <img decoding="async"
                 src="image/autoportraits-1995-2001/1997-3.avif"
                 data-year="1997"
                 data-x="5850"
@@ -320,7 +336,7 @@
                 data-w="350px"
                 data-h="500px"
               />
-              <img
+              <img decoding="async"
                 src="image/autoportraits-1995-2001/1998.avif"
                 data-year="1998"
                 data-x="6250"
@@ -328,7 +344,7 @@
                 data-w="350px"
                 data-h="500px"
               />
-              <img
+              <img decoding="async"
                 src="image/autoportraits-1995-2001/1998-2.avif"
                 data-year="1998"
                 data-x="6650"
@@ -336,7 +352,7 @@
                 data-w="750px"
                 data-h="500px"
               />
-              <img
+              <img decoding="async"
                 src="image/autoportraits-1995-2001/1998-3.avif"
                 data-year="1998"
                 data-x="7450"
@@ -344,7 +360,7 @@
                 data-w="450px"
                 data-h="600px"
               />
-              <img
+              <img decoding="async"
                 src="image/autoportraits-1995-2001/1999.avif"
                 data-year="1999"
                 data-x="7950"
@@ -352,7 +368,7 @@
                 data-w="450px"
                 data-h="600px"
               />
-              <img
+              <img decoding="async"
                 src="image/autoportraits-1995-2001/2001.avif"
                 data-year="2001"
                 data-x="8430"
@@ -360,7 +376,7 @@
                 data-w="650px"
                 data-h="700px"
               />
-              <img
+              <img decoding="async"
                 src="image/autoportraits-1995-2001/2001-1.avif"
                 data-year="2001"
                 data-x="9130"
@@ -368,7 +384,7 @@
                 data-w="450px"
                 data-h="500px"
               />
-              <img
+              <img decoding="async"
                 src="image/autoportraits-1995-2001/2001-2.avif"
                 data-year="2001"
                 data-x="9610"
@@ -576,81 +592,87 @@
               </div>
             </div>
             <div class="footerimg">
-              <img src="image/footer/fusain.png" alt="flower" />
+              <img decoding="async" loading="lazy" src="image/footer/fusain.png" alt="flower" />
             </div>
             <div class="text_footer">
               <h3>William Utermohlen</h3>
 
               <h3>La Galerie des Souvenirs</h3>
 
-              <h3>Maxime Cordy</h3>
+              <h3>
+                <a
+                  class="footer-credit-link"
+                  href="https://cordy-maxime.ch/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Maxime Cordy</a
+                >
+              </h3>
             </div>
           </footer>
         </div>
       </div>
     </div>
-    <script type="module" src="js/info.js"></script>
-    <script type="module" src="js/text-animation-addon.js"></script>
-    <script type="module" src="js/main.js"></script>
+        <script type="module" src="js/main.js"></script>
 
-    <div id="tl-nav" class="hidden">
+    <nav id="tl-nav" class="hidden" aria-label="Navigation entre les salles de la galerie">
       <div id="tl-nav__pill">
         <div id="tl-nav__track"><div id="tl-nav__fill"></div></div>
         <div id="tl-nav__nodes">
           <a
             href="index.html"
-            data-label="La Galerie"
+            data-label="La Galerie" aria-label="La Galerie"
             class="tl-nav-node tl-nav-visited"
             ><span class="tl-nav-dot"></span
           ></a>
           <a
             href="dante.html"
-            data-label="Dante"
+            data-label="Dante" aria-label="Dante"
             class="tl-nav-node tl-nav-visited"
             ><span class="tl-nav-dot"></span
           ></a>
           <a
             href="conversation.html"
-            data-label="Conversation"
+            data-label="Conversation" aria-label="Conversation"
             class="tl-nav-node tl-nav-visited"
             ><span class="tl-nav-dot"></span
           ></a>
           <a
             href="maladie.html"
-            data-label="Maladie"
+            data-label="Maladie" aria-label="Maladie"
             class="tl-nav-node tl-nav-visited"
             ><span class="tl-nav-dot"></span
           ></a>
           <a
             href="autoportrait.html"
-            data-label="Autoportrait"
+            data-label="Autoportrait" aria-label="Autoportrait"
             class="tl-nav-node tl-nav-active"
             ><span class="tl-nav-dot"></span
           ></a>
         </div>
         <div id="tl-nav__cursor">
           <div id="tl-nav__thumb">
-            <img
+            <img decoding="async"
               class="tl-nav-img"
               src="image/logo/MAISON_LOGO_INDEX.webp"
               alt="Logo La Galerie des Souvenirs"
             />
-            <img
+            <img decoding="async"
               class="tl-nav-img"
               src="image/logo/MAISON_LOGO_DANTE.webp"
               alt="Logo Dante"
             />
-            <img
+            <img decoding="async"
               class="tl-nav-img"
               src="image/logo/MAISON_LOGO_CONV.webp"
               alt="Logo Conversation"
             />
-            <img
+            <img decoding="async"
               class="tl-nav-img"
               src="image/logo/MAISON_LOGO_MALADIE.webp"
               alt="Logo Maladie"
             />
-            <img
+            <img decoding="async"
               class="tl-nav-img tl-nav-on"
               src="image/logo/MAISON_LOGO_AUTO.webp"
               alt="Logo Autoportrait"
@@ -658,6 +680,6 @@
           </div>
         </div>
       </div>
-    </div>
+    </nav>
   </body>
 </html>

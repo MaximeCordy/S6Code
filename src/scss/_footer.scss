@@ -135,3 +135,18 @@
   margin-bottom: -25%;
   pointer-events: none;
 }
+
+// Lien vers le site de l'auteur dans le pied de page (toutes tailles).
+// Couleur héritée : on ne change pas la palette du footer de chaque page.
+.text_footer .footer-credit-link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition: opacity 0.2s ease;
+
+  &:hover,
+  &:focus-visible {
+    opacity: 0.7;
+  }
+}

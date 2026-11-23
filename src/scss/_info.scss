@@ -172,6 +172,84 @@ body.panel-open img[data-artwork]:hover {
 }
 
 // ============================================================
+// BOUTON DE LANGUE FR / EN (fixe, bas droite, au-dessus de l'audio)
+// Même gabarit que #audio-toggle / #info-toggle (rond noir 40px, ombre, infobulle).
+// ============================================================
+
+#lang-toggle {
+  position: fixed;
+  bottom: calc(1.5rem + 2 * (40px + 0.8rem));
+  right: 1.5rem;
+  z-index: 99999;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #111;
+  color: #fff;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  transition: right 0.4s ease;
+}
+
+#lang-toggle::after {
+  content: attr(aria-label);
+  position: absolute;
+  right: calc(100% + 12px);
+  bottom: 0;
+  width: max-content;
+  max-width: 220px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.5;
+  padding: 8px 12px;
+  border-radius: 8px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(6px);
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+
+#lang-toggle:hover::after,
+#lang-toggle:focus-visible::after {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+#lang-toggle:hover {
+  transform: none;
+}
+
+#lang-toggle:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}
+
+.panel-open #lang-toggle {
+  right: calc(280px + 1.5rem);
+}
+
+// infobulles des autres boutons en anglais (le texte vit dans le CSS)
+html[lang="en"] #audio-toggle::after {
+  content: "The AUDIO button guides you through the visit with the story told by William's wife.";
+}
+html[lang="en"] #info-toggle::after {
+  content: "The INFO button lets you discover information about the artworks and their era.";
+}
+
+// ============================================================
 // BOUTON INFO TOGGLE (fixe, bas droite)
 // ============================================================
 

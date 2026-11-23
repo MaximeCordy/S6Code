@@ -12,14 +12,33 @@ export function initMaladieSlider() {
   // MALADIE - CALCUL MOITIE TRACK (images dupliquées)
   // ============================================================
 
-  const itemWidth = items[0].offsetWidth + 15;
-  const totalWidth = itemWidth * (items.length / 2);
-
-  gsap.to(track, {
-    x: -totalWidth,
-    duration: 20,
-    ease: "none",
-    repeat: -1,
+  // La largeur d'un item change avec le breakpoint (200px desktop, plus petit
+  // sur mobile) : on (re)construit donc le tween au resize en conservant la
+  // progression, pour que la boucle reste parfaitement continue.
+  let marqueeTween = null;
+  function buildMarquee() {
+    const progress = marqueeTween ? marqueeTween.progress() : 0;
+    if (marqueeTween) marqueeTween.kill();
+    gsap.set(track, { x: 0 });
+    const itemWidth = items[0].offsetWidth + 15;
+    const totalWidth = itemWidth * (items.length / 2);
+    marqueeTween = gsap.to(track, {
+      x: -totalWidth,
+      duration: 20,
+      ease: "none",
+      repeat: -1,
+    });
+    marqueeTween.progress(progress);
+  }
+  buildMarquee();
+  let marqueeResizeTimer;
+  let marqueeLastW = window.innerWidth;
+  window.addEventListener("resize", () => {
+    // seul un changement de LARGEUR compte (la barre d'URL mobile ne change que la hauteur)
+    if (window.innerWidth === marqueeLastW) return;
+    marqueeLastW = window.innerWidth;
+    clearTimeout(marqueeResizeTimer);
+    marqueeResizeTimer = setTimeout(buildMarquee, 200);
   });
 
   // ============================================================
@@ -66,7 +85,10 @@ export function initLetterHover(el, texte) {
     const span = document.createElement("span");
     if (char === " ") {
       span.classList.add("space");
-      span.innerHTML = "&nbsp;";
+      // espace normale (et non &nbsp;) en pre-wrap : visible, mais sécable —
+      // sinon une phrase longue ne peut plus passer à la ligne sur petit écran.
+      span.textContent = " ";
+      span.style.whiteSpace = "pre-wrap";
     } else {
       span.textContent = char;
       letters.push(span);
@@ -81,19 +103,54 @@ export function initLetterHover(el, texte) {
       };
       span._state = state;
 
-      span.addEventListener("mousemove", () => {
-        state.targetOpacity = 0;
-        state.targetBlur = 10;
-        state.targetBrightness = 2;
-      });
-      span.addEventListener("mouseleave", () => {
-        state.targetOpacity = 1;
-        state.targetBlur = 0;
-        state.targetBrightness = 1;
-      });
+      if (!window.matchMedia("(hover: none) and (pointer: coarse)").matches) {
+        span.addEventListener("mousemove", () => {
+          state.targetOpacity = 0;
+          state.targetBlur = 10;
+          state.targetBrightness = 2;
+        });
+        span.addEventListener("mouseleave", () => {
+          state.targetOpacity = 1;
+          state.targetBlur = 0;
+          state.targetBrightness = 1;
+        });
+      }
     }
     el.appendChild(span);
   });
+
+  // ---- Tactile : le doigt qui glisse sur le texte "efface" les lettres
+  // comme le survol à la souris, puis elles se reforment.
+  const touched = new Set();
+  let touchRestoreTimer;
+  const fadeLetter = (span) => {
+    span._state.targetOpacity = 0;
+    span._state.targetBlur = 10;
+    span._state.targetBrightness = 2;
+    touched.add(span);
+  };
+  const touchHandler = (e) => {
+    clearTimeout(touchRestoreTimer);
+    const t = e.touches[0];
+    const hit = document.elementFromPoint(t.clientX, t.clientY);
+    if (hit && hit._state) fadeLetter(hit);
+  };
+  el.addEventListener("touchstart", touchHandler, { passive: true });
+  el.addEventListener("touchmove", touchHandler, { passive: true });
+  el.addEventListener(
+    "touchend",
+    () => {
+      touchRestoreTimer = setTimeout(() => {
+        touched.forEach((span) => {
+          span._state.targetOpacity = 1;
+          span._state.targetBlur = 0;
+          span._state.targetBrightness = 1;
+        });
+        touched.clear();
+      }, 1200);
+    },
+    { passive: true },
+  );
 
   function lerp(a, b, t) {
     return a + (b - a) * t;
@@ -101,6 +158,24 @@ export function initLetterHover(el, texte) {
   function animate() {
     letters.forEach((span) => {
       const s = span._state;
+      // Au repos on n'écrit plus de style : sur des centaines de lettres, ça
+      // évitait des centaines de recalculs de style (filter) par frame.
+      const settled =
+        Math.abs(s.targetOpacity - s.opacity) < 0.002 &&
+        Math.abs(s.targetBlur - s.blur) < 0.02 &&
+        Math.abs(s.targetBrightness - s.brightness) < 0.002;
+      if (settled) {
+        if (!s.rest) {
+          s.opacity = s.targetOpacity;
+          s.blur = s.targetBlur;
+          s.brightness = s.targetBrightness;
+          span.style.opacity = s.opacity;
+          span.style.filter = `blur(${s.blur}px) brightness(${s.brightness})`;
+          s.rest = true;
+        }
+        return;
+      }
+      s.rest = false;
       s.opacity = lerp(s.opacity, s.targetOpacity, easeVal);
       s.blur = lerp(s.blur, s.targetBlur, easeVal);
       s.brightness = lerp(s.brightness, s.targetBrightness, easeVal);

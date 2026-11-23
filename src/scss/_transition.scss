@@ -106,7 +106,8 @@ p {
   width: 100%;
   height: 100vh;
   background: #2a2a2a;
-  z-index: 1000;
+  // au-dessus de TOUT (images d'œuvres 99998, boutons 99999, sticker 999999)
+  z-index: 1000001;
   pointer-events: none;
   transform: translateY(100%);
   display: flex;
